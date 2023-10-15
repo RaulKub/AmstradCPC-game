@@ -7,3 +7,4 @@
 
 Name of the game: *ARCADETUBE*
 
+How to play: WinAPE emulator
