@@ -1,0 +1,24 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
+    .__.H$L.=  0000 L   |     GameStar   **** GX  |     Inicio     **** GX
+    Mina       **** GX  |     cargaNiv   **** GX  |     colision   **** GX
+    cooldown   **** GX  |     cooldown   **** GX  |     cooldown   **** GX
+    crocodil=  4026     |     enemyDer=  4050     |     enemyDer=  406C 
+    enemyIzq=  402D     |     enemyIzq=  4034     |     enemyIzq=  405E 
+    enemyPos=  401F     |     enemyUp1=  403B     |     enemyUp2=  4042 
+    enemyUp3=  4049     |     enemyUp4=  4057     |     enemyUp5=  4065 
+    espadaPo=  400A     |     letrasbo   **** GX  |     nivelact   **** GX
+    playerPo=  4003     |     vidas      **** GX  |     wallDPos=  4018 
+    wallIPos=  4011 
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE      size    0   flags    0
+

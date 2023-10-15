@@ -1,0 +1,8 @@
+XL2
+H 1 areas 5 global symbols
+S estadoEspadaPrevio Ref0000
+S ataqueEspada Ref0000
+S mueveEspadaDerecha Ref0000
+S mueveEspadaIzquierda Ref0000
+S .__.ABS. Def0000
+A _CODE size 0 flags 0 addr 0

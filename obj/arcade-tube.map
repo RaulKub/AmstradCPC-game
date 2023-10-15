@@ -1,0 +1,344 @@
+ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000000  .__.ABS.                           
+     00000000  l__DATA                         
+     00000007  entity_size                        cpct_keyboard
+     00000010  max_entities                       cpct_keyboard
+     00004000  s__CODE                         
+     000070F8  l__CODE                         
+     0000B0F8  s__DATA                         
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00004000    000070F8 =       28920. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00004000  _num_entities                      cpct_keyboard
+     00004001  _last_elem_ptr                     cpct_keyboard
+     00004003  _entity_array                      cpct_keyboard
+     000040AA  _main                              cpct_keyboard
+     00004196  entityman_init                     
+     000041A1  entityman_getEntityArray_IX        
+     000041A6  entityman_getNumEntities_A         
+     000041AA  entityman_create                   
+     000041C5  reset                              
+     0000424D  pintarEnemigo5                     
+     0000460C  borrarEnemigo5                     
+     00004744  olas3                              cpct_keyboard
+     0000489D  CompruebaNivel                     
+     000048DF  pintarCeroUnidades                 cpct_keyboard
+     000048F8  pintarUnoUnidades                  cpct_keyboard
+     00004911  pintarDosUnidades                  cpct_keyboard
+     0000492A  pintarTresUnidades                 cpct_keyboard
+     00004943  pintarCuatroUnidades               cpct_keyboard
+     0000495C  pintarCincoUnidades                cpct_keyboard
+     00004975  pintarSeisUnidades                 cpct_keyboard
+     0000498E  pintarSieteUnidades                cpct_keyboard
+     000049A7  pintarOchoUnidades                 cpct_keyboard
+     000049C0  pintarNueveUnidades                cpct_keyboard
+     00004A1C  GameOver                           cpct_keyboard
+     00004D76  actualizarEnemigos1                
+     00004DA2  actualizarEnemigos2                
+     00004DF9  actualizarEnemigos3                
+     00004E70  actualizarEnemigos4                
+     00004EEE  actualizarEnemigos5                
+     0000503C  actualizarEnemigos6                
+     000051AA  actualizarEnemigos7                
+     00005326  colisionRapida                     
+     000053DC  actualizarEnemigoAereo2            
+     000054A2  muerteporMina                      
+     000054A3  actualizarMina                     
+     00005C5D  borrarExplosion                    
+     00005CE2  pintarCrocoPos1                    
+     00005D3C  pintarCrocoPos2                    
+     00005DC7  pintarCrocoPos3                    
+     00005ECA  pintarCrocoPos4                    
+     00006061  pintarCrocoPos5                    
+     000061F8  pintarCrocoPos6                    
+     00006381  pintarCrocoPos7                    
+     0000650A  borrarCrocoPos1                    
+     0000657B  borrarCrocoPos2                    
+     0000657C  borrarCrocoPos3                    
+     0000657D  borrarCrocoPos4                    
+     0000657E  borrarCrocoPos5                    
+     0000660F  borrarCrocoPos6                    
+     000066A0  borrarCrocoPos7                    
+ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00004000    000070F8 =       28920. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     0000673F  pintarCeroUnidades2                cpct_keyboard
+     00006758  pintarUnoUnidades2                 cpct_keyboard
+     00006771  pintarDosUnidades2                 cpct_keyboard
+     0000678A  pintarTresUnidades2                cpct_keyboard
+     000067A3  pintarCuatroUnidades2              cpct_keyboard
+     000067BC  pintarCincoUnidades2               cpct_keyboard
+     000067D5  pintarSeisUnidades2                cpct_keyboard
+     000067EE  pintarSieteUnidades2               cpct_keyboard
+     00006807  pintarOchoUnidades2                cpct_keyboard
+     00006820  pintarNueveUnidades2               cpct_keyboard
+     00006855  ScoreReal                          cpct_keyboard
+     00006B2B  ataqueAereo                        
+     00006E16  actualizarEnemigoAereo             
+     00006ED5  olas2                              cpct_keyboard
+     0000702E  pintarPersonajePos0                
+     000072CC  pintarPersonajePos1                
+     00007569  ataqueAereoIzquierda               
+     000076FB  ataqueAereoIzquierda2              
+     0000788D  ataqueAereoDerecha                 
+     00007A1F  ataqueAereoDerecha2                
+     00007BB1  borraPersonajePos0                 
+     00007BCC  actualizarEnemigoAereo3            
+     00007CA6  pintarCeroDecenas                  cpct_keyboard
+     00007CBF  pintarUnoDecenas                   cpct_keyboard
+     00007CD8  pintarDosDecenas                   cpct_keyboard
+     00007CF1  pintarTresDecenas                  cpct_keyboard
+     00007D0A  pintarCuatroDecenas                cpct_keyboard
+     00007D23  pintarCincoDecenas                 cpct_keyboard
+     00007D3C  pintarSeisDecenas                  cpct_keyboard
+     00007D55  pintarSieteDecenas                 cpct_keyboard
+     00007D6E  pintarOchoDecenas                  cpct_keyboard
+     00007D87  pintarNueveDecenas                 cpct_keyboard
+     00007DA0  estadoEspadaPrevio                 cpct_keyboard
+     00007DA1  ataqueEspada                       cpct_keyboard
+     00007EA0  mueveEspadaDerecha                 cpct_keyboard
+     00007ECB  mueveEspadaIzquierda               cpct_keyboard
+     00007EF6  pintarEnemigo1                     
+     000082BC  borrarEnemigo1                     
+     000083F4  pintarEnemigo3                     
+     000087BA  borrarEnemigo3                     
+     000088F2  pintarEnemigo2                     
+     00008CB8  borrarEnemigo2                     
+     00008DF0  player                             cpct_keyboard
+     00008DF7  espada                             cpct_keyboard
+     00008DFE  wallI                              cpct_keyboard
+     00008E05  wallD                              cpct_keyboard
+     00008E0C  enemy                              cpct_keyboard
+     00008E13  croco                              cpct_keyboard
+     00008E1A  enemyIzq                           cpct_keyboard
+     00008E21  enemyUp1                           cpct_keyboard
+     00008E28  enemyUp2                           cpct_keyboard
+ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00004000    000070F8 =       28920. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00008E2F  enemyUp3                           cpct_keyboard
+     00008E36  enemyUp4                           cpct_keyboard
+     00008E3D  enemyUp5                           cpct_keyboard
+     00008E44  enemyIzq2                          cpct_keyboard
+     00008E4B  enemyIzq3                          cpct_keyboard
+     00008E52  enemyDer2                          cpct_keyboard
+     00008F54  cooldownMisil                      cpct_keyboard
+     00008F55  letrasborradas                     cpct_keyboard
+     00008F56  nivelactual                        cpct_keyboard
+     00008F57  cargaNivel                         cpct_keyboard
+     00008F58  cooldownEnemigo1                   cpct_keyboard
+     00008F59  cooldownEnemigo2                   cpct_keyboard
+     00008F5A  vidas                              cpct_keyboard
+     00008F5B  Mina                               cpct_keyboard
+     00008F5F  Inicio                             cpct_keyboard
+     00008F62  palette                            cpct_keyboard
+     00008F72  paletteMuerte                      cpct_keyboard
+     00008F82  GameStart                          cpct_keyboard
+     00009BEA  colision                           cpct_keyboard
+     00009D3A  fondo                              cpct_keyboard
+     00009F06  olas                               cpct_keyboard
+     0000A05F  borrarOlas                         cpct_keyboard
+     0000A088  rendersys_init                     
+     0000A089  rendersys_update                   
+     0000A0AD  enemigoDerChoque                   
+     0000A0C8  enemigoIzqChoque                   
+     0000A0E3  enemigoIzq2Choque                  
+     0000A103  enemigoDer2Choque                  
+     0000A137  pintarCeroDecenas2                 cpct_keyboard
+     0000A150  pintarUnoDecenas2                  cpct_keyboard
+     0000A169  pintarDosDecenas2                  cpct_keyboard
+     0000A182  pintarTresDecenas2                 cpct_keyboard
+     0000A19B  pintarCuatroDecenas2               cpct_keyboard
+     0000A1B4  pintarCincoDecenas2                cpct_keyboard
+     0000A1CD  pintarSeisDecenas2                 cpct_keyboard
+     0000A1E6  pintarSieteDecenas2                cpct_keyboard
+     0000A1FF  pintarOchoDecenas2                 cpct_keyboard
+     0000A218  pintarNueveDecenas2                cpct_keyboard
+     0000A231  tresVidas                          
+     0000A35A  dosVidas                           
+     0000A483  unaVida                            
+     0000A5AC  pintarEnemigo4                     
+     0000A972  borrarEnemigo4                     
+     0000AAAA  pintarEspadaDerecha                
+     0000AAC0  borrarEspadaDerecha                
+     0000AAD6  pintarEspadaIzquierda              
+     0000AAEC  borrarEspadaIzquierda              
+     0000ADDA  _cpct_scanKeyboard_f               cpct_keyboard
+     0000ADDA  cpct_scanKeyboard_f_asm            cpct_keyboard
+     0000AE44  _cpct_isKeyPressed                 cpct_keyboard
+     0000AE44  cpct_isKeyPressed_asm              cpct_keyboard
+ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00004000    000070F8 =       28920. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     0000AE50  cpct_setPalette_asm                cpct_video
+     0000AE63  cpct_drawStringM1_asm              cpct_strings
+     0000AE87  cpct_drawCharM1_inner_asm          cpct_strings
+     0000AEC7  cpct_char2pxM1                     cpct_strings
+     0000AED7  cpct_drawSprite_asm                cpct_sprites
+     0000AF77  _cpct_keyboardStatusBuffer         cpct_keyboard
+     0000AF81  _cpct_waitVSYNC                    cpct_video
+     0000AF81  cpct_waitVSYNC_asm                 cpct_video
+     0000AF89  _cpct_isAnyKeyPressed_f            cpct_keyboard
+     0000AF89  cpct_isAnyKeyPressed_f_asm         cpct_keyboard
+     0000AFA4  cpct_setVideoMode_asm              cpct_video
+     0000AFB1  _cpct_disableFirmware              cpct_firmware
+     0000AFB1  _cpct_removeInterruptHandler       cpct_firmware
+     0000AFB1  cpct_disableFirmware_asm           cpct_firmware
+     0000AFB1  cpct_removeInterruptHandler_asm    cpct_firmware
+     0000AFC1  cpct_drawSolidBox_asm              cpct_sprites
+     0000B065  _cpct_getHWColour                  cpct_video
+     0000B065  cpct_getHWColour_asm               cpct_video
+     0000B06B  _cpct_mode_rom_status              cpct_firmware
+     0000B06C  cpct_getScreenPtr_asm              cpct_video
+     0000B088  cpct_setDrawCharM1_asm             cpct_strings
+     0000B0D9  cpct_firmware2hw_colour            
+     0000B0F4  dc_mode1_ct                        
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
+
+Files Linked                              [ module(s) ]
+
+obj/main.rel                              [ cpct_keyboard ]
+obj/main.h.rel                            [  ]
+obj/cpcfunciones.h.rel                    [  ]
+obj/manager/entity_manager.h.rel          [  ]
+obj/manager/entity_manager.rel            [  ]
+obj/system/dibujarFondo.h.rel             [  ]
+obj/system/renderEnemigo5A.rel            [  ]
+obj/system/dibujarOlas3.rel               [ cpct_keyboard ]
+obj/system/niveles.rel                    [  ]
+obj/system/pintarScoreTiempoReal.h.rel    [  ]
+obj/system/actualizarEnemigos.h.rel       [  ]
+obj/system/pintarUnidadesDecenasReal.h.rel
+                                          [  ]
+obj/system/pintarUnidades.rel             [ cpct_keyboard ]
+obj/system/gameOver.rel                   [ cpct_keyboard ]
+obj/system/actualizarEnemigos.rel         [  ]
+obj/system/colisionesRapidas.rel          [  ]
+obj/system/gameOver.h.rel                 [  ]
+obj/system/mainJuego.h.rel                [  ]
+obj/system/renderEnemigo5A.h.rel          [  ]
+obj/system/ataque.h.rel                   [  ]
+obj/system/actualizarEnemigoAereo2.rel    [  ]
+obj/system/actualizarMina.rel             [  ]
+obj/system/actualizarEnemigoAereo.h.rel   [  ]
+obj/system/renderCroco.rel                [  ]
+obj/system/pintarUnidadesReal.rel         [ cpct_keyboard ]
+obj/system/pintarScoreTiempoReal.rel      [ cpct_keyboard ]
+obj/system/renderEnemigo2.h.rel           [  ]
+obj/system/renderEnemigo1.h.rel           [  ]
+obj/system/ataqueAereo.rel                [  ]
+obj/system/dibujarOlas2.h.rel             [  ]
+obj/system/actualizarEnemigoAereo.rel     [  ]
+obj/system/dibujarOlas2.rel               [ cpct_keyboard ]
+obj/system/renderPersonaje.rel            [  ]
+obj/system/actualizarEnemigoAereo3.rel    [  ]
+obj/system/actualizarMina.h.rel           [  ]
+obj/system/colisionesRapidas.h.rel        [  ]
+obj/system/render_system.h.rel            [  ]
+obj/system/pintarDecenas.rel              [ cpct_keyboard ]
+obj/system/ataque.rel                     [ cpct_keyboard ]
+obj/system/pintarVidas.h.rel              [  ]
+obj/system/ataqueAereo.h.rel              [  ]
+obj/system/renderCroco.h.rel              [  ]
+obj/system/renderEspada.h.rel             [  ]
+obj/system/renderEnemigo1.rel             [  ]
+obj/system/renderEnemigo3.rel             [  ]
+obj/system/renderEnemigo2.rel             [  ]
+obj/system/mainJuego.rel                  [ cpct_keyboard ]
+obj/system/pintarUnidadesDecenas.h.rel    [  ]
+obj/system/dibujarFondo.rel               [ cpct_keyboard ]
+obj/system/dibujarOlas3.h.rel             [  ]
+obj/system/render_system.rel              [  ]
+obj/system/colisiones.rel                 [  ]
+obj/system/pintarDecenasReal.rel          [ cpct_keyboard ]
+obj/system/pintarVidas.rel                [  ]
+obj/system/niveles.h.rel                  [  ]
+obj/system/renderEnemigo4.rel             [  ]
+obj/system/renderEnemigo4.h.rel           [  ]
+obj/system/renderEnemigo3.h.rel           [  ]
+obj/system/renderPersonaje.h.rel          [  ]
+obj/system/colisiones.h.rel               [  ]
+obj/system/renderEspada.rel               [  ]
+
+
+Libraries Linked                          [ object file ]
+
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_scanKeyboard_f.rel ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_isKeyPressed.rel ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setPalette_asmbindings.rel ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawStringM1_asmbindings.re ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawCharM1_inner.rel ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawSprite_asmbindings.rel ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ keyboard.rel ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_waitVSYNC.rel ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_isAnyKeyPressed_f.rel ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setVideoMode_asmbindings.re ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_removeInterruptHandler.rel ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawSolidBox_asmbindings.re ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_getHWColour.rel ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpc_mode_rom_status.rel ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_getScreenPtr_asmbindings.re ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setDrawCharM1_asmbindings.r ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_firmware2hw_colour_table.re ]
+/home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_dc_mode1_ct.rel ]
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
+
+User Base Address Definitions
+
+_CODE = 0x4000
+_DATA = 0x0000
+
+

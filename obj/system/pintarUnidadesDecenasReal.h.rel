@@ -1,0 +1,24 @@
+XL2
+H 1 areas 15 global symbols
+S pintarSeisUnidades2 Ref0000
+S pintarSeisDecenas2 Ref0000
+S pintarTresUnidades2 Ref0000
+S pintarTresDecenas2 Ref0000
+S pintarDosUnidades2 Ref0000
+S pintarCincoUnidades2 Ref0000
+S pintarDosDecenas2 Ref0000
+S pintarCuatroUnidades2 Ref0000
+S .__.ABS. Def0000
+S pintarUnoUnidades2 Ref0000
+S pintarCincoDecenas2 Ref0000
+S pintarCuatroDecenas2 Ref0000
+S pintarUnoDecenas2 Ref0000
+S pintarSieteUnidades2 Ref0000
+S pintarSieteDecenas2 Ref0000
+S pintarNueveUnidades2 Ref0000
+S pintarOchoUnidades2 Ref0000
+S pintarCeroUnidades2 Ref0000
+S pintarNueveDecenas2 Ref0000
+S pintarOchoDecenas2 Ref0000
+S pintarCeroDecenas2 Ref0000
+A _CODE size 0 flags 0 addr 0

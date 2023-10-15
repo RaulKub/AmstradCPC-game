@@ -1,0 +1,11 @@
+XL2
+H 1 areas 8 global symbols
+S actualizarEnemigos1 Ref0000
+S actualizarEnemigos2 Ref0000
+S actualizarEnemigos3 Ref0000
+S actualizarEnemigos4 Ref0000
+S actualizarEnemigos5 Ref0000
+S actualizarEnemigos6 Ref0000
+S actualizarEnemigos7 Ref0000
+S .__.ABS. Def0000
+A _CODE size 0 flags 0 addr 0

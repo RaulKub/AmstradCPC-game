@@ -1,0 +1,60 @@
+XL2
+H 1 areas 17 global symbols
+S rendersys_update Ref0000
+S Mina Ref0000
+S GameStart Ref0000
+S entityman_getNumEntities_A Ref0000
+S vidas Ref0000
+S nivelactual Ref0000
+S letrasborradas Ref0000
+S cooldownEnemigo1 Ref0000
+S cooldownEnemigo2 Ref0000
+S Inicio Ref0000
+S .__.ABS. Def0000
+S colision Ref0000
+S cooldownMisil Ref0000
+S reset Ref0000
+S entityman_create Ref0000
+S entityman_init Ref0000
+S rendersys_init Ref0000
+S _num_entities Ref0000
+S entityman_getEntityArray_IX Ref0000
+S entity_size Ref0000
+S _entity_array Ref0000
+S cargaNivel Ref0000
+A _CODE size 2E flags 0 addr 0
+S CompruebaNivel Def0000
+T 00 00
+R 00 00 00 00
+T 00 00 DD 21 18 40 DD 7E 04 3D 28 21 3D 28 1B 3D
+R 00 00 00 00
+T 0E 00 28 15 3D 28 0F 3D 28 09 3D 28 03
+R 00 00 00 00
+T 19 00
+R 00 00 00 00
+T 19 00 3E 07 C9
+R 00 00 00 00
+T 1C 00
+R 00 00 00 00
+T 1C 00 3E 06 C9
+R 00 00 00 00
+T 1F 00
+R 00 00 00 00
+T 1F 00 3E 05 C9
+R 00 00 00 00
+T 22 00
+R 00 00 00 00
+T 22 00 3E 04 C9
+R 00 00 00 00
+T 25 00
+R 00 00 00 00
+T 25 00 3E 03 C9
+R 00 00 00 00
+T 28 00
+R 00 00 00 00
+T 28 00 3E 02 C9
+R 00 00 00 00
+T 2B 00
+R 00 00 00 00
+T 2B 00 3E 01 C9
+R 00 00 00 00

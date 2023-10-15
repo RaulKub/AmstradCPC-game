@@ -1,0 +1,18 @@
+XL2
+H 1 areas F global symbols
+S .__.ABS. Def0000
+S borrarCrocoPos1 Ref0000
+S borrarCrocoPos2 Ref0000
+S borrarCrocoPos3 Ref0000
+S borrarCrocoPos4 Ref0000
+S borrarCrocoPos5 Ref0000
+S borrarCrocoPos6 Ref0000
+S borrarCrocoPos7 Ref0000
+S pintarCrocoPos1 Ref0000
+S pintarCrocoPos2 Ref0000
+S pintarCrocoPos3 Ref0000
+S pintarCrocoPos4 Ref0000
+S pintarCrocoPos5 Ref0000
+S pintarCrocoPos6 Ref0000
+S pintarCrocoPos7 Ref0000
+A _CODE size 0 flags 0 addr 0

@@ -1,0 +1,174 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+
+
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 ;;
+                             16 ;; RENDER SYSTEM
+                             17 ;;
+                             18 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+                             19 .include "cpcfunciones.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl cpct_disableFirmware_asm
+                             16 .globl cpct_getScreenPtr_asm
+                             17 .globl cpct_setDrawCharM1_asm
+                             18 .globl cpct_drawStringM1_asm
+                             19 .globl cpct_waitVSYNC_asm
+                             20 .globl cpct_isAnyKeyPressed_f_asm
+                             21 .globl cpct_scanKeyboard_f_asm
+                             22 .globl cpct_drawSolidBox_asm
+                             23 .globl cpct_isKeyPressed_asm
+                             24 .globl cpct_waitVSYNC_asm
+                             25 .globl cpct_setVideoMode_asm
+                             26 .globl cpct_setPalette_asm
+                             27 .globl cpct_getHWColour_asm
+                             28 .globl cpct_drawSprite_asm
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+
+
+                             20 .include "manager/entity_manager.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl entityman_init
+                             16 .globl entityman_create
+                             17 .globl _num_entities
+                             18 .globl _entity_array
+                             19 .globl entity_size
+                             20 .globl entityman_getNumEntities_A
+                             21 .globl entityman_getEntityArray_IX
+                             22 .globl reset
+                             23 
+                             24 .macro  DefineEntity _name, _x, _y, _w, _h, _vx, _vy, _color
+                             25 _name::
+                             26    .db  _x
+                             27    .db  _y
+                             28    .db  _w
+                             29    .db  _h
+                             30    .db  _vx
+                             31    .db  _vy
+                             32    .db  _color
+                             33 .endm
+                             34 
+                     0000    35 entity_x = 0
+                     0001    36 entity_y = 1
+                     0002    37 entity_w = 2
+                     0003    38 entity_h = 3
+                     0004    39 entity_estado = 4
+                     0005    40 entity_vy = 5
+                     0006    41 entity_color = 6
+                     0007    42 sizeof_entity = 7
+                             43 
+                             44 
+                             45 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+Hexadecimal [16-Bits]
+
+
+
+                             21 .include "system/renderPersonaje.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl pintarPersonajePos0
+                             16 .globl borraPersonajePos0
+                             17 .globl pintarPersonajePos1
+                             18 .globl ataqueAereoDerecha
+                             19 .globl ataqueAereoDerecha2
+                             20 .globl ataqueAereoIzquierda
+                             21 .globl ataqueAereoIzquierda2
+                             22 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+Hexadecimal [16-Bits]
+
+
+
+                             22 
+   A088                      23 rendersys_init::
+   A088 C9            [10]   24     ret
+                             25 
+                             26 ;;  INPUT:
+                             27 ;;      IX: Puntero al primer elemento del render
+                             28 ;;      A:  Numero de entidades a renderizar
+   A089                      29 rendersys_update::
+                             30 
+   A089                      31 _renloop:
+   A089 F5            [11]   32     push    af                  ;;Guardamos en la pila
+   A08A 01 07 00      [10]   33     ld      bc, #entity_size    ;;sumamos 7 a la posicion donde empieza cada objeto
+   A08D DD 09         [15]   34     add     ix, bc
+                             35 
+                             36     ;;Primero calculamos la dirección de memoria para pintar el objeto
+   A08F 11 00 C0      [10]   37     ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   A092 DD 4E 00      [19]   38     ld      c,  entity_x(ix)          ;;Coordenada X (tamaño en ancho)
+   A095 DD 46 01      [19]   39     ld      b,  entity_y(ix)          ;;Coordenada Y (tamaño en alto)
+   A098 CD 6C B0      [17]   40     call cpct_getScreenPtr_asm  ;;Función que calcula la dirección de memoria de video con esos parámetros
+                             41 
+   A09B EB            [ 4]   42     ex      de, hl             ;;Intercambia los 2 valores (supongo que la fucion de dibujo lo usará)
+   A09C DD 7E 06      [19]   43     ld      a,  entity_color(ix)          ;;Color (en la posición de la entidad)
+   A09F DD 4E 02      [19]   44     ld      c,  entity_w(ix)          ;;Ancho (en la posición de la entidad)
+   A0A2 DD 46 03      [19]   45     ld      b,  entity_h(ix)          ;;Alto (en la posición de la entidad)
+   A0A5 CD C1 AF      [17]   46     call cpct_drawSolidBox_asm  ;;Función de dibujado de cpc
+                             47 
+   A0A8 F1            [10]   48     pop     af
+                             49 
+                             50     
+   A0A9 3D            [ 4]   51     dec     a
+   A0AA C8            [11]   52     ret     z
+                             53     
+   A0AB 18 DC         [12]   54     jr      _renloop

@@ -1,0 +1,9 @@
+XL2
+H 1 areas 6 global symbols
+S _last_elem_ptr Ref0000
+S max_entities Ref0000
+S .__.ABS. Def0000
+S _num_entities Ref0000
+S entity_size Ref0000
+S _entity_array Ref0000
+A _CODE size 0 flags 0 addr 0

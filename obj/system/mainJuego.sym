@@ -1,0 +1,155 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
+    .__.H$L.=  0000 L   |     CPCT_VME=  C000     |     CRTC_SEL=  00BC 
+    CRTC_SET=  00BD     |   0 Cargando   0B4E R   |     Comprueb   **** GX
+  0 Controls   00AE R   |   0 Controls   00D0 R   |   0 Controls   00EB R
+  0 Controls   0100 R   |   0 Controls   0122 R   |   0 DosVidas   0E4C R
+  0 EsperaMu   0E10 R   |   0 EstabaIz   0276 R   |     FW_BLACK=  0000 
+    FW_BLUE =  0001     |     FW_BRIGH=  0002     |     FW_BRIGH=  0014 
+    FW_BRIGH=  0012     |     FW_BRIGH=  0008     |     FW_BRIGH=  0006 
+    FW_BRIGH=  001A     |     FW_BRIGH=  0018     |     FW_CYAN =  000A 
+    FW_GREEN=  0009     |     FW_LIME =  0015     |     FW_MAGEN=  0004 
+    FW_MAUVE=  0005     |     FW_ORANG=  000F     |     FW_PASTE=  000E 
+    FW_PASTE=  0017     |     FW_PASTE=  0016     |     FW_PASTE=  0011 
+    FW_PASTE=  0019     |     FW_PINK =  0010     |     FW_PURPL=  0007 
+    FW_RED  =  0003     |     FW_SEA_G=  0013     |     FW_SKY_B=  000B 
+    FW_WHITE=  000D     |     FW_YELLO=  000C     |   0 FraseIni   0069 R
+  0 FraseIni   008B R   |     GA_port =  7F00     |     GA_port_=  007F 
+    GameOver   **** GX  |   0 GameStar   0192 GR  |     HW_BLACK=  0014 
+    HW_BLUE =  0004     |     HW_BRIGH=  0015     |     HW_BRIGH=  0013 
+    HW_BRIGH=  0012     |     HW_BRIGH=  000D     |     HW_BRIGH=  000C 
+    HW_BRIGH=  000B     |     HW_BRIGH=  000A     |     HW_CYAN =  0006 
+    HW_GREEN=  0016     |     HW_LIME =  001A     |     HW_MAGEN=  0018 
+    HW_MAUVE=  001D     |     HW_ORANG=  000E     |     HW_PASTE=  001F 
+    HW_PASTE=  001B     |     HW_PASTE=  0019     |     HW_PASTE=  000F 
+    HW_PASTE=  0003     |     HW_PINK =  0007     |     HW_PURPL=  0005 
+    HW_RED  =  001C     |     HW_SEA_G=  0002     |     HW_SKY_B=  0017 
+    HW_WHITE=  0000     |     HW_YELLO=  001E     |   0 Iniciali   0968 R
+  0 Iniciali   08E7 R   |   0 Iniciali   0827 R   |   0 Iniciali   072D R
+  0 Iniciali   05DB R   |   0 Iniciali   046B R   |   0 Inicio     016F GR
+    Joy0_Dow=  0209     |     Joy0_Fir=  1009     |     Joy0_Fir=  2009 
+    Joy0_Fir=  4009     |     Joy0_Lef=  0409     |     Joy0_Rig=  0809 
+    Joy0_Up =  0109     |     Joy1_Dow=  0206     |     Joy1_Fir=  1006 
+    Joy1_Fir=  2006     |     Joy1_Fir=  4006     |     Joy1_Lef=  0406 
+    Joy1_Rig=  0806     |     Joy1_Up =  0106     |     Key_0   =  0104 
+    Key_1   =  0108     |     Key_2   =  0208     |     Key_3   =  0207 
+    Key_4   =  0107     |     Key_5   =  0206     |     Key_6   =  0106 
+    Key_7   =  0205     |     Key_8   =  0105     |     Key_9   =  0204 
+    Key_A   =  2008     |     Key_At  =  0403     |     Key_B   =  4006 
+    Key_Back=  4002     |     Key_C   =  4007     |     Key_Caps=  4008 
+    Key_Care=  0103     |     Key_Clos=  0802     |     Key_Clr =  0102 
+    Key_Colo=  2003     |     Key_Comm=  8004     |     Key_Cont=  8002 
+    Key_Copy=  0201     |     Key_Curs=  0400     |     Key_Curs=  0101 
+    Key_Curs=  0200     |     Key_Curs=  0100     |     Key_D   =  2007 
+    Key_Del =  8009     |     Key_Dot =  8003     |     Key_E   =  0407 
+    Key_Ente=  4000     |     Key_Esc =  0408     |     Key_F   =  2006 
+    Key_F0  =  8001     |     Key_F1  =  2001     |     Key_F2  =  4001 
+    Key_F3  =  2000     |     Key_F4  =  1002     |     Key_F5  =  1001 
+    Key_F6  =  1000     |     Key_F7  =  0401     |     Key_F8  =  0801 
+    Key_F9  =  0800     |     Key_FDot=  8000     |     Key_G   =  1006 
+    Key_H   =  1005     |     Key_Hyph=  0203     |     Key_I   =  0804 
+    Key_J   =  2005     |     Key_K   =  2004     |     Key_L   =  1004 
+    Key_M   =  4004     |     Key_N   =  4005     |     Key_O   =  0404 
+    Key_Open=  0202     |     Key_P   =  0803     |     Key_Q   =  0808 
+    Key_R   =  0406     |     Key_Retu=  0402     |     Key_S   =  1007 
+    Key_Semi=  1003     |     Key_Shif=  2002     |     Key_Slas=  4003 
+    Key_Spac=  8005     |     Key_T   =  0806     |     Key_Tab =  1008 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    Key_U   =  0405     |     Key_V   =  8006     |     Key_W   =  0807 
+    Key_X   =  8007     |     Key_Y   =  0805     |     Key_Z   =  8008 
+  0 Level1     012D R   |   0 Level2     0135 R   |   0 Level3     013D R
+  0 Level4     0145 R   |   0 Level5     014D R   |   0 Level6     0155 R
+  0 Mina       016B GR  |     NivelAct=  0001     |   0 Nopintar   0A96 R
+    PAL_INKR=  0040     |     PAL_PENR=  0000     |     PPI_PORT=  00F5 
+    ScoreRea   **** GX  |   0 UnaVida    0E43 R   |     _entity_   **** GX
+    _num_ent   **** GX  |   0 actualNi   0A99 R   |     actualiz   **** GX
+    actualiz   **** GX  |     actualiz   **** GX  |     actualiz   **** GX
+    actualiz   **** GX  |     actualiz   **** GX  |     actualiz   **** GX
+  0 actualiz   09D9 R   |   0 actualiz   0B28 R   |   0 actualiz   0B2D R
+  0 actualiz   0B32 R   |   0 actualiz   0B37 R   |   0 actualiz   0B3C R
+  0 actualiz   0B41 R   |     actualiz   **** GX  |     ataqueAe   **** GX
+    ataqueAe   **** GX  |     ataqueAe   **** GX  |     ataqueAe   **** GX
+    ataqueAe   **** GX  |     ataqueEs   **** GX  |   0 ataqueMi   0DA1 R
+    borraPer   **** GX  |     borrarCr   **** GX  |     borrarCr   **** GX
+    borrarCr   **** GX  |     borrarCr   **** GX  |     borrarCr   **** GX
+    borrarCr   **** GX  |     borrarCr   **** GX  |     borrarEn   **** GX
+    borrarEn   **** GX  |     borrarEn   **** GX  |     borrarEn   **** GX
+    borrarEn   **** GX  |     borrarEs   **** GX  |     borrarEs   **** GX
+    borrarEx   **** GX  |     borrarOl   **** GX  |   0 cambiarO   0209 R
+  0 cambiarn   02AE R   |   0 cargaNiv   0167 GR  |   0 colision   0DFA GR
+  0 colocarM   0DC6 R   |   0 cooldown   0168 GR  |   0 cooldown   0169 GR
+  0 cooldown   0164 GR  |     cpct_dis   **** GX  |     cpct_dra   **** GX
+    cpct_dra   **** GX  |     cpct_dra   **** GX  |     cpct_get   **** GX
+    cpct_get   **** GX  |     cpct_isA   **** GX  |     cpct_isK   **** GX
+    cpct_pag=  0000     |     cpct_pag=  0010     |     cpct_pag=  0020 
+    cpct_pag=  0030     |     cpct_sca   **** GX  |     cpct_set   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
+  0 crearEnt   095B R   |   0 crearEnt   08B7 R   |   0 crearEnt   07E7 R
+  0 crearEnt   06B9 R   |   0 crearEnt   054F R   |   0 crearEnt   03D0 R
+  0 croco      0023 GR  |     crocodil=  4026     |     dosVidas   **** GX
+    enemigoD   **** GX  |     enemigoD   **** GX  |     enemigoI   **** GX
+    enemigoI   **** GX  |   0 enemy      001C GR  |   0 enemyDer   0062 GR
+    enemyDer=  4050     |     enemyDer=  406C     |   0 enemyIzq   002A GR
+  0 enemyIzq   0054 GR  |   0 enemyIzq   005B GR  |     enemyIzq=  402D 
+    enemyIzq=  4034     |     enemyIzq=  405E     |     enemyPos=  401F 
+  0 enemyUp1   0031 GR  |     enemyUp1=  403B     |   0 enemyUp2   0038 GR
+    enemyUp2=  4042     |   0 enemyUp3   003F GR  |     enemyUp3=  4049 
+  0 enemyUp4   0046 GR  |     enemyUp4=  4057     |   0 enemyUp5   004D GR
+    enemyUp5=  4065     |     entity_c=  0006     |     entity_e=  0004 
+    entity_h=  0003     |     entity_s   **** GX  |     entity_v=  0005 
+    entity_w=  0002     |     entity_x=  0000     |     entity_y=  0001 
+    entityma   **** GX  |     entityma   **** GX  |     entityma   **** GX
+    entityma   **** GX  |   0 espada     0007 GR  |     espadaPo=  400A 
+    estadoEs   **** GX  |   0 finCompr   0280 R   |   0 finCompr   028E R
+  0 finOlas    0248 R   |     fondo      **** GX  |   0 letrasBo   0B23 R
+  0 letrasbo   0165 GR  |   0 misilPre   028B R   |   0 moverPer   01FB R
+    muertepo   **** GX  |     mueveEsp   **** GX  |     mueveEsp   **** GX
+  0 nivel1     09B1 R   |   0 nivel2     091A R   |   0 nivel3     085A R
+  0 nivel4     0766 R   |   0 nivel5     0611 R   |   0 nivel6     04A1 R
+  0 nivel7     02D4 R   |   0 nivelact   0166 GR  |   0 nivelcom   09BB R
+  0 noActual   0B26 R   |   0 nocambia   09BB R   |   0 nomuerto   0E29 R
+  0 ola        0161 R   |   0 olaCount   0163 R   |   0 olaNiv1    021B R
+  0 olaNiv2    0227 R   |   0 olaNiv2U   023C R   |   0 olaUpDow   0162 R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    olas       **** GX  |     olas2      **** GX  |     olas3      **** GX
+    opc_DI  =  00F3     |     opc_EI  =  00FB     |     opc_JR  =  0018 
+    opc_LD_D=  0016     |   0 palette    0172 GR  |   0 paletteM   0182 GR
+  0 pintarCo   0A1E R   |     pintarCr   **** GX  |     pintarCr   **** GX
+    pintarCr   **** GX  |     pintarCr   **** GX  |     pintarCr   **** GX
+    pintarCr   **** GX  |     pintarCr   **** GX  |     pintarEn   **** GX
+    pintarEn   **** GX  |     pintarEn   **** GX  |     pintarEn   **** GX
+    pintarEn   **** GX  |     pintarEs   **** GX  |     pintarEs   **** GX
+  0 pintarMo   0BA1 R   |   0 pintarMo   0C82 R   |     pintarPe   **** GX
+    pintarPe   **** GX  |   0 player     0000 GR  |     playerPo=  4003 
+  0 pulsaA     0C54 R   |   0 pulsaD     0B73 R   |   0 pulsaEsp   0DF4 R
+  0 pulsaS     0DAB R   |   0 pulsaW     0D86 R   |   0 reinicia   0E53 R
+    rendersy   **** GX  |     rendersy   **** GX  |     reset      **** GX
+  0 restaAZ    0B95 R   |   0 restaAZ2   0C76 R   |   0 restaAZ3   0BD9 R
+  0 restaBZ    0B9E R   |   0 restaBZ2   0C7F R   |   0 restaBZ3   0BE2 R
+  0 restaCDE   0279 R   |   0 saltoALP   0D1A R   |   0 seguirmo   0B73 R
+  0 sigue      0BE8 R   |   0 sigue2     0CAE R   |   0 siguePin   0BE5 R
+    sizeof_e=  0007     |     tresVida   **** GX  |     unaVida    **** GX
+  0 vidas      016A GR  |   0 vuelveni   0E74 R   |   0 vuelveni   0E9C R
+  0 vuelveni   0E9F R   |   0 vuelveni   0EA2 R   |   0 vuelveni   0EA5 R
+  0 vuelveni   0EA8 R   |   0 vuelveni   0EAB R   |   0 wallD      0015 GR
+    wallDPos=  4018     |   0 wallI      000E GR  |     wallIPos=  4011 
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE      size  F4A   flags    0
+

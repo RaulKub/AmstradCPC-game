@@ -1,0 +1,873 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+
+
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+                             15 .include "cpcfunciones.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl cpct_disableFirmware_asm
+                             16 .globl cpct_getScreenPtr_asm
+                             17 .globl cpct_setDrawCharM1_asm
+                             18 .globl cpct_drawStringM1_asm
+                             19 .globl cpct_waitVSYNC_asm
+                             20 .globl cpct_isAnyKeyPressed_f_asm
+                             21 .globl cpct_scanKeyboard_f_asm
+                             22 .globl cpct_drawSolidBox_asm
+                             23 .globl cpct_isKeyPressed_asm
+                             24 .globl cpct_waitVSYNC_asm
+                             25 .globl cpct_setVideoMode_asm
+                             26 .globl cpct_setPalette_asm
+                             27 .globl cpct_getHWColour_asm
+                             28 .globl cpct_drawSprite_asm
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+
+
+                             16 .include "manager/entity_manager.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl entityman_init
+                             16 .globl entityman_create
+                             17 .globl _num_entities
+                             18 .globl _entity_array
+                             19 .globl entity_size
+                             20 .globl entityman_getNumEntities_A
+                             21 .globl entityman_getEntityArray_IX
+                             22 .globl reset
+                             23 
+                             24 .macro  DefineEntity _name, _x, _y, _w, _h, _vx, _vy, _color
+                             25 _name::
+                             26    .db  _x
+                             27    .db  _y
+                             28    .db  _w
+                             29    .db  _h
+                             30    .db  _vx
+                             31    .db  _vy
+                             32    .db  _color
+                             33 .endm
+                             34 
+                     0000    35 entity_x = 0
+                     0001    36 entity_y = 1
+                     0002    37 entity_w = 2
+                     0003    38 entity_h = 3
+                     0004    39 entity_estado = 4
+                     0005    40 entity_vy = 5
+                     0006    41 entity_color = 6
+                     0007    42 sizeof_entity = 7
+                             43 
+                             44 
+                             45 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+Hexadecimal [16-Bits]
+
+
+
+                             17 .include "system/mainJuego.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl GameStart
+                             16 .globl colision
+                             17 .globl Mina
+                             18 .globl Inicio
+                             19 .globl letrasborradas
+                             20 .globl cooldownEnemigo1
+                             21 .globl cooldownEnemigo2
+                             22 .globl cooldownMisil
+                             23 .globl letrasborradas
+                             24 .globl nivelactual
+                             25 .globl cargaNivel
+                             26 .globl vidas
+                             27 
+                             28 
+                             29 
+                     4003    30 playerPos = #0x4003
+                     400A    31 espadaPos = #0x400A
+                     4011    32 wallIPos = #0x4011
+                     4018    33 wallDPos = #0x4018
+                     401F    34 enemyPos = #0x401F
+                     4026    35 crocodile = #0x4026
+                     402D    36 enemyIzqPos = #0x402D
+                     4034    37 enemyIzqPos2 = #0x4034
+                     403B    38 enemyUp1Pos = #0x403B
+                     4042    39 enemyUp2Pos = #0x4042
+                     4049    40 enemyUp3Pos = #0x4049
+                     4050    41 enemyDerPos2 = #0x4050
+                     4057    42 enemyUp4Pos = #0x4057
+                     405E    43 enemyIzqPos3 = #0x405E
+                     4065    44 enemyUp5Pos = #0x4065
+                             45 ;;crocodile = #0x4178
+                     406C    46 enemyDerPos3 = #0x406C
+                             47 ;;croco = #0x417F
+                             48 
+                             49 
+                             50 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+Hexadecimal [16-Bits]
+
+
+
+                             18 
+   0000                      19 tresVidas::
+                             20 
+   0000 11 00 C0      [10]   21 ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   0003 0E 00         [ 7]   22     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   0005 06 BE         [ 7]   23     ld      b,  #190
+   0007 CD 00 00      [17]   24     call cpct_getScreenPtr_asm 
+                             25     ;;PrimerCorazon
+   000A 2C            [ 4]   26     inc l
+   000B 36 70         [10]   27     ld (hl), #0x70
+   000D 2C            [ 4]   28     inc l
+   000E 36 70         [10]   29    ld (hl), #0x70
+   0010 2C            [ 4]   30    inc l
+   0011 36 00         [10]   31    ld (hl), #0x00
+                             32    ;;SegundoCorazon
+   0013 2C            [ 4]   33    inc l
+   0014 36 70         [10]   34     ld (hl), #0x70
+   0016 2C            [ 4]   35     inc l
+   0017 36 70         [10]   36    ld (hl), #0x70
+   0019 2C            [ 4]   37    inc l
+   001A 36 00         [10]   38    ld (hl), #0x00
+                             39     ;;TercerCorazon
+   001C 2C            [ 4]   40     inc l
+   001D 36 70         [10]   41     ld (hl), #0x70
+   001F 2C            [ 4]   42     inc l
+   0020 36 70         [10]   43    ld (hl), #0x70
+   0022 2C            [ 4]   44    inc l
+   0023 36 00         [10]   45    ld (hl), #0x00
+                             46 
+                             47    ;;2
+                             48 
+   0025 11 00 C0      [10]   49    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   0028 0E 00         [ 7]   50     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   002A 06 BF         [ 7]   51     ld      b,  #191
+   002C CD 00 00      [17]   52     call cpct_getScreenPtr_asm 
+                             53     ;;PrimerCorazon
+   002F 2C            [ 4]   54     inc l
+   0030 36 F7         [10]   55     ld (hl), #0xF7
+   0032 2C            [ 4]   56     inc l
+   0033 36 F7         [10]   57    ld (hl), #0xF7
+   0035 2C            [ 4]   58    inc l
+   0036 36 80         [10]   59    ld (hl), #0x80
+                             60    ;;SegundoCorazon
+   0038 2C            [ 4]   61    inc l
+   0039 36 F7         [10]   62     ld (hl), #0xF7
+   003B 2C            [ 4]   63     inc l
+   003C 36 F7         [10]   64    ld (hl), #0xF7
+   003E 2C            [ 4]   65    inc l
+   003F 36 80         [10]   66    ld (hl), #0x80
+                             67     ;;TercerCorazon
+   0041 2C            [ 4]   68     inc l
+   0042 36 F7         [10]   69     ld (hl), #0xF7
+   0044 2C            [ 4]   70     inc l
+   0045 36 F7         [10]   71    ld (hl), #0xF7
+   0047 2C            [ 4]   72    inc l
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
+Hexadecimal [16-Bits]
+
+
+
+   0048 36 80         [10]   73    ld (hl), #0x80
+                             74 
+                             75     ;3
+                             76 
+   004A 11 00 C0      [10]   77    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   004D 0E 00         [ 7]   78     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   004F 06 C0         [ 7]   79     ld      b,  #192
+   0051 CD 00 00      [17]   80     call cpct_getScreenPtr_asm 
+                             81     ;;PrimerCorazon
+   0054 2C            [ 4]   82     inc l
+   0055 36 F7         [10]   83     ld (hl), #0xF7
+   0057 2C            [ 4]   84     inc l
+   0058 36 FF         [10]   85    ld (hl), #0xFF
+   005A 2C            [ 4]   86    inc l
+   005B 36 80         [10]   87    ld (hl), #0x80
+                             88    ;;SegundoCorazon
+   005D 2C            [ 4]   89    inc l
+   005E 36 F7         [10]   90     ld (hl), #0xF7
+   0060 2C            [ 4]   91     inc l
+   0061 36 FF         [10]   92    ld (hl), #0xFF
+   0063 2C            [ 4]   93    inc l
+   0064 36 80         [10]   94    ld (hl), #0x80
+                             95     ;;TercerCorazon
+   0066 2C            [ 4]   96     inc l
+   0067 36 F7         [10]   97     ld (hl), #0xF7
+   0069 2C            [ 4]   98     inc l
+   006A 36 FF         [10]   99    ld (hl), #0xFF
+   006C 2C            [ 4]  100    inc l
+   006D 36 80         [10]  101    ld (hl), #0x80
+                            102 
+   006F 11 00 C0      [10]  103    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   0072 0E 00         [ 7]  104     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   0074 06 C1         [ 7]  105     ld      b,  #193
+   0076 CD 00 00      [17]  106     call cpct_getScreenPtr_asm 
+                            107     ;;PrimerCorazon
+   0079 2C            [ 4]  108     inc l
+   007A 36 F7         [10]  109     ld (hl), #0xF7
+   007C 2C            [ 4]  110     inc l
+   007D 36 FF         [10]  111    ld (hl), #0xFF
+   007F 2C            [ 4]  112    inc l
+   0080 36 80         [10]  113    ld (hl), #0x80
+                            114    ;;SegundoCorazon
+   0082 2C            [ 4]  115    inc l
+   0083 36 F7         [10]  116     ld (hl), #0xF7
+   0085 2C            [ 4]  117     inc l
+   0086 36 FF         [10]  118    ld (hl), #0xFF
+   0088 2C            [ 4]  119    inc l
+   0089 36 80         [10]  120    ld (hl), #0x80
+                            121     ;;TercerCorazon
+   008B 2C            [ 4]  122     inc l
+   008C 36 F7         [10]  123     ld (hl), #0xF7
+   008E 2C            [ 4]  124     inc l
+   008F 36 FF         [10]  125    ld (hl), #0xFF
+   0091 2C            [ 4]  126    inc l
+   0092 36 80         [10]  127    ld (hl), #0x80
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
+Hexadecimal [16-Bits]
+
+
+
+                            128 
+                            129 
+   0094 11 00 C0      [10]  130    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   0097 0E 00         [ 7]  131     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   0099 06 C2         [ 7]  132     ld      b,  #194
+   009B CD 00 00      [17]  133     call cpct_getScreenPtr_asm 
+                            134     ;;PrimerCorazon
+   009E 2C            [ 4]  135     inc l
+   009F 36 73         [10]  136     ld (hl), #0x73
+   00A1 2C            [ 4]  137     inc l
+   00A2 36 FE         [10]  138    ld (hl), #0x7FE
+   00A4 2C            [ 4]  139    inc l
+   00A5 36 00         [10]  140    ld (hl), #0x00
+                            141    ;;SegundoCorazon
+   00A7 2C            [ 4]  142    inc l
+   00A8 36 73         [10]  143     ld (hl), #0x73
+   00AA 2C            [ 4]  144     inc l
+   00AB 36 FE         [10]  145    ld (hl), #0x7FE
+   00AD 2C            [ 4]  146    inc l
+   00AE 36 00         [10]  147    ld (hl), #0x00
+                            148     ;;TercerCorazon
+   00B0 2C            [ 4]  149     inc l
+   00B1 36 73         [10]  150     ld (hl), #0x73
+   00B3 2C            [ 4]  151     inc l
+   00B4 36 FE         [10]  152    ld (hl), #0x7FE
+   00B6 2C            [ 4]  153    inc l
+   00B7 36 00         [10]  154    ld (hl), #0x00
+                            155 
+                            156 
+   00B9 11 00 C0      [10]  157    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   00BC 0E 00         [ 7]  158     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   00BE 06 C3         [ 7]  159     ld      b,  #195
+   00C0 CD 00 00      [17]  160     call cpct_getScreenPtr_asm 
+                            161     ;;PrimerCorazon
+   00C3 2C            [ 4]  162     inc l
+   00C4 36 31         [10]  163     ld (hl), #0x31
+   00C6 2C            [ 4]  164     inc l
+   00C7 36 EC         [10]  165    ld (hl), #0xEC
+   00C9 2C            [ 4]  166    inc l
+   00CA 36 00         [10]  167    ld (hl), #0x00
+                            168    ;;SegundoCorazon
+   00CC 2C            [ 4]  169    inc l
+   00CD 36 31         [10]  170     ld (hl), #0x31
+   00CF 2C            [ 4]  171     inc l
+   00D0 36 EC         [10]  172    ld (hl), #0xEC
+   00D2 2C            [ 4]  173    inc l
+   00D3 36 00         [10]  174    ld (hl), #0x00
+                            175     ;;TercerCorazon
+   00D5 2C            [ 4]  176     inc l
+   00D6 36 31         [10]  177     ld (hl), #0x31
+   00D8 2C            [ 4]  178     inc l
+   00D9 36 EC         [10]  179    ld (hl), #0xEC
+   00DB 2C            [ 4]  180    inc l
+   00DC 36 00         [10]  181    ld (hl), #0x00
+                            182 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
+Hexadecimal [16-Bits]
+
+
+
+   00DE 11 00 C0      [10]  183    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   00E1 0E 00         [ 7]  184     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   00E3 06 C4         [ 7]  185     ld      b,  #196
+   00E5 CD 00 00      [17]  186     call cpct_getScreenPtr_asm 
+                            187     ;;PrimerCorazon
+   00E8 2C            [ 4]  188     inc l
+   00E9 36 10         [10]  189     ld (hl), #0x10
+   00EB 2C            [ 4]  190     inc l
+   00EC 36 C8         [10]  191    ld (hl), #0xC8
+   00EE 2C            [ 4]  192    inc l
+   00EF 36 00         [10]  193    ld (hl), #0x00
+                            194    ;;SegundoCorazon
+   00F1 2C            [ 4]  195    inc l
+   00F2 36 10         [10]  196     ld (hl), #0x10
+   00F4 2C            [ 4]  197     inc l
+   00F5 36 C8         [10]  198    ld (hl), #0xC8
+   00F7 2C            [ 4]  199    inc l
+   00F8 36 00         [10]  200    ld (hl), #0x00
+                            201     ;;TercerCorazon
+   00FA 2C            [ 4]  202     inc l
+   00FB 36 10         [10]  203     ld (hl), #0x10
+   00FD 2C            [ 4]  204     inc l
+   00FE 36 C8         [10]  205    ld (hl), #0xC8
+   0100 2C            [ 4]  206    inc l
+   0101 36 00         [10]  207    ld (hl), #0x00
+                            208 
+                            209 
+   0103 11 00 C0      [10]  210    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   0106 0E 00         [ 7]  211     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   0108 06 C5         [ 7]  212     ld      b,  #197
+   010A CD 00 00      [17]  213     call cpct_getScreenPtr_asm 
+                            214     ;;PrimerCorazon
+   010D 2C            [ 4]  215     inc l
+   010E 36 00         [10]  216     ld (hl), #0x00
+   0110 2C            [ 4]  217     inc l
+   0111 36 80         [10]  218    ld (hl), #0x80
+   0113 2C            [ 4]  219    inc l
+   0114 36 00         [10]  220    ld (hl), #0x00
+                            221    ;;SegundoCorazon
+   0116 2C            [ 4]  222    inc l
+   0117 36 00         [10]  223     ld (hl), #0x00
+   0119 2C            [ 4]  224     inc l
+   011A 36 80         [10]  225    ld (hl), #0x80
+   011C 2C            [ 4]  226    inc l
+   011D 36 00         [10]  227    ld (hl), #0x00
+                            228     ;;TercerCorazon
+   011F 2C            [ 4]  229     inc l
+   0120 36 00         [10]  230     ld (hl), #0x00
+   0122 2C            [ 4]  231     inc l
+   0123 36 80         [10]  232    ld (hl), #0x80
+   0125 2C            [ 4]  233    inc l
+   0126 36 00         [10]  234    ld (hl), #0x00
+   0128 C9            [10]  235    ret
+   0129                     236    dosVidas::
+                            237 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 9.
+Hexadecimal [16-Bits]
+
+
+
+   0129 11 00 C0      [10]  238 ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   012C 0E 00         [ 7]  239     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   012E 06 BE         [ 7]  240     ld      b,  #190
+   0130 CD 00 00      [17]  241     call cpct_getScreenPtr_asm 
+                            242     ;;PrimerCorazon
+   0133 2C            [ 4]  243     inc l
+   0134 36 70         [10]  244     ld (hl), #0x70
+   0136 2C            [ 4]  245     inc l
+   0137 36 70         [10]  246    ld (hl), #0x70
+   0139 2C            [ 4]  247    inc l
+   013A 36 00         [10]  248    ld (hl), #0x00
+                            249    ;;SegundoCorazon
+   013C 2C            [ 4]  250    inc l
+   013D 36 70         [10]  251     ld (hl), #0x70
+   013F 2C            [ 4]  252     inc l
+   0140 36 70         [10]  253    ld (hl), #0x70
+   0142 2C            [ 4]  254    inc l
+   0143 36 00         [10]  255    ld (hl), #0x00
+                            256     ;;TercerCorazon
+   0145 2C            [ 4]  257     inc l
+   0146 36 70         [10]  258     ld (hl), #0x70
+   0148 2C            [ 4]  259     inc l
+   0149 36 70         [10]  260    ld (hl), #0x70
+   014B 2C            [ 4]  261    inc l
+   014C 36 00         [10]  262    ld (hl), #0x00
+                            263 
+                            264    ;;2
+                            265 
+   014E 11 00 C0      [10]  266    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   0151 0E 00         [ 7]  267     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   0153 06 BF         [ 7]  268     ld      b,  #191
+   0155 CD 00 00      [17]  269     call cpct_getScreenPtr_asm 
+                            270     ;;PrimerCorazon
+   0158 2C            [ 4]  271     inc l
+   0159 36 F7         [10]  272     ld (hl), #0xF7
+   015B 2C            [ 4]  273     inc l
+   015C 36 F7         [10]  274    ld (hl), #0xF7
+   015E 2C            [ 4]  275    inc l
+   015F 36 80         [10]  276    ld (hl), #0x80
+                            277    ;;SegundoCorazon
+   0161 2C            [ 4]  278    inc l
+   0162 36 F7         [10]  279     ld (hl), #0xF7
+   0164 2C            [ 4]  280     inc l
+   0165 36 F7         [10]  281    ld (hl), #0xF7
+   0167 2C            [ 4]  282    inc l
+   0168 36 80         [10]  283    ld (hl), #0x80
+                            284     ;;TercerCorazon
+   016A 2C            [ 4]  285     inc l
+   016B 36 80         [10]  286     ld (hl), #0x80
+   016D 2C            [ 4]  287     inc l
+   016E 36 80         [10]  288    ld (hl), #0x80
+   0170 2C            [ 4]  289    inc l
+   0171 36 80         [10]  290    ld (hl), #0x80
+                            291 
+                            292     ;3
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 10.
+Hexadecimal [16-Bits]
+
+
+
+                            293 
+   0173 11 00 C0      [10]  294    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   0176 0E 00         [ 7]  295     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   0178 06 C0         [ 7]  296     ld      b,  #192
+   017A CD 00 00      [17]  297     call cpct_getScreenPtr_asm 
+                            298     ;;PrimerCorazon
+   017D 2C            [ 4]  299     inc l
+   017E 36 F7         [10]  300     ld (hl), #0xF7
+   0180 2C            [ 4]  301     inc l
+   0181 36 FF         [10]  302    ld (hl), #0xFF
+   0183 2C            [ 4]  303    inc l
+   0184 36 80         [10]  304    ld (hl), #0x80
+                            305    ;;SegundoCorazon
+   0186 2C            [ 4]  306    inc l
+   0187 36 F7         [10]  307     ld (hl), #0xF7
+   0189 2C            [ 4]  308     inc l
+   018A 36 FF         [10]  309    ld (hl), #0xFF
+   018C 2C            [ 4]  310    inc l
+   018D 36 80         [10]  311    ld (hl), #0x80
+                            312     ;;TercerCorazon
+   018F 2C            [ 4]  313     inc l
+   0190 36 80         [10]  314     ld (hl), #0x80
+   0192 2C            [ 4]  315     inc l
+   0193 36 00         [10]  316    ld (hl), #0x00
+   0195 2C            [ 4]  317    inc l
+   0196 36 80         [10]  318    ld (hl), #0x80
+                            319 
+   0198 11 00 C0      [10]  320    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   019B 0E 00         [ 7]  321     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   019D 06 C1         [ 7]  322     ld      b,  #193
+   019F CD 00 00      [17]  323     call cpct_getScreenPtr_asm 
+                            324     ;;PrimerCorazon
+   01A2 2C            [ 4]  325     inc l
+   01A3 36 F7         [10]  326     ld (hl), #0xF7
+   01A5 2C            [ 4]  327     inc l
+   01A6 36 FF         [10]  328    ld (hl), #0xFF
+   01A8 2C            [ 4]  329    inc l
+   01A9 36 80         [10]  330    ld (hl), #0x80
+                            331    ;;SegundoCorazon
+   01AB 2C            [ 4]  332    inc l
+   01AC 36 F7         [10]  333     ld (hl), #0xF7
+   01AE 2C            [ 4]  334     inc l
+   01AF 36 FF         [10]  335    ld (hl), #0xFF
+   01B1 2C            [ 4]  336    inc l
+   01B2 36 80         [10]  337    ld (hl), #0x80
+                            338     ;;TercerCorazon
+   01B4 2C            [ 4]  339     inc l
+   01B5 36 80         [10]  340     ld (hl), #0x80
+   01B7 2C            [ 4]  341     inc l
+   01B8 36 00         [10]  342    ld (hl), #0x00
+   01BA 2C            [ 4]  343    inc l
+   01BB 36 80         [10]  344    ld (hl), #0x80
+                            345 
+                            346 
+   01BD 11 00 C0      [10]  347    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 11.
+Hexadecimal [16-Bits]
+
+
+
+   01C0 0E 00         [ 7]  348     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   01C2 06 C2         [ 7]  349     ld      b,  #194
+   01C4 CD 00 00      [17]  350     call cpct_getScreenPtr_asm 
+                            351     ;;PrimerCorazon
+   01C7 2C            [ 4]  352     inc l
+   01C8 36 73         [10]  353     ld (hl), #0x73
+   01CA 2C            [ 4]  354     inc l
+   01CB 36 FE         [10]  355    ld (hl), #0x7FE
+   01CD 2C            [ 4]  356    inc l
+   01CE 36 00         [10]  357    ld (hl), #0x00
+                            358    ;;SegundoCorazon
+   01D0 2C            [ 4]  359    inc l
+   01D1 36 73         [10]  360     ld (hl), #0x73
+   01D3 2C            [ 4]  361     inc l
+   01D4 36 FE         [10]  362    ld (hl), #0x7FE
+   01D6 2C            [ 4]  363    inc l
+   01D7 36 00         [10]  364    ld (hl), #0x00
+                            365     ;;TercerCorazon
+   01D9 2C            [ 4]  366     inc l
+   01DA 36 40         [10]  367     ld (hl), #0x40
+   01DC 2C            [ 4]  368     inc l
+   01DD 36 10         [10]  369    ld (hl), #0x10
+   01DF 2C            [ 4]  370    inc l
+   01E0 36 00         [10]  371    ld (hl), #0x00
+                            372 
+                            373 
+   01E2 11 00 C0      [10]  374    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   01E5 0E 00         [ 7]  375     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   01E7 06 C3         [ 7]  376     ld      b,  #195
+   01E9 CD 00 00      [17]  377     call cpct_getScreenPtr_asm 
+                            378     ;;PrimerCorazon
+   01EC 2C            [ 4]  379     inc l
+   01ED 36 31         [10]  380     ld (hl), #0x31
+   01EF 2C            [ 4]  381     inc l
+   01F0 36 EC         [10]  382    ld (hl), #0xEC
+   01F2 2C            [ 4]  383    inc l
+   01F3 36 00         [10]  384    ld (hl), #0x00
+                            385    ;;SegundoCorazon
+   01F5 2C            [ 4]  386    inc l
+   01F6 36 31         [10]  387     ld (hl), #0x31
+   01F8 2C            [ 4]  388     inc l
+   01F9 36 EC         [10]  389    ld (hl), #0xEC
+   01FB 2C            [ 4]  390    inc l
+   01FC 36 00         [10]  391    ld (hl), #0x00
+                            392     ;;TercerCorazon
+   01FE 2C            [ 4]  393     inc l
+   01FF 36 20         [10]  394     ld (hl), #0x20
+   0201 2C            [ 4]  395     inc l
+   0202 36 20         [10]  396    ld (hl), #0x20
+   0204 2C            [ 4]  397    inc l
+   0205 36 00         [10]  398    ld (hl), #0x00
+                            399 
+   0207 11 00 C0      [10]  400    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   020A 0E 00         [ 7]  401     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   020C 06 C4         [ 7]  402     ld      b,  #196
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 12.
+Hexadecimal [16-Bits]
+
+
+
+   020E CD 00 00      [17]  403     call cpct_getScreenPtr_asm 
+                            404     ;;PrimerCorazon
+   0211 2C            [ 4]  405     inc l
+   0212 36 10         [10]  406     ld (hl), #0x10
+   0214 2C            [ 4]  407     inc l
+   0215 36 C8         [10]  408    ld (hl), #0xC8
+   0217 2C            [ 4]  409    inc l
+   0218 36 00         [10]  410    ld (hl), #0x00
+                            411    ;;SegundoCorazon
+   021A 2C            [ 4]  412    inc l
+   021B 36 10         [10]  413     ld (hl), #0x10
+   021D 2C            [ 4]  414     inc l
+   021E 36 C8         [10]  415    ld (hl), #0xC8
+   0220 2C            [ 4]  416    inc l
+   0221 36 00         [10]  417    ld (hl), #0x00
+                            418     ;;TercerCorazon
+   0223 2C            [ 4]  419     inc l
+   0224 36 10         [10]  420     ld (hl), #0x10
+   0226 2C            [ 4]  421     inc l
+   0227 36 40         [10]  422    ld (hl), #0x40
+   0229 2C            [ 4]  423    inc l
+   022A 36 00         [10]  424    ld (hl), #0x00
+                            425 
+                            426 
+   022C 11 00 C0      [10]  427    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   022F 0E 00         [ 7]  428     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   0231 06 C5         [ 7]  429     ld      b,  #197
+   0233 CD 00 00      [17]  430     call cpct_getScreenPtr_asm 
+                            431     ;;PrimerCorazon
+   0236 2C            [ 4]  432     inc l
+   0237 36 00         [10]  433     ld (hl), #0x00
+   0239 2C            [ 4]  434     inc l
+   023A 36 80         [10]  435    ld (hl), #0x80
+   023C 2C            [ 4]  436    inc l
+   023D 36 00         [10]  437    ld (hl), #0x00
+                            438    ;;SegundoCorazon
+   023F 2C            [ 4]  439    inc l
+   0240 36 00         [10]  440     ld (hl), #0x00
+   0242 2C            [ 4]  441     inc l
+   0243 36 80         [10]  442    ld (hl), #0x80
+   0245 2C            [ 4]  443    inc l
+   0246 36 00         [10]  444    ld (hl), #0x00
+                            445     ;;TercerCorazon
+   0248 2C            [ 4]  446     inc l
+   0249 36 00         [10]  447     ld (hl), #0x00
+   024B 2C            [ 4]  448     inc l
+   024C 36 80         [10]  449    ld (hl), #0x80
+   024E 2C            [ 4]  450    inc l
+   024F 36 00         [10]  451    ld (hl), #0x00
+   0251 C9            [10]  452    ret
+                            453 
+   0252                     454    unaVida::
+   0252 11 00 C0      [10]  455    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   0255 0E 00         [ 7]  456     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   0257 06 BE         [ 7]  457     ld      b,  #190
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 13.
+Hexadecimal [16-Bits]
+
+
+
+   0259 CD 00 00      [17]  458     call cpct_getScreenPtr_asm 
+                            459     ;;PrimerCorazon
+   025C 2C            [ 4]  460     inc l
+   025D 36 70         [10]  461     ld (hl), #0x70
+   025F 2C            [ 4]  462     inc l
+   0260 36 70         [10]  463    ld (hl), #0x70
+   0262 2C            [ 4]  464    inc l
+   0263 36 00         [10]  465    ld (hl), #0x00
+                            466    ;;SegundoCorazon
+   0265 2C            [ 4]  467    inc l
+   0266 36 70         [10]  468     ld (hl), #0x70
+   0268 2C            [ 4]  469     inc l
+   0269 36 70         [10]  470    ld (hl), #0x70
+   026B 2C            [ 4]  471    inc l
+   026C 36 00         [10]  472    ld (hl), #0x00
+                            473     ;;TercerCorazon
+   026E 2C            [ 4]  474     inc l
+   026F 36 70         [10]  475     ld (hl), #0x70
+   0271 2C            [ 4]  476     inc l
+   0272 36 70         [10]  477    ld (hl), #0x70
+   0274 2C            [ 4]  478    inc l
+   0275 36 00         [10]  479    ld (hl), #0x00
+                            480 
+                            481    ;;2
+                            482 
+   0277 11 00 C0      [10]  483    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   027A 0E 00         [ 7]  484     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   027C 06 BF         [ 7]  485     ld      b,  #191
+   027E CD 00 00      [17]  486     call cpct_getScreenPtr_asm 
+                            487     ;;PrimerCorazon
+   0281 2C            [ 4]  488     inc l
+   0282 36 F7         [10]  489     ld (hl), #0xF7
+   0284 2C            [ 4]  490     inc l
+   0285 36 F7         [10]  491    ld (hl), #0xF7
+   0287 2C            [ 4]  492    inc l
+   0288 36 80         [10]  493    ld (hl), #0x80
+                            494    ;;SegundoCorazon
+   028A 2C            [ 4]  495    inc l
+   028B 36 80         [10]  496     ld (hl), #0x80
+   028D 2C            [ 4]  497     inc l
+   028E 36 80         [10]  498    ld (hl), #0x80
+   0290 2C            [ 4]  499    inc l
+   0291 36 80         [10]  500    ld (hl), #0x80
+                            501 
+                            502     ;;TercerCorazon
+   0293 2C            [ 4]  503     inc l
+   0294 36 80         [10]  504     ld (hl), #0x80
+   0296 2C            [ 4]  505     inc l
+   0297 36 80         [10]  506    ld (hl), #0x80
+   0299 2C            [ 4]  507    inc l
+   029A 36 80         [10]  508    ld (hl), #0x80
+                            509 
+                            510     ;3
+                            511 
+   029C 11 00 C0      [10]  512    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 14.
+Hexadecimal [16-Bits]
+
+
+
+   029F 0E 00         [ 7]  513     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   02A1 06 C0         [ 7]  514     ld      b,  #192
+   02A3 CD 00 00      [17]  515     call cpct_getScreenPtr_asm 
+                            516     ;;PrimerCorazon
+   02A6 2C            [ 4]  517     inc l
+   02A7 36 F7         [10]  518     ld (hl), #0xF7
+   02A9 2C            [ 4]  519     inc l
+   02AA 36 FF         [10]  520    ld (hl), #0xFF
+   02AC 2C            [ 4]  521    inc l
+   02AD 36 80         [10]  522    ld (hl), #0x80
+                            523    ;;SegundoCorazon
+   02AF 2C            [ 4]  524    inc l
+   02B0 36 80         [10]  525     ld (hl), #0x80
+   02B2 2C            [ 4]  526     inc l
+   02B3 36 00         [10]  527    ld (hl), #0x00
+   02B5 2C            [ 4]  528    inc l
+   02B6 36 80         [10]  529    ld (hl), #0x80
+                            530     ;;TercerCorazon
+   02B8 2C            [ 4]  531     inc l
+   02B9 36 80         [10]  532     ld (hl), #0x80
+   02BB 2C            [ 4]  533     inc l
+   02BC 36 00         [10]  534    ld (hl), #0x00
+   02BE 2C            [ 4]  535    inc l
+   02BF 36 80         [10]  536    ld (hl), #0x80
+                            537 
+   02C1 11 00 C0      [10]  538    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   02C4 0E 00         [ 7]  539     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   02C6 06 C1         [ 7]  540     ld      b,  #193
+   02C8 CD 00 00      [17]  541     call cpct_getScreenPtr_asm 
+                            542     ;;PrimerCorazon
+   02CB 2C            [ 4]  543     inc l
+   02CC 36 F7         [10]  544     ld (hl), #0xF7
+   02CE 2C            [ 4]  545     inc l
+   02CF 36 FF         [10]  546    ld (hl), #0xFF
+   02D1 2C            [ 4]  547    inc l
+   02D2 36 80         [10]  548    ld (hl), #0x80
+                            549    ;;SegundoCorazon
+   02D4 2C            [ 4]  550    inc l
+   02D5 36 80         [10]  551     ld (hl), #0x80
+   02D7 2C            [ 4]  552     inc l
+   02D8 36 00         [10]  553    ld (hl), #0x00
+   02DA 2C            [ 4]  554    inc l
+   02DB 36 80         [10]  555    ld (hl), #0x80
+                            556     ;;TercerCorazon
+   02DD 2C            [ 4]  557     inc l
+   02DE 36 80         [10]  558     ld (hl), #0x80
+   02E0 2C            [ 4]  559     inc l
+   02E1 36 00         [10]  560    ld (hl), #0x00
+   02E3 2C            [ 4]  561    inc l
+   02E4 36 80         [10]  562    ld (hl), #0x80
+                            563 
+                            564 
+   02E6 11 00 C0      [10]  565    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   02E9 0E 00         [ 7]  566     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   02EB 06 C2         [ 7]  567     ld      b,  #194
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 15.
+Hexadecimal [16-Bits]
+
+
+
+   02ED CD 00 00      [17]  568     call cpct_getScreenPtr_asm 
+                            569     ;;PrimerCorazon
+   02F0 2C            [ 4]  570     inc l
+   02F1 36 73         [10]  571     ld (hl), #0x73
+   02F3 2C            [ 4]  572     inc l
+   02F4 36 FE         [10]  573    ld (hl), #0x7FE
+   02F6 2C            [ 4]  574    inc l
+   02F7 36 00         [10]  575    ld (hl), #0x00
+                            576    ;;SegundoCorazon
+   02F9 2C            [ 4]  577    inc l
+   02FA 36 40         [10]  578     ld (hl), #0x40
+   02FC 2C            [ 4]  579     inc l
+   02FD 36 10         [10]  580    ld (hl), #0x10
+   02FF 2C            [ 4]  581    inc l
+   0300 36 00         [10]  582    ld (hl), #0x00
+                            583     ;;TercerCorazon
+   0302 2C            [ 4]  584     inc l
+   0303 36 40         [10]  585     ld (hl), #0x40
+   0305 2C            [ 4]  586     inc l
+   0306 36 10         [10]  587    ld (hl), #0x10
+   0308 2C            [ 4]  588    inc l
+   0309 36 00         [10]  589    ld (hl), #0x00
+                            590 
+                            591 
+   030B 11 00 C0      [10]  592    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   030E 0E 00         [ 7]  593     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   0310 06 C3         [ 7]  594     ld      b,  #195
+   0312 CD 00 00      [17]  595     call cpct_getScreenPtr_asm 
+                            596     ;;PrimerCorazon
+   0315 2C            [ 4]  597     inc l
+   0316 36 31         [10]  598     ld (hl), #0x31
+   0318 2C            [ 4]  599     inc l
+   0319 36 EC         [10]  600    ld (hl), #0xEC
+   031B 2C            [ 4]  601    inc l
+   031C 36 00         [10]  602    ld (hl), #0x00
+                            603    ;;SegundoCorazon
+   031E 2C            [ 4]  604    inc l
+   031F 36 20         [10]  605     ld (hl), #0x20
+   0321 2C            [ 4]  606     inc l
+   0322 36 20         [10]  607    ld (hl), #0x20
+   0324 2C            [ 4]  608    inc l
+   0325 36 00         [10]  609    ld (hl), #0x00
+                            610     ;;TercerCorazon
+   0327 2C            [ 4]  611     inc l
+   0328 36 20         [10]  612     ld (hl), #0x20
+   032A 2C            [ 4]  613     inc l
+   032B 36 20         [10]  614    ld (hl), #0x20
+   032D 2C            [ 4]  615    inc l
+   032E 36 00         [10]  616    ld (hl), #0x00
+                            617 
+   0330 11 00 C0      [10]  618    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   0333 0E 00         [ 7]  619     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   0335 06 C4         [ 7]  620     ld      b,  #196
+   0337 CD 00 00      [17]  621     call cpct_getScreenPtr_asm 
+                            622     ;;PrimerCorazon
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 16.
+Hexadecimal [16-Bits]
+
+
+
+   033A 2C            [ 4]  623     inc l
+   033B 36 10         [10]  624     ld (hl), #0x10
+   033D 2C            [ 4]  625     inc l
+   033E 36 C8         [10]  626    ld (hl), #0xC8
+   0340 2C            [ 4]  627    inc l
+   0341 36 00         [10]  628    ld (hl), #0x00
+                            629    ;;SegundoCorazon
+   0343 2C            [ 4]  630    inc l
+   0344 36 10         [10]  631     ld (hl), #0x10
+   0346 2C            [ 4]  632     inc l
+   0347 36 40         [10]  633    ld (hl), #0x40
+   0349 2C            [ 4]  634    inc l
+   034A 36 00         [10]  635    ld (hl), #0x00
+                            636     ;;TercerCorazon
+   034C 2C            [ 4]  637     inc l
+   034D 36 10         [10]  638     ld (hl), #0x10
+   034F 2C            [ 4]  639     inc l
+   0350 36 40         [10]  640    ld (hl), #0x40
+   0352 2C            [ 4]  641    inc l
+   0353 36 00         [10]  642    ld (hl), #0x00
+                            643 
+                            644 
+   0355 11 00 C0      [10]  645    ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   0358 0E 00         [ 7]  646     ld      c,  #0          ;;Coordenada X (tamaño en ancho)
+   035A 06 C5         [ 7]  647     ld      b,  #197
+   035C CD 00 00      [17]  648     call cpct_getScreenPtr_asm 
+                            649     ;;PrimerCorazon
+   035F 2C            [ 4]  650     inc l
+   0360 36 00         [10]  651     ld (hl), #0x00
+   0362 2C            [ 4]  652     inc l
+   0363 36 80         [10]  653    ld (hl), #0x80
+   0365 2C            [ 4]  654    inc l
+   0366 36 00         [10]  655    ld (hl), #0x00
+                            656    ;;SegundoCorazon
+   0368 2C            [ 4]  657    inc l
+   0369 36 00         [10]  658     ld (hl), #0x00
+   036B 2C            [ 4]  659     inc l
+   036C 36 80         [10]  660    ld (hl), #0x80
+   036E 2C            [ 4]  661    inc l
+   036F 36 00         [10]  662    ld (hl), #0x00
+                            663     ;;TercerCorazon
+   0371 2C            [ 4]  664     inc l
+   0372 36 00         [10]  665     ld (hl), #0x00
+   0374 2C            [ 4]  666     inc l
+   0375 36 80         [10]  667    ld (hl), #0x80
+   0377 2C            [ 4]  668    inc l
+   0378 36 00         [10]  669    ld (hl), #0x00
+   037A C9            [10]  670    ret

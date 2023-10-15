@@ -1,0 +1,72 @@
+-mjwx
+-i obj/arcade-tube.ihx
+-b _CODE = 0x4000
+-b _DATA = 0x0000
+-u
+-k /home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/bin/../share/sdcc/lib/z80
+-k /home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/tools/sdcc-3.6.8-r9946/share/sdcc/lib/z80
+-l /home/kuboten/Escritorio/RA/CPC/cpctelera/cpctelera/cpctelera.lib
+-l z80
+obj/main.rel
+obj/main.h.rel
+obj/cpcfunciones.h.rel
+obj/manager/entity_manager.h.rel
+obj/manager/entity_manager.rel
+obj/system/dibujarFondo.h.rel
+obj/system/renderEnemigo5A.rel
+obj/system/dibujarOlas3.rel
+obj/system/niveles.rel
+obj/system/pintarScoreTiempoReal.h.rel
+obj/system/actualizarEnemigos.h.rel
+obj/system/pintarUnidadesDecenasReal.h.rel
+obj/system/pintarUnidades.rel
+obj/system/gameOver.rel
+obj/system/actualizarEnemigos.rel
+obj/system/colisionesRapidas.rel
+obj/system/gameOver.h.rel
+obj/system/mainJuego.h.rel
+obj/system/renderEnemigo5A.h.rel
+obj/system/ataque.h.rel
+obj/system/actualizarEnemigoAereo2.rel
+obj/system/actualizarMina.rel
+obj/system/actualizarEnemigoAereo.h.rel
+obj/system/renderCroco.rel
+obj/system/pintarUnidadesReal.rel
+obj/system/pintarScoreTiempoReal.rel
+obj/system/renderEnemigo2.h.rel
+obj/system/renderEnemigo1.h.rel
+obj/system/ataqueAereo.rel
+obj/system/dibujarOlas2.h.rel
+obj/system/actualizarEnemigoAereo.rel
+obj/system/dibujarOlas2.rel
+obj/system/renderPersonaje.rel
+obj/system/actualizarEnemigoAereo3.rel
+obj/system/actualizarMina.h.rel
+obj/system/colisionesRapidas.h.rel
+obj/system/render_system.h.rel
+obj/system/pintarDecenas.rel
+obj/system/ataque.rel
+obj/system/pintarVidas.h.rel
+obj/system/ataqueAereo.h.rel
+obj/system/renderCroco.h.rel
+obj/system/renderEspada.h.rel
+obj/system/renderEnemigo1.rel
+obj/system/renderEnemigo3.rel
+obj/system/renderEnemigo2.rel
+obj/system/mainJuego.rel
+obj/system/pintarUnidadesDecenas.h.rel
+obj/system/dibujarFondo.rel
+obj/system/dibujarOlas3.h.rel
+obj/system/render_system.rel
+obj/system/colisiones.rel
+obj/system/pintarDecenasReal.rel
+obj/system/pintarVidas.rel
+obj/system/niveles.h.rel
+obj/system/renderEnemigo4.rel
+obj/system/renderEnemigo4.h.rel
+obj/system/renderEnemigo3.h.rel
+obj/system/renderPersonaje.h.rel
+obj/system/colisiones.h.rel
+obj/system/renderEspada.rel
+
+-e

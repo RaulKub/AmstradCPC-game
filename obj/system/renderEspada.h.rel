@@ -1,0 +1,8 @@
+XL2
+H 1 areas 5 global symbols
+S borrarEspadaDerecha Ref0000
+S borrarEspadaIzquierda Ref0000
+S pintarEspadaDerecha Ref0000
+S pintarEspadaIzquierda Ref0000
+S .__.ABS. Def0000
+A _CODE size 0 flags 0 addr 0

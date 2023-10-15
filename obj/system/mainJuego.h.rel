@@ -1,0 +1,15 @@
+XL2
+H 1 areas C global symbols
+S Mina Ref0000
+S GameStart Ref0000
+S vidas Ref0000
+S nivelactual Ref0000
+S letrasborradas Ref0000
+S cooldownEnemigo1 Ref0000
+S cooldownEnemigo2 Ref0000
+S Inicio Ref0000
+S .__.ABS. Def0000
+S colision Ref0000
+S cooldownMisil Ref0000
+S cargaNivel Ref0000
+A _CODE size 0 flags 0 addr 0

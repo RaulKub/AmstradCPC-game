@@ -1,0 +1,7 @@
+XL2
+H 1 areas 4 global symbols
+S actualizarEnemigoAereo2 Ref0000
+S actualizarEnemigoAereo3 Ref0000
+S .__.ABS. Def0000
+S actualizarEnemigoAereo Ref0000
+A _CODE size 0 flags 0 addr 0

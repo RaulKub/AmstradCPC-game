@@ -1,0 +1,768 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+
+
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+                             15 .include "cpcfunciones.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl cpct_disableFirmware_asm
+                             16 .globl cpct_getScreenPtr_asm
+                             17 .globl cpct_setDrawCharM1_asm
+                             18 .globl cpct_drawStringM1_asm
+                             19 .globl cpct_waitVSYNC_asm
+                             20 .globl cpct_isAnyKeyPressed_f_asm
+                             21 .globl cpct_scanKeyboard_f_asm
+                             22 .globl cpct_drawSolidBox_asm
+                             23 .globl cpct_isKeyPressed_asm
+                             24 .globl cpct_waitVSYNC_asm
+                             25 .globl cpct_setVideoMode_asm
+                             26 .globl cpct_setPalette_asm
+                             27 .globl cpct_getHWColour_asm
+                             28 .globl cpct_drawSprite_asm
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+
+
+                             16 .include "manager/entity_manager.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl entityman_init
+                             16 .globl entityman_create
+                             17 .globl _num_entities
+                             18 .globl _entity_array
+                             19 .globl entity_size
+                             20 .globl entityman_getNumEntities_A
+                             21 .globl entityman_getEntityArray_IX
+                             22 .globl reset
+                             23 
+                             24 .macro  DefineEntity _name, _x, _y, _w, _h, _vx, _vy, _color
+                             25 _name::
+                             26    .db  _x
+                             27    .db  _y
+                             28    .db  _w
+                             29    .db  _h
+                             30    .db  _vx
+                             31    .db  _vy
+                             32    .db  _color
+                             33 .endm
+                             34 
+                     0000    35 entity_x = 0
+                     0001    36 entity_y = 1
+                     0002    37 entity_w = 2
+                     0003    38 entity_h = 3
+                     0004    39 entity_estado = 4
+                     0005    40 entity_vy = 5
+                     0006    41 entity_color = 6
+                     0007    42 sizeof_entity = 7
+                             43 
+                             44 
+                             45 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+Hexadecimal [16-Bits]
+
+
+
+                             17 .include "system/mainJuego.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl GameStart
+                             16 .globl colision
+                             17 .globl Mina
+                             18 .globl Inicio
+                             19 .globl letrasborradas
+                             20 .globl cooldownEnemigo1
+                             21 .globl cooldownEnemigo2
+                             22 .globl cooldownMisil
+                             23 .globl letrasborradas
+                             24 .globl nivelactual
+                             25 .globl cargaNivel
+                             26 .globl vidas
+                             27 
+                             28 
+                             29 
+                     4003    30 playerPos = #0x4003
+                     400A    31 espadaPos = #0x400A
+                     4011    32 wallIPos = #0x4011
+                     4018    33 wallDPos = #0x4018
+                     401F    34 enemyPos = #0x401F
+                     4026    35 crocodile = #0x4026
+                     402D    36 enemyIzqPos = #0x402D
+                     4034    37 enemyIzqPos2 = #0x4034
+                     403B    38 enemyUp1Pos = #0x403B
+                     4042    39 enemyUp2Pos = #0x4042
+                     4049    40 enemyUp3Pos = #0x4049
+                     4050    41 enemyDerPos2 = #0x4050
+                     4057    42 enemyUp4Pos = #0x4057
+                     405E    43 enemyIzqPos3 = #0x405E
+                     4065    44 enemyUp5Pos = #0x4065
+                             45 ;;crocodile = #0x4178
+                     406C    46 enemyDerPos3 = #0x406C
+                             47 ;;croco = #0x417F
+                             48 
+                             49 
+                             50 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+Hexadecimal [16-Bits]
+
+
+
+                             18 ;;Funciones Globales
+   0000                      19         pintarEspadaDerecha::
+   0000 CD 66 00      [17]   20             call pintarPrimerPixeld
+   0003 CD 7C 00      [17]   21             call pintarSegundoPixeld
+   0006 CD 93 00      [17]   22             call pintarTercerPixeld
+   0009 CD AB 00      [17]   23             call pintarCuartoPixeld
+   000C CD C4 00      [17]   24             call pintarQuintoPixeld
+   000F CD DE 00      [17]   25             call pintarSextoPixeld
+   0012 CD F9 00      [17]   26             call pintarSeptimoPixeld
+                             27 
+                             28         
+   0015 C9            [10]   29             ret
+                             30         
+   0016                      31         borrarEspadaDerecha::
+   0016 CD 15 01      [17]   32             call borrarPrimerPixeld
+   0019 CD 2B 01      [17]   33             call borrarSegundoPixeld
+   001C CD 42 01      [17]   34             call borrarTercerPixeld
+   001F CD 5A 01      [17]   35             call borrarCuartoPixeld
+   0022 CD 73 01      [17]   36             call borrarQuintoPixeld
+   0025 CD 8D 01      [17]   37             call borrarSextoPixeld
+   0028 CD A8 01      [17]   38             call borrarSeptimoPixeld
+   002B C9            [10]   39             ret
+                             40         
+                             41         
+                             42         
+   002C                      43         pintarEspadaIzquierda::
+   002C CD C4 01      [17]   44             call pintarPrimerPixeli
+   002F CD DB 01      [17]   45             call pintarSegundoPixeli
+   0032 CD F3 01      [17]   46             call pintarTercerPixeli
+   0035 CD 0C 02      [17]   47             call pintarCuartoPixeli
+   0038 CD 26 02      [17]   48             call pintarQuintoPixeli
+   003B CD 41 02      [17]   49             call pintarSextoPixeli
+   003E CD 5D 02      [17]   50             call pintarSeptimoPixeli
+   0041 C9            [10]   51             ret
+   0042                      52         borrarEspadaIzquierda::
+   0042 CD 7A 02      [17]   53             call borrarPrimerPixeli
+   0045 CD 91 02      [17]   54             call borrarSegundoPixeli
+   0048 CD A9 02      [17]   55             call borrarTercerPixeli
+   004B CD C2 02      [17]   56             call borrarCuartoPixeli
+   004E CD DC 02      [17]   57             call borrarQuintoPixeli
+   0051 CD F7 02      [17]   58             call borrarSextoPixeli
+   0054 CD 13 03      [17]   59             call borrarSeptimoPixeli
+   0057 C9            [10]   60             ret
+                             61         
+                             62         
+                             63 ;;Funciones locales       
+   0058                      64         cargarDatos:
+                             65         
+   0058 DD 21 0A 40   [14]   66             ld ix, #espadaPos
+   005C 11 00 C0      [10]   67             ld      de, #0xC000        ;;Puntero a la posición en pantalla (COOO sería el inicio de la pantalla)
+   005F DD 4E 00      [19]   68             ld      c,  entity_x(ix)          ;;Coordenada X (tamaño en ancho)
+   0062 DD 46 01      [19]   69             ld      b,  entity_y(ix)  
+   0065 C9            [10]   70             ret
+                             71 
+                             72         
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
+Hexadecimal [16-Bits]
+
+
+
+                             73     ;;Der
+   0066                      74         pintarPrimerPixeld:
+   0066 CD 58 00      [17]   75             call cargarDatos
+   0069 CD 00 00      [17]   76             call cpct_getScreenPtr_asm
+   006C 2D            [ 4]   77             dec l
+   006D 36 00         [10]   78             ld (hl), #0x00
+   006F 2C            [ 4]   79             inc l
+   0070 36 06         [10]   80             ld (hl), #0x06;;ld (hl), #0x0F
+   0072 2C            [ 4]   81             inc l
+   0073 36 00         [10]   82             ld (hl), #0x00;;ld (hl), #0x08
+   0075 2C            [ 4]   83             inc l
+   0076 36 00         [10]   84             ld (hl), #0x00;;ld (hl), #0x0F
+   0078 2C            [ 4]   85             inc l
+   0079 36 00         [10]   86             ld (hl), #0x00;;ld (hl), #0x08
+   007B C9            [10]   87             ret 
+   007C                      88         pintarSegundoPixeld:
+   007C CD 58 00      [17]   89             call cargarDatos
+   007F 04            [ 4]   90             inc b  
+   0080 CD 00 00      [17]   91             call cpct_getScreenPtr_asm
+   0083 2D            [ 4]   92             dec l
+   0084 36 F8         [10]   93             ld (hl), #0xF8
+   0086 2C            [ 4]   94             inc l
+   0087 36 25         [10]   95             ld (hl), #0x25
+   0089 2C            [ 4]   96             inc l
+   008A 36 0F         [10]   97             ld (hl), #0x0F
+   008C 2C            [ 4]   98             inc l
+   008D 36 0F         [10]   99             ld (hl), #0x0F
+   008F 2C            [ 4]  100             inc l
+   0090 36 08         [10]  101             ld (hl), #0x08
+                            102             
+   0092 C9            [10]  103             ret
+   0093                     104         pintarTercerPixeld:
+   0093 CD 58 00      [17]  105             call cargarDatos
+   0096 04            [ 4]  106             inc b
+   0097 04            [ 4]  107             inc b  
+   0098 CD 00 00      [17]  108             call cpct_getScreenPtr_asm
+   009B 2D            [ 4]  109             dec l
+   009C 36 DA         [10]  110             ld (hl), #0xDA
+   009E 2C            [ 4]  111             inc l
+   009F 36 A5         [10]  112             ld (hl), #0xA5;;ld (hl), #0x0F
+   00A1 2C            [ 4]  113             inc l
+   00A2 36 0F         [10]  114             ld (hl), #0x0F;;ld (hl), #0x08
+   00A4 2C            [ 4]  115             inc l
+   00A5 36 7F         [10]  116             ld (hl), #0x7F;;ld (hl), #0x0F
+   00A7 2C            [ 4]  117             inc l
+   00A8 36 0E         [10]  118             ld (hl), #0x0E;;ld (hl), #0x08
+   00AA C9            [10]  119             ret 
+   00AB                     120         pintarCuartoPixeld:
+   00AB CD 58 00      [17]  121             call cargarDatos
+   00AE 04            [ 4]  122             inc b
+   00AF 04            [ 4]  123             inc b
+   00B0 04            [ 4]  124             inc b  
+   00B1 CD 00 00      [17]  125             call cpct_getScreenPtr_asm
+   00B4 2D            [ 4]  126             dec l
+   00B5 36 8F         [10]  127             ld (hl), #0x8F
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
+Hexadecimal [16-Bits]
+
+
+
+   00B7 2C            [ 4]  128             inc l
+   00B8 36 2D         [10]  129             ld (hl), #0x2D
+   00BA 2C            [ 4]  130             inc l
+   00BB 36 EF         [10]  131             ld (hl), #0xEF
+   00BD 2C            [ 4]  132             inc l
+   00BE 36 FD         [10]  133             ld (hl), #0xFD
+   00C0 2C            [ 4]  134             inc l
+   00C1 36 8F         [10]  135             ld (hl), #0x8F
+   00C3 C9            [10]  136             ret 
+   00C4                     137         pintarQuintoPixeld:
+   00C4 CD 58 00      [17]  138             call cargarDatos
+   00C7 04            [ 4]  139             inc b
+   00C8 04            [ 4]  140             inc b
+   00C9 04            [ 4]  141             inc b 
+   00CA 04            [ 4]  142             inc b 
+   00CB CD 00 00      [17]  143             call cpct_getScreenPtr_asm
+   00CE 2D            [ 4]  144             dec l
+   00CF 36 DA         [10]  145             ld (hl), #0xDA
+   00D1 2C            [ 4]  146             inc l
+   00D2 36 A5         [10]  147             ld (hl), #0xA5;;ld (hl), #0x0F
+   00D4 2C            [ 4]  148             inc l
+   00D5 36 0F         [10]  149             ld (hl), #0x0F;;ld (hl), #0x08
+   00D7 2C            [ 4]  150             inc l
+   00D8 36 7F         [10]  151             ld (hl), #0x7F;;ld (hl), #0x0F
+   00DA 2C            [ 4]  152             inc l
+   00DB 36 0E         [10]  153             ld (hl), #0x0E;;ld (hl), #0x08
+   00DD C9            [10]  154             ret 
+   00DE                     155         pintarSextoPixeld:
+   00DE CD 58 00      [17]  156             call cargarDatos
+   00E1 04            [ 4]  157             inc b
+   00E2 04            [ 4]  158             inc b
+   00E3 04            [ 4]  159             inc b 
+   00E4 04            [ 4]  160             inc b 
+   00E5 04            [ 4]  161             inc b
+   00E6 CD 00 00      [17]  162             call cpct_getScreenPtr_asm
+   00E9 2D            [ 4]  163             dec l
+   00EA 36 F8         [10]  164             ld (hl), #0xF8
+   00EC 2C            [ 4]  165             inc l
+   00ED 36 25         [10]  166             ld (hl), #0x25
+   00EF 2C            [ 4]  167             inc l
+   00F0 36 0F         [10]  168             ld (hl), #0x0F
+   00F2 2C            [ 4]  169             inc l
+   00F3 36 0F         [10]  170             ld (hl), #0x0F
+   00F5 2C            [ 4]  171             inc l
+   00F6 36 08         [10]  172             ld (hl), #0x08
+   00F8 C9            [10]  173             ret 
+   00F9                     174         pintarSeptimoPixeld:
+   00F9 CD 58 00      [17]  175             call cargarDatos
+   00FC 04            [ 4]  176             inc b
+   00FD 04            [ 4]  177             inc b
+   00FE 04            [ 4]  178             inc b
+   00FF 04            [ 4]  179             inc b
+   0100 04            [ 4]  180             inc b 
+   0101 04            [ 4]  181             inc b 
+   0102 CD 00 00      [17]  182             call cpct_getScreenPtr_asm
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
+Hexadecimal [16-Bits]
+
+
+
+   0105 2D            [ 4]  183             dec l
+   0106 36 00         [10]  184             ld (hl), #0x00
+   0108 2C            [ 4]  185             inc l
+   0109 36 06         [10]  186             ld (hl), #0x06;;ld (hl), #0x0F
+   010B 2C            [ 4]  187             inc l
+   010C 36 00         [10]  188             ld (hl), #0x00;;ld (hl), #0x08
+   010E 2C            [ 4]  189             inc l
+   010F 36 00         [10]  190             ld (hl), #0x00;;ld (hl), #0x0F
+   0111 2C            [ 4]  191             inc l
+   0112 36 00         [10]  192             ld (hl), #0x00;;ld (hl), #0x08
+   0114 C9            [10]  193             ret 
+                            194         
+                            195 
+   0115                     196         borrarPrimerPixeld:
+   0115 CD 58 00      [17]  197             call cargarDatos
+   0118 CD 00 00      [17]  198             call cpct_getScreenPtr_asm
+   011B 2D            [ 4]  199             dec l
+   011C 36 EE         [10]  200             ld (hl), #0xEE
+   011E 2C            [ 4]  201             inc l
+   011F 36 00         [10]  202             ld (hl), #0x00;;ld (hl), #0x0F
+   0121 2C            [ 4]  203             inc l
+   0122 36 00         [10]  204             ld (hl), #0x00;;ld (hl), #0x08
+   0124 2C            [ 4]  205             inc l
+   0125 36 00         [10]  206             ld (hl), #0x00;;ld (hl), #0x0F
+   0127 2C            [ 4]  207             inc l
+   0128 36 00         [10]  208             ld (hl), #0x00;;ld (hl), #0x08
+   012A C9            [10]  209             ret 
+   012B                     210         borrarSegundoPixeld:
+   012B CD 58 00      [17]  211             call cargarDatos
+   012E 04            [ 4]  212             inc b  
+   012F CD 00 00      [17]  213             call cpct_getScreenPtr_asm
+   0132 2D            [ 4]  214             dec l
+   0133 36 8E         [10]  215             ld (hl), #0x8E
+   0135 2C            [ 4]  216             inc l
+   0136 36 00         [10]  217             ld (hl), #0x00
+   0138 2C            [ 4]  218             inc l
+   0139 36 00         [10]  219             ld (hl), #0x00
+   013B 2C            [ 4]  220             inc l
+   013C 36 00         [10]  221             ld (hl), #0x00;;ld (hl), #0x0F
+   013E 2C            [ 4]  222             inc l
+   013F 36 00         [10]  223             ld (hl), #0x00;;ld (hl), #0x08
+   0141 C9            [10]  224             ret
+   0142                     225         borrarTercerPixeld:
+   0142 CD 58 00      [17]  226             call cargarDatos
+   0145 04            [ 4]  227             inc b
+   0146 04            [ 4]  228             inc b  
+   0147 CD 00 00      [17]  229             call cpct_getScreenPtr_asm
+   014A 2D            [ 4]  230             dec l
+   014B 36 CC         [10]  231             ld (hl), #0xCC
+   014D 2C            [ 4]  232             inc l
+   014E 36 00         [10]  233             ld (hl), #0x00;;ld (hl), #0x0F
+   0150 2C            [ 4]  234             inc l
+   0151 36 00         [10]  235             ld (hl), #0x00;;ld (hl), #0x08
+   0153 2C            [ 4]  236             inc l
+   0154 36 00         [10]  237             ld (hl), #0x00;;ld (hl), #0x0F
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 9.
+Hexadecimal [16-Bits]
+
+
+
+   0156 2C            [ 4]  238             inc l
+   0157 36 00         [10]  239             ld (hl), #0x00;;ld (hl), #0x08
+   0159 C9            [10]  240             ret 
+   015A                     241         borrarCuartoPixeld:
+   015A CD 58 00      [17]  242             call cargarDatos
+   015D 04            [ 4]  243             inc b
+   015E 04            [ 4]  244             inc b  
+   015F 04            [ 4]  245             inc b
+   0160 CD 00 00      [17]  246             call cpct_getScreenPtr_asm
+   0163 2D            [ 4]  247             dec l
+   0164 36 EE         [10]  248             ld (hl), #0xEE
+   0166 2C            [ 4]  249             inc l
+   0167 36 00         [10]  250             ld (hl), #0x00;;ld (hl), #0x0F
+   0169 2C            [ 4]  251             inc l
+   016A 36 00         [10]  252             ld (hl), #0x00;;ld (hl), #0x08
+   016C 2C            [ 4]  253             inc l
+   016D 36 00         [10]  254             ld (hl), #0x00;;ld (hl), #0x0F
+   016F 2C            [ 4]  255             inc l
+   0170 36 00         [10]  256             ld (hl), #0x00;;ld (hl), #0x08
+   0172 C9            [10]  257             ret 
+   0173                     258         borrarQuintoPixeld:
+   0173 CD 58 00      [17]  259             call cargarDatos
+   0176 04            [ 4]  260             inc b
+   0177 04            [ 4]  261             inc b  
+   0178 04            [ 4]  262             inc b
+   0179 04            [ 4]  263             inc b
+   017A CD 00 00      [17]  264             call cpct_getScreenPtr_asm
+   017D 2D            [ 4]  265             dec l
+   017E 36 2E         [10]  266             ld (hl), #0x2E
+   0180 2C            [ 4]  267             inc l
+   0181 36 00         [10]  268             ld (hl), #0x00;;ld (hl), #0x0F
+   0183 2C            [ 4]  269             inc l
+   0184 36 00         [10]  270             ld (hl), #0x00;;ld (hl), #0x08
+   0186 2C            [ 4]  271             inc l
+   0187 36 00         [10]  272             ld (hl), #0x00;;ld (hl), #0x0F
+   0189 2C            [ 4]  273             inc l
+   018A 36 00         [10]  274             ld (hl), #0x00;;ld (hl), #0x08
+   018C C9            [10]  275             ret 
+   018D                     276         borrarSextoPixeld:
+   018D CD 58 00      [17]  277             call cargarDatos
+   0190 04            [ 4]  278             inc b
+   0191 04            [ 4]  279             inc b
+   0192 04            [ 4]  280             inc b  
+   0193 04            [ 4]  281             inc b
+   0194 04            [ 4]  282             inc b
+   0195 CD 00 00      [17]  283             call cpct_getScreenPtr_asm
+   0198 2D            [ 4]  284             dec l
+   0199 36 28         [10]  285             ld (hl), #0x28
+   019B 2C            [ 4]  286             inc l
+   019C 36 00         [10]  287             ld (hl), #0x00;;ld (hl), #0x0F
+   019E 2C            [ 4]  288             inc l
+   019F 36 00         [10]  289             ld (hl), #0x00;;ld (hl), #0x08
+   01A1 2C            [ 4]  290             inc l
+   01A2 36 00         [10]  291             ld (hl), #0x00;;ld (hl), #0x0F
+   01A4 2C            [ 4]  292             inc l
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 10.
+Hexadecimal [16-Bits]
+
+
+
+   01A5 36 00         [10]  293             ld (hl), #0x00;;ld (hl), #0x08
+   01A7 C9            [10]  294             ret 
+   01A8                     295         borrarSeptimoPixeld:
+   01A8 CD 58 00      [17]  296             call cargarDatos
+   01AB 04            [ 4]  297             inc b
+   01AC 04            [ 4]  298             inc b
+   01AD 04            [ 4]  299             inc b
+   01AE 04            [ 4]  300             inc b
+   01AF 04            [ 4]  301             inc b
+   01B0 04            [ 4]  302             inc b
+   01B1 CD 00 00      [17]  303             call cpct_getScreenPtr_asm
+   01B4 2D            [ 4]  304             dec l
+   01B5 36 42         [10]  305             ld (hl), #0x42
+   01B7 2C            [ 4]  306             inc l
+   01B8 36 00         [10]  307             ld (hl), #0x00;;ld (hl), #0x0F
+   01BA 2C            [ 4]  308             inc l
+   01BB 36 00         [10]  309             ld (hl), #0x00;;ld (hl), #0x08
+   01BD 2C            [ 4]  310             inc l
+   01BE 36 00         [10]  311             ld (hl), #0x00;;ld (hl), #0x0F
+   01C0 2C            [ 4]  312             inc l
+   01C1 36 00         [10]  313             ld (hl), #0x00;;ld (hl), #0x08
+   01C3 C9            [10]  314             ret 
+                            315     ;;IZQ
+   01C4                     316         pintarPrimerPixeli: 
+                            317 
+   01C4 CD 58 00      [17]  318             call cargarDatos
+   01C7 CD 00 00      [17]  319             call cpct_getScreenPtr_asm
+   01CA 2C            [ 4]  320             inc l
+   01CB 2C            [ 4]  321             inc l
+   01CC 36 00         [10]  322             ld (hl), #0x00
+   01CE 2D            [ 4]  323             dec l
+   01CF 36 06         [10]  324             ld (hl), #0x06;;ld (hl), #0x0F
+   01D1 2D            [ 4]  325             dec l
+   01D2 36 00         [10]  326             ld (hl), #0x00;;ld (hl), #0x08
+   01D4 2D            [ 4]  327             dec l
+   01D5 36 00         [10]  328             ld (hl), #0x00;;ld (hl), #0x0F
+   01D7 2D            [ 4]  329             dec l
+   01D8 36 00         [10]  330             ld (hl), #0x00;;ld (hl), #0x08
+   01DA C9            [10]  331             ret 
+   01DB                     332         pintarSegundoPixeli:
+   01DB CD 58 00      [17]  333             call cargarDatos
+   01DE 04            [ 4]  334             inc b  
+   01DF CD 00 00      [17]  335             call cpct_getScreenPtr_asm
+   01E2 2C            [ 4]  336             inc l
+   01E3 2C            [ 4]  337             inc l
+   01E4 36 F0         [10]  338             ld (hl), #0xF0
+   01E6 2D            [ 4]  339             dec l
+   01E7 36 4A         [10]  340             ld (hl), #0x4A
+   01E9 2D            [ 4]  341             dec l
+   01EA 36 0F         [10]  342             ld (hl), #0x0F
+   01EC 2D            [ 4]  343             dec l
+   01ED 36 0F         [10]  344             ld (hl), #0x0F
+   01EF 2D            [ 4]  345             dec l
+   01F0 36 01         [10]  346             ld (hl), #0x01
+   01F2 C9            [10]  347             ret
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 11.
+Hexadecimal [16-Bits]
+
+
+
+   01F3                     348         pintarTercerPixeli:
+                            349 
+   01F3 CD 58 00      [17]  350             call cargarDatos
+   01F6 04            [ 4]  351             inc b
+   01F7 04            [ 4]  352             inc b
+   01F8 CD 00 00      [17]  353             call cpct_getScreenPtr_asm
+   01FB 2C            [ 4]  354             inc l
+   01FC 2C            [ 4]  355             inc l
+   01FD 36 B5         [10]  356             ld (hl), #0xB5
+   01FF 2D            [ 4]  357             dec l
+   0200 36 5A         [10]  358             ld (hl), #0x5A
+   0202 2D            [ 4]  359             dec l
+   0203 36 0F         [10]  360             ld (hl), #0x0F
+   0205 2D            [ 4]  361             dec l
+   0206 36 EF         [10]  362             ld (hl), #0xEF
+   0208 2D            [ 4]  363             dec l
+   0209 36 07         [10]  364             ld (hl), #0x07
+   020B C9            [10]  365             ret
+                            366 
+   020C                     367         pintarCuartoPixeli:
+   020C CD 58 00      [17]  368             call cargarDatos
+   020F 04            [ 4]  369             inc b
+   0210 04            [ 4]  370             inc b
+   0211 04            [ 4]  371             inc b
+   0212 CD 00 00      [17]  372             call cpct_getScreenPtr_asm
+   0215 2C            [ 4]  373             inc l
+   0216 2C            [ 4]  374             inc l
+   0217 36 1F         [10]  375             ld (hl), #0x1F
+   0219 2D            [ 4]  376             dec l
+   021A 36 4B         [10]  377             ld (hl), #0x4B
+   021C 2D            [ 4]  378             dec l
+   021D 36 7F         [10]  379             ld (hl), #0x7F
+   021F 2D            [ 4]  380             dec l
+   0220 36 FB         [10]  381             ld (hl), #0xFB
+   0222 2D            [ 4]  382             dec l
+   0223 36 1F         [10]  383             ld (hl), #0x1F
+   0225 C9            [10]  384             ret
+   0226                     385         pintarQuintoPixeli:
+   0226 CD 58 00      [17]  386             call cargarDatos
+   0229 04            [ 4]  387             inc b
+   022A 04            [ 4]  388             inc b
+   022B 04            [ 4]  389             inc b
+   022C 04            [ 4]  390             inc b
+   022D CD 00 00      [17]  391             call cpct_getScreenPtr_asm
+   0230 2C            [ 4]  392             inc l
+   0231 2C            [ 4]  393             inc l
+   0232 36 B5         [10]  394             ld (hl), #0xB5
+   0234 2D            [ 4]  395             dec l
+   0235 36 5A         [10]  396             ld (hl), #0x5A
+   0237 2D            [ 4]  397             dec l
+   0238 36 0F         [10]  398             ld (hl), #0x0F
+   023A 2D            [ 4]  399             dec l
+   023B 36 EF         [10]  400             ld (hl), #0xEF
+   023D 2D            [ 4]  401             dec l
+   023E 36 07         [10]  402             ld (hl), #0x07
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 12.
+Hexadecimal [16-Bits]
+
+
+
+   0240 C9            [10]  403             ret
+   0241                     404         pintarSextoPixeli:
+   0241 CD 58 00      [17]  405             call cargarDatos
+   0244 04            [ 4]  406             inc b
+   0245 04            [ 4]  407             inc b
+   0246 04            [ 4]  408             inc b
+   0247 04            [ 4]  409             inc b
+   0248 04            [ 4]  410             inc b
+   0249 CD 00 00      [17]  411             call cpct_getScreenPtr_asm
+   024C 2C            [ 4]  412             inc l
+   024D 2C            [ 4]  413             inc l
+   024E 36 F0         [10]  414             ld (hl), #0xF0
+   0250 2D            [ 4]  415             dec l
+   0251 36 4A         [10]  416             ld (hl), #0x4A
+   0253 2D            [ 4]  417             dec l
+   0254 36 0F         [10]  418             ld (hl), #0x0F
+   0256 2D            [ 4]  419             dec l
+   0257 36 0F         [10]  420             ld (hl), #0x0F
+   0259 2D            [ 4]  421             dec l
+   025A 36 01         [10]  422             ld (hl), #0x01
+   025C C9            [10]  423             ret
+   025D                     424         pintarSeptimoPixeli:
+   025D CD 58 00      [17]  425             call cargarDatos
+   0260 04            [ 4]  426             inc b
+   0261 04            [ 4]  427             inc b
+   0262 04            [ 4]  428             inc b
+   0263 04            [ 4]  429             inc b
+   0264 04            [ 4]  430             inc b
+   0265 04            [ 4]  431             inc b
+   0266 CD 00 00      [17]  432             call cpct_getScreenPtr_asm
+   0269 2C            [ 4]  433             inc l
+   026A 2C            [ 4]  434             inc l
+   026B 36 00         [10]  435             ld (hl), #0x00
+   026D 2D            [ 4]  436             dec l
+   026E 36 06         [10]  437             ld (hl), #0x06;;ld (hl), #0x0F
+   0270 2D            [ 4]  438             dec l
+   0271 36 00         [10]  439             ld (hl), #0x00;;ld (hl), #0x08
+   0273 2D            [ 4]  440             dec l
+   0274 36 00         [10]  441             ld (hl), #0x00;;ld (hl), #0x0F
+   0276 2D            [ 4]  442             dec l
+   0277 36 00         [10]  443             ld (hl), #0x00;;ld (hl), #0x08
+   0279 C9            [10]  444             ret
+   027A                     445         borrarPrimerPixeli:
+   027A CD 58 00      [17]  446             call cargarDatos
+   027D CD 00 00      [17]  447             call cpct_getScreenPtr_asm
+   0280 2C            [ 4]  448             inc l
+   0281 2C            [ 4]  449             inc l
+   0282 36 77         [10]  450             ld (hl), #0x77
+   0284 2D            [ 4]  451             dec l
+   0285 36 00         [10]  452             ld (hl), #0x00;;ld (hl), #0x0F
+   0287 2D            [ 4]  453             dec l
+   0288 36 00         [10]  454             ld (hl), #0x00;;ld (hl), #0x08
+   028A 2D            [ 4]  455             dec l
+   028B 36 00         [10]  456             ld (hl), #0x00;;ld (hl), #0x0F
+   028D 2D            [ 4]  457             dec l
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 13.
+Hexadecimal [16-Bits]
+
+
+
+   028E 36 00         [10]  458             ld (hl), #0x00;;ld (hl), #0x08
+   0290 C9            [10]  459             ret
+   0291                     460         borrarSegundoPixeli:
+   0291 CD 58 00      [17]  461             call cargarDatos
+   0294 04            [ 4]  462             inc b
+   0295 CD 00 00      [17]  463             call cpct_getScreenPtr_asm
+   0298 2C            [ 4]  464             inc l
+   0299 2C            [ 4]  465             inc l
+   029A 36 17         [10]  466             ld (hl), #0x17
+   029C 2D            [ 4]  467             dec l
+   029D 36 00         [10]  468             ld (hl), #0x00;;ld (hl), #0x0F
+   029F 2D            [ 4]  469             dec l
+   02A0 36 00         [10]  470             ld (hl), #0x00;;ld (hl), #0x08
+   02A2 2D            [ 4]  471             dec l
+   02A3 36 00         [10]  472             ld (hl), #0x00;;ld (hl), #0x0F
+   02A5 2D            [ 4]  473             dec l
+   02A6 36 00         [10]  474             ld (hl), #0x00;;ld (hl), #0x08
+   02A8 C9            [10]  475             ret
+   02A9                     476         borrarTercerPixeli:
+   02A9 CD 58 00      [17]  477             call cargarDatos
+   02AC 04            [ 4]  478             inc b
+   02AD 04            [ 4]  479             inc b
+   02AE CD 00 00      [17]  480             call cpct_getScreenPtr_asm
+   02B1 2C            [ 4]  481             inc l
+   02B2 2C            [ 4]  482             inc l
+   02B3 36 33         [10]  483             ld (hl), #0x33
+   02B5 2D            [ 4]  484             dec l
+   02B6 36 00         [10]  485             ld (hl), #0x00;;ld (hl), #0x0F
+   02B8 2D            [ 4]  486             dec l
+   02B9 36 00         [10]  487             ld (hl), #0x00;;ld (hl), #0x08
+   02BB 2D            [ 4]  488             dec l
+   02BC 36 00         [10]  489             ld (hl), #0x00;;ld (hl), #0x0F
+   02BE 2D            [ 4]  490             dec l
+   02BF 36 00         [10]  491             ld (hl), #0x00;;ld (hl), #0x08
+   02C1 C9            [10]  492             ret
+   02C2                     493         borrarCuartoPixeli:
+   02C2 CD 58 00      [17]  494             call cargarDatos
+   02C5 04            [ 4]  495             inc b
+   02C6 04            [ 4]  496             inc b
+   02C7 04            [ 4]  497             inc b
+   02C8 CD 00 00      [17]  498             call cpct_getScreenPtr_asm
+   02CB 2C            [ 4]  499             inc l
+   02CC 2C            [ 4]  500             inc l
+   02CD 36 77         [10]  501             ld (hl), #0x77
+   02CF 2D            [ 4]  502             dec l
+   02D0 36 00         [10]  503             ld (hl), #0x00;;ld (hl), #0x0F
+   02D2 2D            [ 4]  504             dec l
+   02D3 36 00         [10]  505             ld (hl), #0x00;;ld (hl), #0x08
+   02D5 2D            [ 4]  506             dec l
+   02D6 36 00         [10]  507             ld (hl), #0x00;;ld (hl), #0x0F
+   02D8 2D            [ 4]  508             dec l
+   02D9 36 00         [10]  509             ld (hl), #0x00;;ld (hl), #0x08
+   02DB C9            [10]  510             ret
+   02DC                     511         borrarQuintoPixeli:
+   02DC CD 58 00      [17]  512             call cargarDatos
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 14.
+Hexadecimal [16-Bits]
+
+
+
+   02DF 04            [ 4]  513             inc b
+   02E0 04            [ 4]  514             inc b
+   02E1 04            [ 4]  515             inc b
+   02E2 04            [ 4]  516             inc b
+   02E3 CD 00 00      [17]  517             call cpct_getScreenPtr_asm
+   02E6 2C            [ 4]  518             inc l
+   02E7 2C            [ 4]  519             inc l
+   02E8 36 47         [10]  520             ld (hl), #0x47
+   02EA 2D            [ 4]  521             dec l
+   02EB 36 00         [10]  522             ld (hl), #0x00;;ld (hl), #0x0F
+   02ED 2D            [ 4]  523             dec l
+   02EE 36 00         [10]  524             ld (hl), #0x00;;ld (hl), #0x08
+   02F0 2D            [ 4]  525             dec l
+   02F1 36 00         [10]  526             ld (hl), #0x00;;ld (hl), #0x0F
+   02F3 2D            [ 4]  527             dec l
+   02F4 36 00         [10]  528             ld (hl), #0x00;;ld (hl), #0x08
+   02F6 C9            [10]  529             ret
+   02F7                     530         borrarSextoPixeli:
+   02F7 CD 58 00      [17]  531             call cargarDatos
+   02FA 04            [ 4]  532             inc b
+   02FB 04            [ 4]  533             inc b
+   02FC 04            [ 4]  534             inc b
+   02FD 04            [ 4]  535             inc b
+   02FE 04            [ 4]  536             inc b
+   02FF CD 00 00      [17]  537             call cpct_getScreenPtr_asm
+   0302 2C            [ 4]  538             inc l
+   0303 2C            [ 4]  539             inc l
+   0304 36 41         [10]  540             ld (hl), #0x41
+   0306 2D            [ 4]  541             dec l
+   0307 36 00         [10]  542             ld (hl), #0x00;;ld (hl), #0x0F
+   0309 2D            [ 4]  543             dec l
+   030A 36 00         [10]  544             ld (hl), #0x00;;ld (hl), #0x08
+   030C 2D            [ 4]  545             dec l
+   030D 36 00         [10]  546             ld (hl), #0x00;;ld (hl), #0x0F
+   030F 2D            [ 4]  547             dec l
+   0310 36 00         [10]  548             ld (hl), #0x00;;ld (hl), #0x08
+   0312 C9            [10]  549             ret
+   0313                     550         borrarSeptimoPixeli:
+   0313 CD 58 00      [17]  551             call cargarDatos
+   0316 04            [ 4]  552             inc b
+   0317 04            [ 4]  553             inc b
+   0318 04            [ 4]  554             inc b
+   0319 04            [ 4]  555             inc b
+   031A 04            [ 4]  556             inc b
+   031B 04            [ 4]  557             inc b
+   031C CD 00 00      [17]  558             call cpct_getScreenPtr_asm
+   031F 2C            [ 4]  559             inc l
+   0320 2C            [ 4]  560             inc l
+   0321 36 24         [10]  561             ld (hl), #0x24
+   0323 2D            [ 4]  562             dec l
+   0324 36 00         [10]  563             ld (hl), #0x00;;ld (hl), #0x0F
+   0326 2D            [ 4]  564             dec l
+   0327 36 00         [10]  565             ld (hl), #0x00;;ld (hl), #0x08
+   0329 2D            [ 4]  566             dec l
+   032A 36 00         [10]  567             ld (hl), #0x00;;ld (hl), #0x0F
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 15.
+Hexadecimal [16-Bits]
+
+
+
+   032C 2D            [ 4]  568             dec l
+   032D 36 00         [10]  569             ld (hl), #0x00;;ld (hl), #0x08
+   032F C9            [10]  570             ret

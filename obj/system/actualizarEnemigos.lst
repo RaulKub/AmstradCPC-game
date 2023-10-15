@@ -1,0 +1,2124 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+
+
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15    
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+                             16    .include "system/mainJuego.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl GameStart
+                             16 .globl colision
+                             17 .globl Mina
+                             18 .globl Inicio
+                             19 .globl letrasborradas
+                             20 .globl cooldownEnemigo1
+                             21 .globl cooldownEnemigo2
+                             22 .globl cooldownMisil
+                             23 .globl letrasborradas
+                             24 .globl nivelactual
+                             25 .globl cargaNivel
+                             26 .globl vidas
+                             27 
+                             28 
+                             29 
+                     4003    30 playerPos = #0x4003
+                     400A    31 espadaPos = #0x400A
+                     4011    32 wallIPos = #0x4011
+                     4018    33 wallDPos = #0x4018
+                     401F    34 enemyPos = #0x401F
+                     4026    35 crocodile = #0x4026
+                     402D    36 enemyIzqPos = #0x402D
+                     4034    37 enemyIzqPos2 = #0x4034
+                     403B    38 enemyUp1Pos = #0x403B
+                     4042    39 enemyUp2Pos = #0x4042
+                     4049    40 enemyUp3Pos = #0x4049
+                     4050    41 enemyDerPos2 = #0x4050
+                     4057    42 enemyUp4Pos = #0x4057
+                     405E    43 enemyIzqPos3 = #0x405E
+                     4065    44 enemyUp5Pos = #0x4065
+                             45 ;;crocodile = #0x4178
+                     406C    46 enemyDerPos3 = #0x406C
+                             47 ;;croco = #0x417F
+                             48 
+                             49 
+                             50 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+
+
+                             17    .include "system/colisiones.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl enemigoDerChoque
+                             16 .globl enemigoIzqChoque
+                             17 .globl enemigoDer2Choque
+                             18 .globl enemigoIzq2Choque
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+Hexadecimal [16-Bits]
+
+
+
+                             18    .include "cpcfunciones.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl cpct_disableFirmware_asm
+                             16 .globl cpct_getScreenPtr_asm
+                             17 .globl cpct_setDrawCharM1_asm
+                             18 .globl cpct_drawStringM1_asm
+                             19 .globl cpct_waitVSYNC_asm
+                             20 .globl cpct_isAnyKeyPressed_f_asm
+                             21 .globl cpct_scanKeyboard_f_asm
+                             22 .globl cpct_drawSolidBox_asm
+                             23 .globl cpct_isKeyPressed_asm
+                             24 .globl cpct_waitVSYNC_asm
+                             25 .globl cpct_setVideoMode_asm
+                             26 .globl cpct_setPalette_asm
+                             27 .globl cpct_getHWColour_asm
+                             28 .globl cpct_drawSprite_asm
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+Hexadecimal [16-Bits]
+
+
+
+                             19    .include "manager/entity_manager.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl entityman_init
+                             16 .globl entityman_create
+                             17 .globl _num_entities
+                             18 .globl _entity_array
+                             19 .globl entity_size
+                             20 .globl entityman_getNumEntities_A
+                             21 .globl entityman_getEntityArray_IX
+                             22 .globl reset
+                             23 
+                             24 .macro  DefineEntity _name, _x, _y, _w, _h, _vx, _vy, _color
+                             25 _name::
+                             26    .db  _x
+                             27    .db  _y
+                             28    .db  _w
+                             29    .db  _h
+                             30    .db  _vx
+                             31    .db  _vy
+                             32    .db  _color
+                             33 .endm
+                             34 
+                     0000    35 entity_x = 0
+                     0001    36 entity_y = 1
+                     0002    37 entity_w = 2
+                     0003    38 entity_h = 3
+                     0004    39 entity_estado = 4
+                     0005    40 entity_vy = 5
+                     0006    41 entity_color = 6
+                     0007    42 sizeof_entity = 7
+                             43 
+                             44 
+                             45 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
+Hexadecimal [16-Bits]
+
+
+
+                             20    .include "system/render_system.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl rendersys_update
+                             16 .globl rendersys_init
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
+Hexadecimal [16-Bits]
+
+
+
+                             21    .include "system/actualizarEnemigoAereo.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl actualizarEnemigoAereo
+                             16 .globl actualizarEnemigoAereo2
+                             17 .globl actualizarEnemigoAereo3
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
+Hexadecimal [16-Bits]
+
+
+
+                             22    .include "system/renderEnemigo1.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl pintarEnemigo1
+                             16 .globl borrarEnemigo1
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 9.
+Hexadecimal [16-Bits]
+
+
+
+                             23    .include "system/renderEnemigo2.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl pintarEnemigo2
+                             16 .globl borrarEnemigo2
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 10.
+Hexadecimal [16-Bits]
+
+
+
+                             24    .include "system/renderEnemigo3.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl pintarEnemigo3
+                             16 .globl borrarEnemigo3
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 11.
+Hexadecimal [16-Bits]
+
+
+
+                             25    .include "system/renderEnemigo4.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl pintarEnemigo4
+                             16 .globl borrarEnemigo4
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 12.
+Hexadecimal [16-Bits]
+
+
+
+                             26    .include "system/renderEnemigo5A.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl pintarEnemigo5
+                             16 .globl borrarEnemigo5
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 13.
+Hexadecimal [16-Bits]
+
+
+
+                             27    .include "system/renderCroco.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl pintarCrocoPos1
+                             16 .globl pintarCrocoPos2
+                             17 .globl pintarCrocoPos3
+                             18 .globl pintarCrocoPos4
+                             19 .globl pintarCrocoPos5
+                             20 .globl pintarCrocoPos6
+                             21 .globl pintarCrocoPos7
+                             22 .globl borrarCrocoPos1
+                             23 .globl borrarCrocoPos2
+                             24 .globl borrarCrocoPos3
+                             25 .globl borrarCrocoPos4
+                             26 .globl borrarCrocoPos5
+                             27 .globl borrarCrocoPos6
+                             28 .globl borrarCrocoPos7
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 14.
+Hexadecimal [16-Bits]
+
+
+
+                             28    
+                             29    ;;actualizarEnemigos:: 
+                             30    ;; call cpct_waitVSYNC_asm
+                             31    ;; halt 
+                             32    ;; halt
+                             33    ;; halt
+                             34    ;; call cpct_waitVSYNC_asm
+                             35    ;; halt 
+                             36    ;; halt
+                             37    ;; halt
+                             38    ;; call cpct_waitVSYNC_asm
+                             39    ;; halt 
+                             40    ;; halt
+                             41    ;; halt
+                             42    ;; call cpct_waitVSYNC_asm
+                             43    ;; halt 
+                             44    ;; halt
+                             45    ;; halt
+                             46    ;; call cpct_waitVSYNC_asm
+                             47    ;; halt 
+                             48    ;; halt
+                             49    ;; halt
+                             50    ;; call cpct_waitVSYNC_asm
+                             51    ;; halt 
+                             52    ;; halt
+                             53    ;; halt
+                             54    ;; call cpct_waitVSYNC_asm
+                             55    ;; halt 
+                             56    ;; halt
+                             57    ;; halt
+                             58    ;; call cpct_waitVSYNC_asm
+                             59    ;; halt 
+                             60    ;; halt
+                             61    ;; halt
+                             62    ;; call cpct_waitVSYNC_asm
+                             63    ;; halt 
+                             64    ;; halt
+                             65    ;; halt
+                             66    ;; call cpct_waitVSYNC_asm
+                             67    ;;  ld  ix, #enemyPos  ;;(enemy)
+                             68    ;;  ld entity_color(ix), #0x00
+                             69    ;; call  entityman_getEntityArray_IX
+                             70    ;; call  entityman_getNumEntities_A
+                             71    ;; call  rendersys_update
+                             72    ;; ld  ix, #enemyPos  ;;(enemy)
+                             73    ;;  ld entity_color(ix), #0xF0
+                             74    ;;  ld a, entity_x(ix)
+                             75    ;;  dec a
+                             76    ;;  ld entity_x(ix), a
+                             77    ;;  call  entityman_getEntityArray_IX
+                             78    ;; call  entityman_getNumEntities_A
+                             79    ;; call  rendersys_update
+                             80 ;;
+                             81    ;;  ld  ix, #enemyIzqPos  ;;(enemy)
+                             82    ;;  ld entity_color(ix), #0x00
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 15.
+Hexadecimal [16-Bits]
+
+
+
+                             83    ;; call  entityman_getEntityArray_IX
+                             84    ;; call  entityman_getNumEntities_A
+                             85    ;; call  rendersys_update
+                             86    ;; ld  ix, #enemyIzqPos  ;;(enemy)
+                             87    ;;  ld entity_color(ix), #0xF0
+                             88    ;;  ld a, entity_x(ix)
+                             89    ;;  inc  a
+                             90    ;;  ld entity_x(ix), a
+                             91    ;;  call  entityman_getEntityArray_IX
+                             92    ;; call  entityman_getNumEntities_A
+                             93    ;; call  rendersys_update
+                             94 ;;
+                             95    ;;  ld  ix, #enemyUp1Pos  ;;(enemy)
+                             96    ;;  ld entity_color(ix), #0x00
+                             97    ;; call  entityman_getEntityArray_IX
+                             98    ;; call  entityman_getNumEntities_A
+                             99    ;; call  rendersys_update
+                            100    ;; ld  ix, #enemyUp1Pos  ;;(enemy)
+                            101    ;;  ld entity_color(ix), #0xF0
+                            102    ;;  ld a, entity_y(ix)
+                            103    ;;  inc a
+                            104    ;;  ld entity_y(ix), a
+                            105    ;;  call  entityman_getEntityArray_IX
+                            106    ;; call  entityman_getNumEntities_A
+                            107    ;; call  rendersys_update
+                            108 ;;
+                            109    ;;  ld  ix, #enemyUp2Pos  ;;(enemy)
+                            110    ;;  ld entity_color(ix), #0x00
+                            111    ;; call  entityman_getEntityArray_IX
+                            112    ;; call  entityman_getNumEntities_A
+                            113    ;; call  rendersys_update
+                            114    ;; ld  ix, #enemyUp2Pos  ;;(enemy)
+                            115    ;;  ld entity_color(ix), #0xF0
+                            116    ;;  ld a, entity_y(ix)
+                            117    ;;  inc a
+                            118    ;;  ld entity_y(ix), a
+                            119    ;;  call  entityman_getEntityArray_IX
+                            120    ;; call  entityman_getNumEntities_A
+                            121    ;; call  rendersys_update
+                            122 ;;
+                            123    ;;  ld  ix, #enemyUp3Pos  ;;(enemy)
+                            124    ;;  ld entity_color(ix), #0x00
+                            125    ;; call  entityman_getEntityArray_IX
+                            126    ;; call  entityman_getNumEntities_A
+                            127    ;; call  rendersys_update
+                            128    ;; ld  ix, #enemyUp3Pos  ;;(enemy)
+                            129    ;;  ld entity_color(ix), #0xF0
+                            130    ;;  ld a, entity_y(ix)
+                            131    ;;  inc a
+                            132    ;;  ld entity_y(ix), a
+                            133    ;;  call  entityman_getEntityArray_IX
+                            134    ;; call  entityman_getNumEntities_A
+                            135    ;; call  rendersys_update
+                            136 ;;
+                            137    ;;  ld  ix, #enemyUp4Pos  ;;(enemy)
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 16.
+Hexadecimal [16-Bits]
+
+
+
+                            138    ;;  ld entity_color(ix), #0x00
+                            139    ;; call  entityman_getEntityArray_IX
+                            140    ;; call  entityman_getNumEntities_A
+                            141    ;; call  rendersys_update
+                            142    ;; ld  ix, #enemyUp4Pos  ;;(enemy)
+                            143    ;;  ld entity_color(ix), #0xF0
+                            144    ;;  ld a, entity_y(ix)
+                            145    ;;  inc a
+                            146    ;;  ld entity_y(ix), a
+                            147    ;;  call  entityman_getEntityArray_IX
+                            148    ;; call  entityman_getNumEntities_A
+                            149    ;; call  rendersys_update
+                            150 ;;
+                            151    ;;  ld  ix, #enemyUp5Pos  ;;(enemy)
+                            152    ;;  ld entity_color(ix), #0x00
+                            153    ;; call  entityman_getEntityArray_IX
+                            154    ;; call  entityman_getNumEntities_A
+                            155    ;; call  rendersys_update
+                            156    ;; ld  ix, #enemyUp5Pos  ;;(enemy)
+                            157    ;;  ld entity_color(ix), #0xF0
+                            158    ;;  ld a, entity_y(ix)
+                            159    ;;  inc a
+                            160    ;;  ld entity_y(ix), a
+                            161    ;; call  entityman_getEntityArray_IX
+                            162    ;; call  entityman_getNumEntities_A
+                            163    ;; call  rendersys_update
+                            164 ;;
+                            165    ;; 
+                            166    ;; call enemigoDerChoque
+                            167    ;; call enemigoIzqChoque
+                            168 ;;
+                            169    ;; ret
+                            170 
+   0000                     171     actualizarEnemigos1:: 
+                            172     ;;call cpct_waitVSYNC_asm
+                            173     ;;halt 
+                            174     ;;halt
+                            175     ;;halt
+                            176     ;;call cpct_waitVSYNC_asm
+                            177     ;;halt 
+                            178     ;;halt
+                            179     ;;halt
+                            180     ;;call cpct_waitVSYNC_asm
+                            181     ;;halt 
+                            182     ;;halt
+                            183     ;;halt
+                            184     ;;call cpct_waitVSYNC_asm
+                            185     ;;halt 
+                            186     ;;halt
+                            187     ;;halt
+                            188     ;;call cpct_waitVSYNC_asm
+                            189     ;;halt 
+                            190     ;;halt
+                            191     ;;halt
+                            192     ;;call cpct_waitVSYNC_asm
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 17.
+Hexadecimal [16-Bits]
+
+
+
+                            193     ;;halt 
+                            194     ;;halt
+                            195     ;;halt
+                            196     ;;call cpct_waitVSYNC_asm
+                            197     ;;//comentamos la espera del nivel 1
+                            198     ;;halt 
+                            199     ;;halt
+                            200     ;;halt
+                            201     ;;call cpct_waitVSYNC_asm
+                            202     ;;halt 
+                            203     ;;halt
+                            204     ;;halt
+                            205     ;;call cpct_waitVSYNC_asm
+                            206     ;;halt 
+                            207     ;;halt
+                            208     ;;halt
+                            209     ;;call cpct_waitVSYNC_asm
+   0000 DD 21 00 00   [14]  210     ld ix, #cooldownEnemigo1
+   0004 DD 35 00      [23]  211     dec 0(ix)
+   0007 28 06         [12]  212     jr z, seActualiza1
+   0009 DD 36 00 01   [19]  213     ld 0(ix), #1
+   000D 18 19         [12]  214     jr noseActualiza1
+   000F                     215     seActualiza1:
+   000F DD 21 1F 40   [14]  216      ld  ix, #enemyPos  ;;(enemy)
+   0013 DD 36 06 00   [19]  217      ld entity_color(ix), #0x00
+                            218     ;;call  entityman_getEntityArray_IX
+                            219     ;;call  entityman_getNumEntities_A
+                            220     ;;call  rendersys_update
+   0017 CD 00 00      [17]  221     call borrarEnemigo1
+   001A DD 21 1F 40   [14]  222     ld  ix, #enemyPos  ;;(enemy)
+                            223      ;;ld entity_color(ix), #0xF0
+   001E DD 7E 00      [19]  224      ld a, entity_x(ix)
+   0021 3D            [ 4]  225      dec a
+   0022 DD 77 00      [19]  226      ld entity_x(ix), a
+                            227     ;;call  entityman_getEntityArray_IX
+                            228     ;;call  entityman_getNumEntities_A
+                            229     ;;call  rendersys_update
+   0025 CD 00 00      [17]  230     call pintarEnemigo1
+   0028                     231     noseActualiza1:
+                            232 
+   0028 CD 00 00      [17]  233     call enemigoDerChoque
+                            234 
+                            235     
+                            236     
+   002B C9            [10]  237     ret
+                            238 
+   002C                     239     actualizarEnemigos2::
+                            240     ;;call cpct_waitVSYNC_asm
+                            241     ;;halt 
+                            242     ;;halt
+                            243     ;;halt
+                            244     ;;call cpct_waitVSYNC_asm
+                            245     ;;halt 
+                            246     ;;halt
+                            247     ;;halt
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 18.
+Hexadecimal [16-Bits]
+
+
+
+                            248     ;;call cpct_waitVSYNC_asm
+                            249     ;;halt 
+                            250     ;;halt
+                            251     ;;halt
+                            252     ;;call cpct_waitVSYNC_asm
+                            253     ;;halt 
+                            254     ;;halt
+                            255     ;;halt
+                            256     ;;call cpct_waitVSYNC_asm
+                            257     ;;halt 
+                            258     ;;halt
+                            259     ;;halt
+                            260     ;;call cpct_waitVSYNC_asm
+                            261     ;;halt 
+                            262     ;;halt
+                            263     ;;halt
+                            264     ;;call cpct_waitVSYNC_asm
+                            265     ;;halt 
+                            266     ;//DESDE AQUI
+                            267     ;;halt
+                            268     ;;halt
+                            269     ;;call cpct_waitVSYNC_asm
+                            270     ;;halt 
+                            271     ;;halt
+                            272     ;;halt
+                            273     ;;call cpct_waitVSYNC_asm
+                            274     ;;halt 
+                            275     ;;halt
+                            276     ;;halt
+                            277     ;;call cpct_waitVSYNC_asm
+   002C DD 21 00 00   [14]  278     ld ix, #cooldownEnemigo1
+   0030 DD 35 00      [23]  279     dec 0(ix)
+   0033 28 06         [12]  280     jr z, seActualiza2
+   0035 DD 36 00 01   [19]  281     ld 0(ix), #1
+   0039 18 19         [12]  282     jr noseActualiza2
+   003B                     283     seActualiza2:
+   003B DD 21 1F 40   [14]  284       ld  ix, #enemyPos  ;;(enemy)
+   003F DD 36 06 00   [19]  285      ld entity_color(ix), #0x00
+                            286     ;;call  entityman_getEntityArray_IX
+                            287     ;;call  entityman_getNumEntities_A
+                            288     ;;call  rendersys_update
+   0043 CD 00 00      [17]  289     call borrarEnemigo1
+   0046 DD 21 1F 40   [14]  290     ld  ix, #enemyPos  ;;(enemy)
+                            291      ;;ld entity_color(ix), #0xF0
+   004A DD 7E 00      [19]  292      ld a, entity_x(ix)
+   004D 3D            [ 4]  293      dec a
+   004E DD 77 00      [19]  294      ld entity_x(ix), a
+                            295     ;;call  entityman_getEntityArray_IX
+                            296     ;;call  entityman_getNumEntities_A
+                            297     ;;call  rendersys_update
+   0051 CD 00 00      [17]  298     call pintarEnemigo1
+   0054                     299     noseActualiza2:
+                            300 
+   0054 CD 00 00      [17]  301     call enemigoDerChoque
+                            302 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 19.
+Hexadecimal [16-Bits]
+
+
+
+   0057 DD 21 00 00   [14]  303    ld ix, #cooldownEnemigo2
+   005B DD 35 00      [23]  304     dec 0(ix)
+   005E 28 06         [12]  305     jr z, seActualiza21
+   0060 DD 36 00 01   [19]  306     ld 0(ix), #1
+   0064 18 19         [12]  307     jr noseActualiza21
+   0066                     308     seActualiza21:
+   0066 DD 21 2D 40   [14]  309      ld  ix, #enemyIzqPos  ;;(enemy)
+   006A DD 36 06 00   [19]  310      ld entity_color(ix), #0x00
+                            311     ;;call  entityman_getEntityArray_IX
+                            312     ;;call  entityman_getNumEntities_A
+                            313     ;;call  rendersys_update
+   006E CD 00 00      [17]  314     call borrarEnemigo2
+   0071 DD 21 2D 40   [14]  315     ld  ix, #enemyIzqPos  ;;(enemy)
+                            316      ;;ld entity_color(ix), #0xF0
+   0075 DD 7E 00      [19]  317      ld a, entity_x(ix)
+   0078 3C            [ 4]  318      inc a
+   0079 DD 77 00      [19]  319      ld entity_x(ix), a
+                            320     ;;call  entityman_getEntityArray_IX
+                            321     ;;call  entityman_getNumEntities_A
+                            322     ;;call  rendersys_update
+   007C CD 00 00      [17]  323     call pintarEnemigo2
+   007F                     324    noseActualiza21:
+   007F CD 00 00      [17]  325     call enemigoIzqChoque
+                            326 
+                            327     ;;ld  ix, #enemyIzqPos  ;;(enemy)
+                            328     ;;ld entity_color(ix), #0x00
+                            329     ;;call  entityman_getEntityArray_IX
+                            330     ;;call  entityman_getNumEntities_A
+                            331     ;;call  rendersys_update
+                            332     ;;ld  ix, #enemyIzqPos  ;;(enemy)
+                            333     ;; ld entity_color(ix), #0xF0
+                            334     ;; ld a, entity_x(ix)
+                            335     ;; inc  a
+                            336     ;; ld entity_x(ix), a
+                            337     ;; call  entityman_getEntityArray_IX
+                            338     ;;call  entityman_getNumEntities_A
+                            339     ;;call  rendersys_update
+                            340 ;;
+                            341     ;;call enemigoIzqChoque
+                            342 
+   0082 C9            [10]  343     ret
+                            344 
+   0083                     345     actualizarEnemigos3:: 
+                            346     ;;call cpct_waitVSYNC_asm
+                            347     ;;halt 
+                            348     ;;halt
+                            349     ;;halt
+                            350     ;;call cpct_waitVSYNC_asm
+                            351     ;;halt 
+                            352     ;;halt
+                            353     ;;halt
+                            354     ;;call cpct_waitVSYNC_asm
+                            355     ;;halt 
+                            356     ;;halt
+                            357     ;;halt
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 20.
+Hexadecimal [16-Bits]
+
+
+
+                            358     ;;call cpct_waitVSYNC_asm
+                            359     ;;halt 
+                            360     ;;halt
+                            361     ;;halt
+                            362     ;;call cpct_waitVSYNC_asm
+                            363     ;;halt 
+                            364     ;;halt
+                            365     ;;halt
+                            366     ;;call cpct_waitVSYNC_asm
+                            367     ;;halt 
+                            368     ;;halt
+                            369     ;;halt
+                            370     ;;call cpct_waitVSYNC_asm
+                            371     ;;halt 
+                            372     ;;halt
+                            373     ;;halt
+                            374     ;;call cpct_waitVSYNC_asm
+                            375     ;;halt 
+                            376     ;;halt
+                            377     ;;halt
+                            378     ;;call cpct_waitVSYNC_asm
+                            379     ;;halt 
+                            380     ;;halt
+                            381     ;;halt
+                            382     ;//AQUI
+                            383     ;;call cpct_waitVSYNC_asm
+   0083 DD 21 00 00   [14]  384     ld ix, #cooldownEnemigo1
+   0087 DD 35 00      [23]  385     dec 0(ix)
+   008A 28 06         [12]  386     jr z, seActualiza3
+   008C DD 36 00 01   [19]  387     ld 0(ix), #1
+   0090 18 19         [12]  388     jr noseActualiza3
+   0092                     389     seActualiza3:
+   0092 DD 21 1F 40   [14]  390       ld  ix, #enemyPos  ;;(enemy)
+   0096 DD 36 06 00   [19]  391      ld entity_color(ix), #0x00
+                            392     ;;call  entityman_getEntityArray_IX
+                            393     ;;call  entityman_getNumEntities_A
+                            394     ;;call  rendersys_update
+   009A CD 00 00      [17]  395     call borrarEnemigo1
+   009D DD 21 1F 40   [14]  396     ld  ix, #enemyPos  ;;(enemy)
+                            397      ;;ld entity_color(ix), #0xF0
+   00A1 DD 7E 00      [19]  398      ld a, entity_x(ix)
+   00A4 3D            [ 4]  399      dec a
+   00A5 DD 77 00      [19]  400      ld entity_x(ix), a
+                            401     ;;call  entityman_getEntityArray_IX
+                            402     ;;call  entityman_getNumEntities_A
+                            403     ;;call  rendersys_update
+   00A8 CD 00 00      [17]  404     call pintarEnemigo1
+   00AB                     405    noseActualiza3:
+   00AB CD 00 00      [17]  406     call enemigoDerChoque
+                            407 
+   00AE DD 21 00 00   [14]  408 ld ix, #cooldownEnemigo2
+   00B2 DD 35 00      [23]  409     dec 0(ix)
+   00B5 28 06         [12]  410     jr z, seActualiza22
+   00B7 DD 36 00 01   [19]  411     ld 0(ix), #1
+   00BB 18 19         [12]  412     jr noseActualiza22
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 21.
+Hexadecimal [16-Bits]
+
+
+
+   00BD                     413     seActualiza22:
+   00BD DD 21 2D 40   [14]  414      ld  ix, #enemyIzqPos  ;;(enemy)
+   00C1 DD 36 06 00   [19]  415      ld entity_color(ix), #0x00
+                            416     ;;call  entityman_getEntityArray_IX
+                            417     ;;call  entityman_getNumEntities_A
+                            418     ;;call  rendersys_update
+   00C5 CD 00 00      [17]  419     call borrarEnemigo2
+   00C8 DD 21 2D 40   [14]  420     ld  ix, #enemyIzqPos  ;;(enemy)
+                            421      ;;ld entity_color(ix), #0xF0
+   00CC DD 7E 00      [19]  422      ld a, entity_x(ix)
+   00CF 3C            [ 4]  423      inc a
+   00D0 DD 77 00      [19]  424      ld entity_x(ix), a
+                            425     ;;call  entityman_getEntityArray_IX
+                            426     ;;call  entityman_getNumEntities_A
+                            427     ;;call  rendersys_update
+   00D3 CD 00 00      [17]  428     call pintarEnemigo2
+   00D6                     429    noseActualiza22:
+   00D6 CD 00 00      [17]  430     call enemigoIzqChoque
+                            431 
+                            432     ;;ld  ix, #enemyIzqPos  ;;(enemy)
+                            433     ;;ld entity_color(ix), #0x00
+                            434     ;;call  entityman_getEntityArray_IX
+                            435     ;;call  entityman_getNumEntities_A
+                            436     ;;call  rendersys_update
+                            437     ;;ld  ix, #enemyIzqPos  ;;(enemy)
+                            438     ;; ld entity_color(ix), #0xF0
+                            439     ;; ld a, entity_x(ix)
+                            440     ;; inc  a
+                            441     ;; ld entity_x(ix), a
+                            442     ;; call  entityman_getEntityArray_IX
+                            443     ;;call  entityman_getNumEntities_A
+                            444     ;;call  rendersys_update
+                            445 ;;
+                            446     ;;call enemigoIzqChoque
+                            447 
+   00D9 DD 21 34 40   [14]  448     ld  ix, #enemyIzqPos2  ;;(enemy)
+   00DD DD 36 06 00   [19]  449      ld entity_color(ix), #0x00
+                            450     ;;call  entityman_getEntityArray_IX
+                            451     ;;call  entityman_getNumEntities_A
+                            452     ;;call  rendersys_update
+   00E1 CD 00 00      [17]  453     call borrarEnemigo3
+   00E4 DD 21 34 40   [14]  454     ld  ix, #enemyIzqPos2  ;;(enemy)
+   00E8 DD 36 06 FF   [19]  455      ld entity_color(ix), #0xFF
+   00EC DD 7E 00      [19]  456      ld a, entity_x(ix)
+   00EF 3C            [ 4]  457      inc  a
+   00F0 DD 77 00      [19]  458      ld entity_x(ix), a
+                            459      ;;call  entityman_getEntityArray_IX
+                            460     ;;call  entityman_getNumEntities_A
+                            461     ;;call  rendersys_update
+   00F3 CD 00 00      [17]  462     call pintarEnemigo3
+                            463     ;AQUI
+                            464     ;;call cpct_waitVSYNC_asm
+                            465     ;;halt 
+                            466     ;;halt
+                            467     ;;halt
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 22.
+Hexadecimal [16-Bits]
+
+
+
+                            468     ;;call cpct_waitVSYNC_asm
+                            469     ;;halt 
+                            470     ;;halt
+                            471     ;;halt
+                            472     ;;call cpct_waitVSYNC_asm
+                            473     ;;halt 
+                            474     ;;halt
+                            475     ;;halt
+                            476     ;;call cpct_waitVSYNC_asm
+                            477     ;;halt 
+                            478     ;;halt
+                            479     ;;halt
+                            480     ;;call cpct_waitVSYNC_asm
+                            481     ;;halt 
+                            482     ;;halt
+                            483     ;;halt
+                            484     ;;AQUI
+                            485     ;call cpct_waitVSYNC_asm
+                            486     ;halt 
+                            487     ;halt
+                            488     ;halt
+                            489     ;;;;QUITAMOS LAS 2 VELOCIDADES
+                            490 
+                            491   ;;  ld  ix, #enemyIzqPos2  ;;(enemy)
+                            492   ;;   ld entity_color(ix), #0x00
+                            493   ;;  ;;call  entityman_getEntityArray_IX
+                            494   ;;  ;;call  entityman_getNumEntities_A
+                            495   ;;  ;;call  rendersys_update
+                            496   ;;  call borrarEnemigo3
+                            497   ;;  ld  ix, #enemyIzqPos2  ;;(enemy)
+                            498   ;;   ld entity_color(ix), #0xFF
+                            499   ;;   ld a, entity_x(ix)
+                            500   ;;   inc  a
+                            501   ;;   ld entity_x(ix), a
+                            502   ;;   call pintarEnemigo3
+                            503     ;; call  entityman_getEntityArray_IX
+                            504     ;;call  entityman_getNumEntities_A
+                            505     ;;call  rendersys_update
+                            506 
+   00F6 CD 00 00      [17]  507     call enemigoIzq2Choque
+                            508 
+                            509     ;;ld  ix, #enemyDerPos2  ;;(enemy)
+                            510      ;;ld entity_color(ix), #0x00
+                            511     ;call  entityman_getEntityArray_IX
+                            512     ;call  entityman_getNumEntities_A
+                            513     ;call  rendersys_update
+                            514     ;ld  ix, #enemyDerPos2  ;;(enemy)
+                            515      ;ld entity_color(ix), #0x0F
+                            516      ;ld a, entity_x(ix)
+                            517     ; dec  a
+                            518     ; ld entity_x(ix), a
+                            519     ; call  entityman_getEntityArray_IX
+                            520     ;call  entityman_getNumEntities_A
+                            521     ;call  rendersys_update
+                            522     ;ld  ix, #enemyDerPos2  ;;(enemy)
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 23.
+Hexadecimal [16-Bits]
+
+
+
+                            523     ; ld entity_color(ix), #0x00
+                            524    ; call  entityman_getEntityArray_IX
+                            525     ;call  entityman_getNumEntities_A
+                            526     ;call  rendersys_update
+                            527     ;ld  ix, #enemyDerPos2  ;;(enemy)
+                            528      ;ld entity_color(ix), #0x0F
+                            529      ;ld a, entity_x(ix)
+                            530      ;dec  a
+                            531     ; ld entity_x(ix), a
+                            532      ;call  entityman_getEntityArray_IX
+                            533     ;call  entityman_getNumEntities_A
+                            534     ;call  rendersys_update
+                            535 
+                            536      ;call enemigoDer2Choque
+                            537 
+                            538     
+                            539     
+                            540     
+                            541 
+   00F9 C9            [10]  542     ret
+                            543 
+   00FA                     544      actualizarEnemigos4:: 
+                            545     ;;call cpct_waitVSYNC_asm
+                            546     ;;halt 
+                            547     ;;halt
+                            548     ;;halt
+                            549     ;;call cpct_waitVSYNC_asm
+                            550     ;;halt 
+                            551     ;;halt
+                            552     ;;halt
+                            553     ;;call cpct_waitVSYNC_asm
+                            554     ;;halt 
+                            555     ;;halt
+                            556     ;;halt
+                            557     ;;call cpct_waitVSYNC_asm
+                            558     ;;halt 
+                            559     ;;halt
+                            560     ;;halt
+                            561     ;;call cpct_waitVSYNC_asm
+                            562     ;;halt 
+                            563     ;;halt
+                            564     ;;halt
+                            565     ;;call cpct_waitVSYNC_asm
+                            566     ;;halt 
+                            567     ;;halt
+                            568     ;;halt
+                            569     ;;call cpct_waitVSYNC_asm
+                            570     ;;halt 
+                            571     ;;halt
+                            572     ;;halt
+                            573     ;;call cpct_waitVSYNC_asm
+                            574     ;;halt 
+                            575     ;;halt
+                            576     ;;halt
+                            577     ;AQUI
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 24.
+Hexadecimal [16-Bits]
+
+
+
+                            578     ;;call cpct_waitVSYNC_asm
+                            579     ;;halt 
+                            580     ;;halt
+                            581     ;;halt
+                            582     ;;call cpct_waitVSYNC_asm
+   00FA DD 21 00 00   [14]  583     ld ix, #cooldownEnemigo1
+   00FE DD 35 00      [23]  584     dec 0(ix)
+   0101 28 06         [12]  585     jr z, seActualiza4
+   0103 DD 36 00 01   [19]  586     ld 0(ix), #1
+   0107 18 19         [12]  587     jr noseActualiza4
+   0109                     588     seActualiza4:
+   0109 DD 21 1F 40   [14]  589       ld  ix, #enemyPos  ;;(enemy)
+   010D DD 36 06 00   [19]  590      ld entity_color(ix), #0x00
+                            591     ;;call  entityman_getEntityArray_IX
+                            592     ;;call  entityman_getNumEntities_A
+                            593     ;;call  rendersys_update
+   0111 CD 00 00      [17]  594     call borrarEnemigo1
+   0114 DD 21 1F 40   [14]  595     ld  ix, #enemyPos  ;;(enemy)
+                            596      ;;ld entity_color(ix), #0xF0
+   0118 DD 7E 00      [19]  597      ld a, entity_x(ix)
+   011B 3D            [ 4]  598      dec a
+   011C DD 77 00      [19]  599      ld entity_x(ix), a
+                            600     ;;call  entityman_getEntityArray_IX
+                            601     ;;call  entityman_getNumEntities_A
+                            602     ;;call  rendersys_update
+   011F CD 00 00      [17]  603     call pintarEnemigo1
+   0122                     604     noseActualiza4:
+                            605 
+   0122 CD 00 00      [17]  606     call enemigoDerChoque
+                            607 
+   0125 DD 21 00 00   [14]  608 ld ix, #cooldownEnemigo2
+   0129 DD 35 00      [23]  609     dec 0(ix)
+   012C 28 06         [12]  610     jr z, seActualiza23
+   012E DD 36 00 01   [19]  611     ld 0(ix), #1
+   0132 18 19         [12]  612     jr noseActualiza23
+   0134                     613     seActualiza23:
+   0134 DD 21 2D 40   [14]  614      ld  ix, #enemyIzqPos  ;;(enemy)
+   0138 DD 36 06 00   [19]  615      ld entity_color(ix), #0x00
+                            616     ;;call  entityman_getEntityArray_IX
+                            617     ;;call  entityman_getNumEntities_A
+                            618     ;;call  rendersys_update
+   013C CD 00 00      [17]  619     call borrarEnemigo2
+   013F DD 21 2D 40   [14]  620     ld  ix, #enemyIzqPos  ;;(enemy)
+                            621      ;;ld entity_color(ix), #0xF0
+   0143 DD 7E 00      [19]  622      ld a, entity_x(ix)
+   0146 3C            [ 4]  623      inc a
+   0147 DD 77 00      [19]  624      ld entity_x(ix), a
+                            625     ;;call  entityman_getEntityArray_IX
+                            626     ;;call  entityman_getNumEntities_A
+                            627     ;;call  rendersys_update
+   014A CD 00 00      [17]  628     call pintarEnemigo2
+   014D                     629    noseActualiza23:
+   014D CD 00 00      [17]  630     call enemigoIzqChoque
+                            631 
+                            632     ;;ld  ix, #enemyIzqPos  ;;(enemy)
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 25.
+Hexadecimal [16-Bits]
+
+
+
+                            633     ;;ld entity_color(ix), #0x00
+                            634     ;;call  entityman_getEntityArray_IX
+                            635     ;;call  entityman_getNumEntities_A
+                            636     ;;call  rendersys_update
+                            637     ;;ld  ix, #enemyIzqPos  ;;(enemy)
+                            638     ;; ld entity_color(ix), #0xF0
+                            639     ;; ld a, entity_x(ix)
+                            640     ;; inc  a
+                            641     ;; ld entity_x(ix), a
+                            642     ;; call  entityman_getEntityArray_IX
+                            643     ;;call  entityman_getNumEntities_A
+                            644     ;;call  rendersys_update
+                            645 ;;
+                            646     ;;call enemigoIzqChoque
+                            647 
+   0150 DD 21 34 40   [14]  648     ld  ix, #enemyIzqPos2  ;;(enemy)
+   0154 DD 36 06 00   [19]  649      ld entity_color(ix), #0x00
+                            650     ;;call  entityman_getEntityArray_IX
+                            651     ;;call  entityman_getNumEntities_A
+                            652     ;;call  rendersys_update
+   0158 CD 00 00      [17]  653     call borrarEnemigo3
+   015B DD 21 34 40   [14]  654     ld  ix, #enemyIzqPos2  ;;(enemy)
+   015F DD 36 06 FF   [19]  655      ld entity_color(ix), #0xFF
+   0163 DD 7E 00      [19]  656      ld a, entity_x(ix)
+   0166 3C            [ 4]  657      inc  a
+   0167 DD 77 00      [19]  658      ld entity_x(ix), a
+                            659      ;;call  entityman_getEntityArray_IX
+                            660     ;;call  entityman_getNumEntities_A
+                            661     ;;call  rendersys_update
+   016A CD 00 00      [17]  662     call pintarEnemigo3
+                            663     ;;AQUI
+                            664     ;;call cpct_waitVSYNC_asm
+                            665     ;;halt 
+                            666     ;;halt
+                            667     ;;halt
+                            668     ;;call cpct_waitVSYNC_asm
+                            669     ;;halt 
+                            670     ;;halt
+                            671     ;;halt
+                            672     ;;;;QUITAMOS LAS 2 VELOCIDADES
+                            673    ;; ld  ix, #enemyIzqPos2  ;;(enemy)
+                            674    ;;  ld entity_color(ix), #0x00
+                            675    ;; ;;call  entityman_getEntityArray_IX
+                            676    ;; ;;call  entityman_getNumEntities_A
+                            677    ;; ;;call  rendersys_update
+                            678    ;; call borrarEnemigo3
+                            679    ;; ld  ix, #enemyIzqPos2  ;;(enemy)
+                            680    ;;  ld entity_color(ix), #0xFF
+                            681    ;;  ld a, entity_x(ix)
+                            682    ;;  inc  a
+                            683    ;;  ld entity_x(ix), a
+                            684    ;;  call pintarEnemigo3
+                            685     ;; call  entityman_getEntityArray_IX
+                            686     ;;call  entityman_getNumEntities_A
+                            687     ;;call  rendersys_update
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 26.
+Hexadecimal [16-Bits]
+
+
+
+                            688 
+   016D CD 00 00      [17]  689     call enemigoIzq2Choque
+                            690 
+                            691     ;;ld  ix, #enemyDerPos2  ;;(enemy)
+                            692      ;;ld entity_color(ix), #0x00
+                            693     ;call  entityman_getEntityArray_IX
+                            694     ;call  entityman_getNumEntities_A
+                            695     ;call  rendersys_update
+                            696     ;ld  ix, #enemyDerPos2  ;;(enemy)
+                            697      ;ld entity_color(ix), #0x0F
+                            698      ;ld a, entity_x(ix)
+                            699     ; dec  a
+                            700     ; ld entity_x(ix), a
+                            701     ; call  entityman_getEntityArray_IX
+                            702     ;call  entityman_getNumEntities_A
+                            703     ;call  rendersys_update
+                            704     ;ld  ix, #enemyDerPos2  ;;(enemy)
+                            705     ; ld entity_color(ix), #0x00
+                            706    ; call  entityman_getEntityArray_IX
+                            707     ;call  entityman_getNumEntities_A
+                            708     ;call  rendersys_update
+                            709     ;ld  ix, #enemyDerPos2  ;;(enemy)
+                            710      ;ld entity_color(ix), #0x0F
+                            711      ;ld a, entity_x(ix)
+                            712      ;dec  a
+                            713     ; ld entity_x(ix), a
+                            714      ;call  entityman_getEntityArray_IX
+                            715     ;call  entityman_getNumEntities_A
+                            716     ;call  rendersys_update
+                            717 
+                            718      ;call enemigoDer2Choque
+                            719 
+                            720 
+   0170 DD 21 3B 40   [14]  721    ld ix, #enemyUp1Pos
+   0174 CD 00 00      [17]  722    call actualizarEnemigoAereo
+   0177 C9            [10]  723     ret
+                            724 
+                            725 
+   0178                     726     actualizarEnemigos5:: 
+                            727     ;;call cpct_waitVSYNC_asm
+                            728     ;;halt 
+                            729     ;;halt
+                            730     ;;halt
+                            731     ;;call cpct_waitVSYNC_asm
+                            732     ;;halt 
+                            733     ;;halt
+                            734     ;;halt
+                            735     ;;call cpct_waitVSYNC_asm
+                            736     ;;halt 
+                            737     ;;halt
+                            738     ;;halt
+                            739     ;;call cpct_waitVSYNC_asm
+                            740     ;;halt 
+                            741     ;;halt
+                            742     ;;halt
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 27.
+Hexadecimal [16-Bits]
+
+
+
+                            743     ;;call cpct_waitVSYNC_asm
+                            744     ;;halt 
+                            745     ;;halt
+                            746     ;;halt
+                            747     ;;call cpct_waitVSYNC_asm
+                            748     ;;halt 
+                            749     ;;halt
+                            750     ;;halt
+                            751     ;;call cpct_waitVSYNC_asm
+                            752     ;;halt 
+                            753     ;;halt
+                            754     ;;halt
+                            755     ;;call cpct_waitVSYNC_asm
+                            756     ;;halt 
+                            757     ;;halt
+                            758     ;;halt
+                            759     ;;AQUI
+                            760     ;;call cpct_waitVSYNC_asm
+                            761     ;;halt 
+                            762     ;;halt
+                            763     ;;halt
+                            764     ;;call cpct_waitVSYNC_asm
+   0178 DD 21 00 00   [14]  765     ld ix, #cooldownEnemigo1
+   017C DD 35 00      [23]  766     dec 0(ix)
+   017F 28 06         [12]  767     jr z, seActualiza5
+   0181 DD 36 00 01   [19]  768     ld 0(ix), #1
+   0185 18 19         [12]  769     jr noseActualiza5
+   0187                     770     seActualiza5:
+   0187 DD 21 1F 40   [14]  771       ld  ix, #enemyPos  ;;(enemy)
+   018B DD 36 06 00   [19]  772      ld entity_color(ix), #0x00
+                            773     ;;call  entityman_getEntityArray_IX
+                            774     ;;call  entityman_getNumEntities_A
+                            775     ;;call  rendersys_update
+   018F CD 00 00      [17]  776     call borrarEnemigo1
+   0192 DD 21 1F 40   [14]  777     ld  ix, #enemyPos  ;;(enemy)
+                            778      ;;ld entity_color(ix), #0xF0
+   0196 DD 7E 00      [19]  779      ld a, entity_x(ix)
+   0199 3D            [ 4]  780      dec a
+   019A DD 77 00      [19]  781      ld entity_x(ix), a
+                            782     ;;call  entityman_getEntityArray_IX
+                            783     ;;call  entityman_getNumEntities_A
+                            784     ;;call  rendersys_update
+   019D CD 00 00      [17]  785     call pintarEnemigo1
+   01A0                     786    noseActualiza5:
+   01A0 CD 00 00      [17]  787     call enemigoDerChoque
+                            788 
+   01A3 DD 21 00 00   [14]  789    ld ix, #cooldownEnemigo2
+   01A7 DD 35 00      [23]  790     dec 0(ix)
+   01AA 28 06         [12]  791     jr z, seActualiza24
+   01AC DD 36 00 01   [19]  792     ld 0(ix), #1
+   01B0 18 19         [12]  793     jr noseActualiza24
+   01B2                     794     seActualiza24:
+   01B2 DD 21 2D 40   [14]  795      ld  ix, #enemyIzqPos  ;;(enemy)
+   01B6 DD 36 06 00   [19]  796      ld entity_color(ix), #0x00
+                            797     ;;call  entityman_getEntityArray_IX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 28.
+Hexadecimal [16-Bits]
+
+
+
+                            798     ;;call  entityman_getNumEntities_A
+                            799     ;;call  rendersys_update
+   01BA CD 00 00      [17]  800     call borrarEnemigo2
+   01BD DD 21 2D 40   [14]  801     ld  ix, #enemyIzqPos  ;;(enemy)
+                            802      ;;ld entity_color(ix), #0xF0
+   01C1 DD 7E 00      [19]  803      ld a, entity_x(ix)
+   01C4 3C            [ 4]  804      inc a
+   01C5 DD 77 00      [19]  805      ld entity_x(ix), a
+                            806     ;;call  entityman_getEntityArray_IX
+                            807     ;;call  entityman_getNumEntities_A
+                            808     ;;call  rendersys_update
+   01C8 CD 00 00      [17]  809     call pintarEnemigo2
+   01CB                     810    noseActualiza24:
+   01CB CD 00 00      [17]  811     call enemigoIzqChoque
+                            812 
+                            813     ;;ld  ix, #enemyIzqPos  ;;(enemy)
+                            814     ;;ld entity_color(ix), #0x00
+                            815     ;;call  entityman_getEntityArray_IX
+                            816     ;;call  entityman_getNumEntities_A
+                            817     ;;call  rendersys_update
+                            818     ;;ld  ix, #enemyIzqPos  ;;(enemy)
+                            819     ;; ld entity_color(ix), #0xF0
+                            820     ;; ld a, entity_x(ix)
+                            821     ;; inc  a
+                            822     ;; ld entity_x(ix), a
+                            823     ;; call  entityman_getEntityArray_IX
+                            824     ;;call  entityman_getNumEntities_A
+                            825     ;;call  rendersys_update
+                            826 ;;
+                            827     ;;call enemigoIzqChoque
+                            828 
+   01CE DD 21 34 40   [14]  829     ld  ix, #enemyIzqPos2  ;;(enemy)
+   01D2 DD 36 06 00   [19]  830      ld entity_color(ix), #0x00
+                            831     ;;call  entityman_getEntityArray_IX
+                            832     ;;call  entityman_getNumEntities_A
+                            833     ;;call  rendersys_update
+   01D6 CD 00 00      [17]  834     call borrarEnemigo3
+   01D9 DD 21 34 40   [14]  835     ld  ix, #enemyIzqPos2  ;;(enemy)
+   01DD DD 36 06 FF   [19]  836      ld entity_color(ix), #0xFF
+   01E1 DD 7E 00      [19]  837      ld a, entity_x(ix)
+   01E4 3C            [ 4]  838      inc  a
+   01E5 DD 77 00      [19]  839      ld entity_x(ix), a
+                            840      ;;call  entityman_getEntityArray_IX
+                            841     ;;call  entityman_getNumEntities_A
+                            842     ;;call  rendersys_update
+   01E8 CD 00 00      [17]  843     call pintarEnemigo3
+                            844     ;AQUI
+                            845     ;;call cpct_waitVSYNC_asm
+                            846     ;;halt 
+                            847     ;;halt
+                            848     ;;halt
+                            849     ;;call cpct_waitVSYNC_asm
+                            850     ;;halt 
+                            851     ;;halt
+                            852     ;;halt
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 29.
+Hexadecimal [16-Bits]
+
+
+
+                            853     ;;;;QUITAMOS LAS 2 VELOCIDADES
+                            854    ;; ld  ix, #enemyIzqPos2  ;;(enemy)
+                            855    ;;  ld entity_color(ix), #0x00
+                            856    ;; ;;call  entityman_getEntityArray_IX
+                            857    ;; ;;call  entityman_getNumEntities_A
+                            858    ;; ;;call  rendersys_update
+                            859    ;; call borrarEnemigo3
+                            860    ;; ld  ix, #enemyIzqPos2  ;;(enemy)
+                            861    ;;  ld entity_color(ix), #0xFF
+                            862    ;;  ld a, entity_x(ix)
+                            863    ;;  inc  a
+                            864    ;;  ld entity_x(ix), a
+                            865    ;;  call pintarEnemigo3
+                            866    ;; ;; call  entityman_getEntityArray_IX
+                            867     ;;call  entityman_getNumEntities_A
+                            868     ;;call  rendersys_update
+                            869 
+   01EB CD 00 00      [17]  870     call enemigoIzq2Choque
+                            871 
+                            872 
+                            873     ;;ld  ix, #enemyDerPos2  ;;(enemy)
+                            874      ;;ld entity_color(ix), #0x00
+                            875     ;call  entityman_getEntityArray_IX
+                            876     ;call  entityman_getNumEntities_A
+                            877     ;call  rendersys_update
+                            878     ;ld  ix, #enemyDerPos2  ;;(enemy)
+                            879      ;ld entity_color(ix), #0x0F
+                            880      ;ld a, entity_x(ix)
+                            881     ; dec  a
+                            882     ; ld entity_x(ix), a
+                            883     ; call  entityman_getEntityArray_IX
+                            884     ;call  entityman_getNumEntities_A
+                            885     ;call  rendersys_update
+                            886     ;ld  ix, #enemyDerPos2  ;;(enemy)
+                            887     ; ld entity_color(ix), #0x00
+                            888    ; call  entityman_getEntityArray_IX
+                            889     ;call  entityman_getNumEntities_A
+                            890     ;call  rendersys_update
+                            891     ;ld  ix, #enemyDerPos2  ;;(enemy)
+                            892      ;ld entity_color(ix), #0x0F
+                            893      ;ld a, entity_x(ix)
+                            894      ;dec  a
+                            895     ; ld entity_x(ix), a
+                            896      ;call  entityman_getEntityArray_IX
+                            897     ;call  entityman_getNumEntities_A
+                            898     ;call  rendersys_update
+                            899 
+                            900      ;call enemigoDer2Choque
+                            901 
+   01EE DD 21 3B 40   [14]  902    ld ix, #enemyUp1Pos
+   01F2 CD 00 00      [17]  903    call actualizarEnemigoAereo
+                            904    ;;ld ix, #enemyUp2Pos
+                            905    ;;call actualizarEnemigoAereo2
+                            906    ;;ld ix, #enemyUp3Pos
+                            907    ;;call actualizarEnemigoAereo3
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 30.
+Hexadecimal [16-Bits]
+
+
+
+                            908 
+                            909 
+   01F5 DD 21 26 40   [14]  910    ld  ix, #crocodile  ;;(enemy)
+   01F9 DD 7E 04      [19]  911     ld a, entity_estado(ix)
+   01FC 3D            [ 4]  912     dec a
+   01FD CA 9E 02      [10]  913     jp z, crocoPos1
+   0200 3D            [ 4]  914     dec a 
+   0201 28 1E         [12]  915     jr z, crocoPos2
+   0203 3D            [ 4]  916     dec a 
+   0204 28 28         [12]  917     jr z, crocoPos3
+   0206 3D            [ 4]  918     dec a 
+   0207 28 42         [12]  919     jr z, crocoPos4
+   0209 3D            [ 4]  920     dec a 
+   020A 28 5F         [12]  921     jr z, crocoPos5
+   020C 3D            [ 4]  922     dec a 
+   020D 28 69         [12]  923     jr z, crocoPos6
+   020F 3D            [ 4]  924     dec a 
+   0210 28 73         [12]  925     jr z, crocoPos7
+                            926     ;;Estado 8, estado de cooldown
+   0212 DD 35 05      [23]  927     dec entity_vy(ix)
+   0215 28 03         [12]  928    jr z, finCDCroco
+   0217 C3 C5 02      [10]  929    jp seguirActualizacion5
+   021A                     930    finCDCroco:
+   021A DD 36 04 01   [19]  931    ld entity_estado(ix), #1
+   021E C3 C5 02      [10]  932    jp seguirActualizacion5
+   0221                     933     crocoPos2:
+   0221 DD 36 04 03   [19]  934     ld entity_estado(ix), #3
+   0225 CD 00 00      [17]  935     call borrarCrocoPos2
+   0228 CD 00 00      [17]  936     call pintarCrocoPos3
+   022B C3 C5 02      [10]  937     jp seguirActualizacion5
+   022E                     938     crocoPos3:
+   022E DD 36 04 04   [19]  939     ld entity_estado(ix), #4
+   0232 CD 00 00      [17]  940     call borrarCrocoPos3
+   0235 CD 00 00      [17]  941     call pintarCrocoPos4
+   0238 DD 46 00      [19]  942     ld b,  entity_x(ix)
+   023B DD 21 03 40   [14]  943     ld ix, #playerPos
+   023F DD 7E 00      [19]  944     ld a, entity_x(ix)
+   0242 90            [ 4]  945     sub b
+   0243 28 03         [12]  946     jr z, colisionCroco
+   0245 C3 C5 02      [10]  947     jp seguirActualizacion5
+   0248                     948     colisionCroco:
+   0248 CD 00 00      [17]  949    call colision
+   024B                     950     crocoPos4:
+   024B DD 36 04 05   [19]  951     ld entity_estado(ix), #5
+   024F CD 00 00      [17]  952     call borrarCrocoPos4
+   0252 CD 00 00      [17]  953     call pintarCrocoPos5
+   0255 DD 46 00      [19]  954     ld b,  entity_x(ix)
+   0258 DD 21 03 40   [14]  955     ld ix, #playerPos
+   025C DD 7E 00      [19]  956     ld a, entity_x(ix)
+   025F 90            [ 4]  957     sub b
+   0260 28 06         [12]  958     jr z, colisionCroco2
+   0262 3D            [ 4]  959     dec a
+   0263 28 03         [12]  960     jr z, colisionCroco2
+   0265 C3 C5 02      [10]  961     jp seguirActualizacion5
+   0268                     962     colisionCroco2:
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 31.
+Hexadecimal [16-Bits]
+
+
+
+   0268 CD 00 00      [17]  963    call colision
+                            964 
+   026B                     965     crocoPos5:
+   026B DD 36 04 06   [19]  966     ld entity_estado(ix), #6
+   026F CD 00 00      [17]  967     call borrarCrocoPos5
+   0272 CD 00 00      [17]  968     call pintarCrocoPos3
+   0275 C3 C5 02      [10]  969     jp seguirActualizacion5
+   0278                     970     crocoPos6:
+   0278 DD 36 04 07   [19]  971     ld entity_estado(ix), #7
+   027C CD 00 00      [17]  972     call borrarCrocoPos6
+   027F CD 00 00      [17]  973     call pintarCrocoPos2
+   0282 C3 C5 02      [10]  974     jp seguirActualizacion5
+   0285                     975     crocoPos7:
+   0285 DD 36 04 08   [19]  976     ld entity_estado(ix), #8
+   0289 CD 00 00      [17]  977     call borrarCrocoPos7
+   028C CD 00 00      [17]  978     call pintarCrocoPos1
+   028F DD 21 26 40   [14]  979     ld  ix, #crocodile
+   0293 DD 36 00 00   [19]  980     ld entity_x(ix), #0
+   0297 DD 36 05 05   [19]  981     ld entity_vy(ix), #5
+   029B C3 C5 02      [10]  982     jp seguirActualizacion5
+   029E                     983     crocoPos1:
+   029E CD 00 00      [17]  984     call borrarCrocoPos1
+   02A1 DD 21 03 40   [14]  985     ld  ix, #playerPos
+   02A5 DD 7E 00      [19]  986     ld a, entity_x(ix)
+   02A8 DD 21 26 40   [14]  987     ld  ix, #crocodile
+   02AC DD 46 00      [19]  988     ld b, entity_x(ix)
+   02AF 90            [ 4]  989     sub b
+   02B0 20 09         [12]  990     jr nz, saltaCroco
+                            991 
+   02B2                     992     encuentraEnemigo:
+   02B2 DD 34 04      [23]  993     inc entity_estado(ix)
+   02B5 CD 00 00      [17]  994     call pintarCrocoPos2 
+   02B8 C3 C5 02      [10]  995     jp seguirActualizacion5
+   02BB                     996     saltaCroco:
+   02BB 3D            [ 4]  997     dec a
+   02BC 28 F4         [12]  998     jr z, encuentraEnemigo
+                            999     ;;dec a
+                           1000     ;;jr z, encuentraEnemigo
+   02BE 04            [ 4] 1001      inc b
+   02BF DD 70 00      [19] 1002      ld entity_x(ix), b
+   02C2 CD 00 00      [17] 1003      call pintarCrocoPos1
+                           1004    ;;ld entity_color(ix), #0x00
+                           1005 
+   02C5                    1006    seguirActualizacion5:
+                           1007   ;;  ld  ix, #enemyDerPos2  ;;(enemy)
+                           1008   ;;   ld entity_color(ix), #0x00
+                           1009   ;;   call borrarEnemigo4
+                           1010   ;; ;; call  entityman_getEntityArray_IX
+                           1011   ;; ;; call  entityman_getNumEntities_A
+                           1012   ;; ;; call  rendersys_update
+                           1013   ;;  ld  ix, #enemyDerPos2  ;;(enemy)
+                           1014   ;;   ld entity_color(ix), #0x0F
+                           1015   ;;   ld a, entity_x(ix)
+                           1016   ;;   dec  a
+                           1017   ;;   ld entity_x(ix), a
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 32.
+Hexadecimal [16-Bits]
+
+
+
+                           1018   ;;   call pintarEnemigo4
+                           1019   ;;   call enemigoDer2Choque
+   02C5 C9            [10] 1020     ret
+                           1021 
+   02C6                    1022     actualizarEnemigos6:: 
+                           1023     ;;call cpct_waitVSYNC_asm
+                           1024     ;;halt 
+                           1025     ;;halt
+                           1026     ;;halt
+                           1027     ;;call cpct_waitVSYNC_asm
+                           1028     ;;halt 
+                           1029     ;;halt
+                           1030     ;;halt
+                           1031     ;;call cpct_waitVSYNC_asm
+                           1032     ;;halt 
+                           1033     ;;halt
+                           1034     ;;halt
+                           1035     ;;call cpct_waitVSYNC_asm
+                           1036     ;;halt 
+                           1037     ;;halt
+                           1038     ;;halt
+                           1039     ;;call cpct_waitVSYNC_asm
+                           1040     ;;halt 
+                           1041     ;;halt
+                           1042     ;;halt
+                           1043     ;;call cpct_waitVSYNC_asm
+                           1044     ;;halt 
+                           1045     ;;halt
+                           1046     ;;halt
+                           1047     ;;call cpct_waitVSYNC_asm
+                           1048     ;;halt 
+                           1049     ;;halt
+                           1050     ;;halt
+                           1051     ;;call cpct_waitVSYNC_asm
+                           1052     ;;halt 
+                           1053     ;;halt
+                           1054     ;;halt
+                           1055     ;AQUI
+                           1056     ;;call cpct_waitVSYNC_asm
+                           1057     ;;halt 
+                           1058     ;;halt
+                           1059     ;;halt
+                           1060     ;;call cpct_waitVSYNC_asm
+   02C6 DD 21 00 00   [14] 1061     ld ix, #cooldownEnemigo1
+   02CA DD 35 00      [23] 1062     dec 0(ix)
+   02CD 28 06         [12] 1063     jr z, seActualiza6
+   02CF DD 36 00 01   [19] 1064     ld 0(ix), #1
+   02D3 18 19         [12] 1065     jr noseActualiza6
+   02D5                    1066     seActualiza6:
+   02D5 DD 21 1F 40   [14] 1067       ld  ix, #enemyPos  ;;(enemy)
+   02D9 DD 36 06 00   [19] 1068      ld entity_color(ix), #0x00
+                           1069     ;;call  entityman_getEntityArray_IX
+                           1070     ;;call  entityman_getNumEntities_A
+                           1071     ;;call  rendersys_update
+   02DD CD 00 00      [17] 1072     call borrarEnemigo1
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 33.
+Hexadecimal [16-Bits]
+
+
+
+   02E0 DD 21 1F 40   [14] 1073     ld  ix, #enemyPos  ;;(enemy)
+                           1074      ;;ld entity_color(ix), #0xF0
+   02E4 DD 7E 00      [19] 1075      ld a, entity_x(ix)
+   02E7 3D            [ 4] 1076      dec a
+   02E8 DD 77 00      [19] 1077      ld entity_x(ix), a
+                           1078     ;;call  entityman_getEntityArray_IX
+                           1079     ;;call  entityman_getNumEntities_A
+                           1080     ;;call  rendersys_update
+   02EB CD 00 00      [17] 1081     call pintarEnemigo1
+   02EE                    1082    noseActualiza6:
+   02EE CD 00 00      [17] 1083     call enemigoDerChoque
+                           1084 
+   02F1 DD 21 00 00   [14] 1085 ld ix, #cooldownEnemigo2
+   02F5 DD 35 00      [23] 1086     dec 0(ix)
+   02F8 28 06         [12] 1087     jr z, seActualiza25
+   02FA DD 36 00 01   [19] 1088     ld 0(ix), #1
+   02FE 18 19         [12] 1089     jr noseActualiza25
+   0300                    1090     seActualiza25:
+   0300 DD 21 2D 40   [14] 1091      ld  ix, #enemyIzqPos  ;;(enemy)
+   0304 DD 36 06 00   [19] 1092      ld entity_color(ix), #0x00
+                           1093     ;;call  entityman_getEntityArray_IX
+                           1094     ;;call  entityman_getNumEntities_A
+                           1095     ;;call  rendersys_update
+   0308 CD 00 00      [17] 1096     call borrarEnemigo2
+   030B DD 21 2D 40   [14] 1097     ld  ix, #enemyIzqPos  ;;(enemy)
+                           1098      ;;ld entity_color(ix), #0xF0
+   030F DD 7E 00      [19] 1099      ld a, entity_x(ix)
+   0312 3C            [ 4] 1100      inc a
+   0313 DD 77 00      [19] 1101      ld entity_x(ix), a
+                           1102     ;;call  entityman_getEntityArray_IX
+                           1103     ;;call  entityman_getNumEntities_A
+                           1104     ;;call  rendersys_update
+   0316 CD 00 00      [17] 1105     call pintarEnemigo2
+   0319                    1106    noseActualiza25:
+   0319 CD 00 00      [17] 1107     call enemigoIzqChoque
+                           1108 
+                           1109     ;;ld  ix, #enemyIzqPos  ;;(enemy)
+                           1110     ;;ld entity_color(ix), #0x00
+                           1111     ;;call  entityman_getEntityArray_IX
+                           1112     ;;call  entityman_getNumEntities_A
+                           1113     ;;call  rendersys_update
+                           1114     ;;ld  ix, #enemyIzqPos  ;;(enemy)
+                           1115     ;; ld entity_color(ix), #0xF0
+                           1116     ;; ld a, entity_x(ix)
+                           1117     ;; inc  a
+                           1118     ;; ld entity_x(ix), a
+                           1119     ;; call  entityman_getEntityArray_IX
+                           1120     ;;call  entityman_getNumEntities_A
+                           1121     ;;call  rendersys_update
+                           1122 ;;
+                           1123     ;;call enemigoIzqChoque
+                           1124 
+   031C DD 21 34 40   [14] 1125     ld  ix, #enemyIzqPos2  ;;(enemy)
+   0320 DD 36 06 00   [19] 1126      ld entity_color(ix), #0x00
+                           1127     ;;call  entityman_getEntityArray_IX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 34.
+Hexadecimal [16-Bits]
+
+
+
+                           1128     ;;call  entityman_getNumEntities_A
+                           1129     ;;call  rendersys_update
+   0324 CD 00 00      [17] 1130     call borrarEnemigo3
+   0327 DD 21 34 40   [14] 1131     ld  ix, #enemyIzqPos2  ;;(enemy)
+   032B DD 36 06 FF   [19] 1132      ld entity_color(ix), #0xFF
+   032F DD 7E 00      [19] 1133      ld a, entity_x(ix)
+   0332 3C            [ 4] 1134      inc  a
+   0333 DD 77 00      [19] 1135      ld entity_x(ix), a
+                           1136      ;;call  entityman_getEntityArray_IX
+                           1137     ;;call  entityman_getNumEntities_A
+                           1138     ;;call  rendersys_update
+   0336 CD 00 00      [17] 1139     call pintarEnemigo3
+                           1140     ;AQUI
+                           1141     ;;call cpct_waitVSYNC_asm
+                           1142     ;;halt 
+                           1143     ;;halt
+                           1144     ;;halt
+                           1145     ;;call cpct_waitVSYNC_asm
+                           1146     ;;halt 
+                           1147     ;;halt
+                           1148     ;;halt
+                           1149     ;;;;QUITAMOS LAS 2 VELOCIDADES
+                           1150    ;; ld  ix, #enemyIzqPos2  ;;(enemy)
+                           1151    ;;  ld entity_color(ix), #0x00
+                           1152    ;; ;;call  entityman_getEntityArray_IX
+                           1153    ;; ;;call  entityman_getNumEntities_A
+                           1154    ;; ;;call  rendersys_update
+                           1155    ;; call borrarEnemigo3
+                           1156    ;; ld  ix, #enemyIzqPos2  ;;(enemy)
+                           1157    ;;  ld entity_color(ix), #0xFF
+                           1158    ;;  ld a, entity_x(ix)
+                           1159    ;;  inc  a
+                           1160    ;;  ld entity_x(ix), a
+                           1161    ;;  call pintarEnemigo3
+                           1162    ;; ;; call  entityman_getEntityArray_IX
+                           1163     ;;call  entityman_getNumEntities_A
+                           1164     ;;call  rendersys_update
+                           1165 
+   0339 CD 00 00      [17] 1166     call enemigoIzq2Choque
+                           1167 
+                           1168 
+   033C DD 21 50 40   [14] 1169     ld  ix, #enemyDerPos2  ;;(enemy)
+   0340 DD 36 06 00   [19] 1170      ld entity_color(ix), #0x00
+   0344 CD 00 00      [17] 1171      call borrarEnemigo4
+                           1172    ;; call  entityman_getEntityArray_IX
+                           1173    ;; call  entityman_getNumEntities_A
+                           1174    ;; call  rendersys_update
+   0347 DD 21 50 40   [14] 1175     ld  ix, #enemyDerPos2  ;;(enemy)
+   034B DD 36 06 0F   [19] 1176      ld entity_color(ix), #0x0F
+   034F DD 7E 00      [19] 1177      ld a, entity_x(ix)
+   0352 3D            [ 4] 1178      dec  a
+   0353 DD 77 00      [19] 1179      ld entity_x(ix), a
+   0356 CD 00 00      [17] 1180      call pintarEnemigo4
+                           1181     ;AQUI
+                           1182    ;;  call cpct_waitVSYNC_asm
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 35.
+Hexadecimal [16-Bits]
+
+
+
+                           1183    ;; halt 
+                           1184    ;; halt
+                           1185    ;; halt
+                           1186    ;; call cpct_waitVSYNC_asm
+                           1187    ;; halt 
+                           1188    ;; halt
+                           1189    ;; halt
+                           1190    ;;  call  entityman_getEntityArray_IX
+                           1191    ;; call  entityman_getNumEntities_A
+                           1192    ;; call  rendersys_update
+                           1193    ;;BAJAR VELOCIDAD
+                           1194  ;;   ld  ix, #enemyDerPos2  ;;(enemy)
+                           1195  ;;    ld entity_color(ix), #0x00
+                           1196  ;;    call borrarEnemigo4
+                           1197  ;;   ;;call  entityman_getEntityArray_IX
+                           1198  ;;   ;;call  entityman_getNumEntities_A
+                           1199  ;;   ;;call  rendersys_update
+                           1200  ;;   ld  ix, #enemyDerPos2  ;;(enemy)
+                           1201  ;;    ld entity_color(ix), #0x0F
+                           1202  ;;    ld a, entity_x(ix)
+                           1203  ;;    dec  a
+                           1204  ;;    ld entity_x(ix), a
+                           1205  ;;    call pintarEnemigo4
+                           1206     ;; call  entityman_getEntityArray_IX
+                           1207     ;;call  entityman_getNumEntities_A
+                           1208     ;;call  rendersys_update
+                           1209 
+   0359 CD 00 00      [17] 1210      call enemigoDer2Choque
+                           1211 
+   035C DD 21 26 40   [14] 1212      ld  ix, #crocodile  ;;(enemy)
+   0360 DD 7E 04      [19] 1213     ld a, entity_estado(ix)
+   0363 3D            [ 4] 1214     dec a
+   0364 CA 05 04      [10] 1215     jp z, crocoPos1N6
+   0367 3D            [ 4] 1216     dec a 
+   0368 28 1E         [12] 1217     jr z, crocoPos2N6
+   036A 3D            [ 4] 1218     dec a 
+   036B 28 28         [12] 1219     jr z, crocoPos3N6
+   036D 3D            [ 4] 1220     dec a 
+   036E 28 42         [12] 1221     jr z, crocoPos4N6
+   0370 3D            [ 4] 1222     dec a 
+   0371 28 5F         [12] 1223     jr z, crocoPos5N6
+   0373 3D            [ 4] 1224     dec a 
+   0374 28 69         [12] 1225     jr z, crocoPos6N6
+   0376 3D            [ 4] 1226     dec a 
+   0377 28 73         [12] 1227     jr z, crocoPos7N6
+                           1228     ;;Estado 8, estado de cooldown
+   0379 DD 35 05      [23] 1229     dec entity_vy(ix)
+   037C 28 03         [12] 1230    jr z, finCDCrocoN6
+   037E C3 2C 04      [10] 1231    jp seguirActualizacion6
+   0381                    1232    finCDCrocoN6:
+   0381 DD 36 04 01   [19] 1233    ld entity_estado(ix), #1
+   0385 C3 2C 04      [10] 1234    jp seguirActualizacion6
+   0388                    1235     crocoPos2N6:
+   0388 DD 36 04 03   [19] 1236     ld entity_estado(ix), #3
+   038C CD 00 00      [17] 1237     call borrarCrocoPos2
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 36.
+Hexadecimal [16-Bits]
+
+
+
+   038F CD 00 00      [17] 1238     call pintarCrocoPos3
+   0392 C3 2C 04      [10] 1239     jp seguirActualizacion6
+   0395                    1240     crocoPos3N6:
+   0395 DD 36 04 04   [19] 1241     ld entity_estado(ix), #4
+   0399 CD 00 00      [17] 1242     call borrarCrocoPos3
+   039C CD 00 00      [17] 1243     call pintarCrocoPos4
+   039F DD 46 00      [19] 1244     ld b,  entity_x(ix)
+   03A2 DD 21 03 40   [14] 1245     ld ix, #playerPos
+   03A6 DD 7E 00      [19] 1246     ld a, entity_x(ix)
+   03A9 90            [ 4] 1247     sub b
+   03AA 28 03         [12] 1248     jr z, colisionCrocoN6
+   03AC C3 2C 04      [10] 1249     jp seguirActualizacion6
+   03AF                    1250     colisionCrocoN6:
+   03AF CD 00 00      [17] 1251    call colision
+   03B2                    1252     crocoPos4N6:
+   03B2 DD 36 04 05   [19] 1253     ld entity_estado(ix), #5
+   03B6 CD 00 00      [17] 1254     call borrarCrocoPos4
+   03B9 CD 00 00      [17] 1255     call pintarCrocoPos5
+   03BC DD 46 00      [19] 1256     ld b,  entity_x(ix)
+   03BF DD 21 03 40   [14] 1257     ld ix, #playerPos
+   03C3 DD 7E 00      [19] 1258     ld a, entity_x(ix)
+   03C6 90            [ 4] 1259     sub b
+   03C7 28 06         [12] 1260     jr z, colisionCroco2N6
+   03C9 3D            [ 4] 1261     dec a
+   03CA 28 03         [12] 1262     jr z, colisionCroco2N6
+   03CC C3 2C 04      [10] 1263     jp seguirActualizacion6
+   03CF                    1264     colisionCroco2N6:
+   03CF CD 00 00      [17] 1265    call colision
+                           1266 
+   03D2                    1267     crocoPos5N6:
+   03D2 DD 36 04 06   [19] 1268     ld entity_estado(ix), #6
+   03D6 CD 00 00      [17] 1269     call borrarCrocoPos5
+   03D9 CD 00 00      [17] 1270     call pintarCrocoPos3
+   03DC C3 2C 04      [10] 1271     jp seguirActualizacion6
+   03DF                    1272     crocoPos6N6:
+   03DF DD 36 04 07   [19] 1273     ld entity_estado(ix), #7
+   03E3 CD 00 00      [17] 1274     call borrarCrocoPos6
+   03E6 CD 00 00      [17] 1275     call pintarCrocoPos2
+   03E9 C3 2C 04      [10] 1276     jp seguirActualizacion6
+   03EC                    1277     crocoPos7N6:
+   03EC DD 36 04 08   [19] 1278     ld entity_estado(ix), #8
+   03F0 CD 00 00      [17] 1279     call borrarCrocoPos7
+   03F3 CD 00 00      [17] 1280     call pintarCrocoPos1
+   03F6 DD 21 26 40   [14] 1281     ld  ix, #crocodile
+   03FA DD 36 00 00   [19] 1282     ld entity_x(ix), #0
+   03FE DD 36 05 05   [19] 1283     ld entity_vy(ix), #5
+   0402 C3 2C 04      [10] 1284     jp seguirActualizacion6
+   0405                    1285     crocoPos1N6:
+   0405 CD 00 00      [17] 1286     call borrarCrocoPos1
+   0408 DD 21 03 40   [14] 1287     ld  ix, #playerPos
+   040C DD 7E 00      [19] 1288     ld a, entity_x(ix)
+   040F DD 21 26 40   [14] 1289     ld  ix, #crocodile
+   0413 DD 46 00      [19] 1290     ld b, entity_x(ix)
+   0416 90            [ 4] 1291     sub b
+   0417 20 09         [12] 1292     jr nz, saltaCrocoN6
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 37.
+Hexadecimal [16-Bits]
+
+
+
+   0419                    1293     encuentraEnemigoN6:
+   0419 DD 34 04      [23] 1294     inc entity_estado(ix)
+   041C CD 00 00      [17] 1295     call pintarCrocoPos2 
+   041F C3 2C 04      [10] 1296     jp seguirActualizacion6
+   0422                    1297     saltaCrocoN6:
+   0422 3D            [ 4] 1298     dec a
+   0423 28 F4         [12] 1299     jr z, encuentraEnemigoN6
+                           1300     ;;dec a
+                           1301     ;;jr z, encuentraEnemigoN6
+   0425 04            [ 4] 1302      inc b
+   0426 DD 70 00      [19] 1303      ld entity_x(ix), b
+   0429 CD 00 00      [17] 1304      call pintarCrocoPos1
+                           1305    ;;ld entity_color(ix), #0x00
+   042C                    1306    seguirActualizacion6:
+                           1307 
+   042C DD 21 3B 40   [14] 1308    ld ix, #enemyUp1Pos
+   0430 CD 00 00      [17] 1309   call actualizarEnemigoAereo
+                           1310   ;; call borrarEnemigo5
+                           1311   ;; ld ix, #enemyUp2Pos
+                           1312   ;; call borrarEnemigo5
+                           1313   ;; ;call actualizarEnemigoAereo2
+                           1314   ;; ld ix, #enemyUp3Pos
+                           1315   ;; call actualizarEnemigoAereo3
+                           1316  ;; ld ix, #enemyUp1Pos
+                           1317  ;;  call actualizarEnemigoAereo
+                           1318  ;;  ld ix, #enemyUp2Pos
+                           1319  ;;  call actualizarEnemigoAereo2
+                           1320  ;;  ld ix, #enemyUp3Pos
+                           1321  ;;  call actualizarEnemigoAereo3
+   0433 C9            [10] 1322     ret
+                           1323 
+                           1324 
+                           1325 
+   0434                    1326     actualizarEnemigos7:: 
+                           1327     ;;call cpct_waitVSYNC_asm
+                           1328     ;;halt 
+                           1329     ;;halt
+                           1330     ;;halt
+                           1331     ;;call cpct_waitVSYNC_asm
+                           1332     ;;halt 
+                           1333     ;;halt
+                           1334     ;;halt
+                           1335     ;;call cpct_waitVSYNC_asm
+                           1336     ;;halt 
+                           1337     ;;halt
+                           1338     ;;halt
+                           1339     ;;call cpct_waitVSYNC_asm
+                           1340     ;;halt 
+                           1341     ;;halt
+                           1342     ;;halt
+                           1343     ;;call cpct_waitVSYNC_asm
+                           1344     ;;halt 
+                           1345     ;;halt
+                           1346     ;;halt
+                           1347     ;;call cpct_waitVSYNC_asm
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 38.
+Hexadecimal [16-Bits]
+
+
+
+                           1348     ;;halt 
+                           1349     ;;halt
+                           1350     ;;halt
+                           1351     ;;call cpct_waitVSYNC_asm
+                           1352     ;;halt 
+                           1353     ;;halt
+                           1354     ;;halt
+                           1355     ;;call cpct_waitVSYNC_asm
+                           1356     ;;halt 
+                           1357     ;;halt
+                           1358     ;;halt
+                           1359     ;AQUI
+                           1360     ;;call cpct_waitVSYNC_asm
+                           1361     ;;halt 
+                           1362     ;;halt
+                           1363     ;;halt
+                           1364     ;;call cpct_waitVSYNC_asm
+   0434 DD 21 00 00   [14] 1365     ld ix, #cooldownEnemigo1
+   0438 DD 35 00      [23] 1366     dec 0(ix)
+   043B 28 06         [12] 1367     jr z, seActualiza7
+   043D DD 36 00 01   [19] 1368     ld 0(ix), #1
+   0441 18 19         [12] 1369     jr noseActualiza7
+   0443                    1370     seActualiza7:
+   0443 DD 21 1F 40   [14] 1371       ld  ix, #enemyPos  ;;(enemy)
+   0447 DD 36 06 00   [19] 1372      ld entity_color(ix), #0x00
+                           1373     ;;call  entityman_getEntityArray_IX
+                           1374     ;;call  entityman_getNumEntities_A
+                           1375     ;;call  rendersys_update
+   044B CD 00 00      [17] 1376     call borrarEnemigo1
+   044E DD 21 1F 40   [14] 1377     ld  ix, #enemyPos  ;;(enemy)
+                           1378      ;;ld entity_color(ix), #0xF0
+   0452 DD 7E 00      [19] 1379      ld a, entity_x(ix)
+   0455 3D            [ 4] 1380      dec a
+   0456 DD 77 00      [19] 1381      ld entity_x(ix), a
+                           1382     ;;call  entityman_getEntityArray_IX
+                           1383     ;;call  entityman_getNumEntities_A
+                           1384     ;;call  rendersys_update
+   0459 CD 00 00      [17] 1385     call pintarEnemigo1
+   045C                    1386    noseActualiza7:
+   045C CD 00 00      [17] 1387     call enemigoDerChoque
+                           1388 
+   045F DD 21 00 00   [14] 1389 ld ix, #cooldownEnemigo2
+   0463 DD 35 00      [23] 1390     dec 0(ix)
+   0466 28 06         [12] 1391     jr z, seActualiza26
+   0468 DD 36 00 01   [19] 1392     ld 0(ix), #1
+   046C 18 19         [12] 1393     jr noseActualiza26
+   046E                    1394     seActualiza26:
+   046E DD 21 2D 40   [14] 1395      ld  ix, #enemyIzqPos  ;;(enemy)
+   0472 DD 36 06 00   [19] 1396      ld entity_color(ix), #0x00
+                           1397     ;;call  entityman_getEntityArray_IX
+                           1398     ;;call  entityman_getNumEntities_A
+                           1399     ;;call  rendersys_update
+   0476 CD 00 00      [17] 1400     call borrarEnemigo2
+   0479 DD 21 2D 40   [14] 1401     ld  ix, #enemyIzqPos  ;;(enemy)
+                           1402      ;;ld entity_color(ix), #0xF0
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 39.
+Hexadecimal [16-Bits]
+
+
+
+   047D DD 7E 00      [19] 1403      ld a, entity_x(ix)
+   0480 3C            [ 4] 1404      inc a
+   0481 DD 77 00      [19] 1405      ld entity_x(ix), a
+                           1406     ;;call  entityman_getEntityArray_IX
+                           1407     ;;call  entityman_getNumEntities_A
+                           1408     ;;call  rendersys_update
+   0484 CD 00 00      [17] 1409     call pintarEnemigo2
+   0487                    1410    noseActualiza26:
+   0487 CD 00 00      [17] 1411     call enemigoIzqChoque
+                           1412 
+                           1413     ;;ld  ix, #enemyIzqPos  ;;(enemy)
+                           1414     ;;ld entity_color(ix), #0x00
+                           1415     ;;call  entityman_getEntityArray_IX
+                           1416     ;;call  entityman_getNumEntities_A
+                           1417     ;;call  rendersys_update
+                           1418     ;;ld  ix, #enemyIzqPos  ;;(enemy)
+                           1419     ;; ld entity_color(ix), #0xF0
+                           1420     ;; ld a, entity_x(ix)
+                           1421     ;; inc  a
+                           1422     ;; ld entity_x(ix), a
+                           1423     ;; call  entityman_getEntityArray_IX
+                           1424     ;;call  entityman_getNumEntities_A
+                           1425     ;;call  rendersys_update
+                           1426 ;;
+                           1427     ;;call enemigoIzqChoque
+                           1428 
+   048A DD 21 34 40   [14] 1429     ld  ix, #enemyIzqPos2  ;;(enemy)
+   048E DD 36 06 00   [19] 1430      ld entity_color(ix), #0x00
+                           1431     ;;call  entityman_getEntityArray_IX
+                           1432     ;;call  entityman_getNumEntities_A
+                           1433     ;;call  rendersys_update
+   0492 CD 00 00      [17] 1434     call borrarEnemigo3
+   0495 DD 21 34 40   [14] 1435     ld  ix, #enemyIzqPos2  ;;(enemy)
+   0499 DD 36 06 FF   [19] 1436      ld entity_color(ix), #0xFF
+   049D DD 7E 00      [19] 1437      ld a, entity_x(ix)
+   04A0 3C            [ 4] 1438      inc  a
+   04A1 DD 77 00      [19] 1439      ld entity_x(ix), a
+                           1440      ;;call  entityman_getEntityArray_IX
+                           1441     ;;call  entityman_getNumEntities_A
+                           1442     ;;call  rendersys_update
+   04A4 CD 00 00      [17] 1443     call pintarEnemigo3
+                           1444     ;AQUI
+                           1445     ;;call cpct_waitVSYNC_asm
+                           1446     ;;halt 
+                           1447     ;;halt
+                           1448     ;;halt
+                           1449     ;;call cpct_waitVSYNC_asm
+                           1450     ;;halt 
+                           1451     ;;halt
+                           1452     ;;halt
+                           1453     ;;;;QUITAMOS LAS 2 VELOCIDADES
+                           1454    ;; ld  ix, #enemyIzqPos2  ;;(enemy)
+                           1455    ;;  ld entity_color(ix), #0x00
+                           1456    ;; ;;call  entityman_getEntityArray_IX
+                           1457    ;; ;;call  entityman_getNumEntities_A
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 40.
+Hexadecimal [16-Bits]
+
+
+
+                           1458    ;; ;;call  rendersys_update
+                           1459    ;; call borrarEnemigo3
+                           1460    ;; ld  ix, #enemyIzqPos2  ;;(enemy)
+                           1461    ;;  ld entity_color(ix), #0xFF
+                           1462    ;;  ld a, entity_x(ix)
+                           1463    ;;  inc  a
+                           1464    ;;  ld entity_x(ix), a
+                           1465    ;;  call pintarEnemigo3
+                           1466    ;; ;; call  entityman_getEntityArray_IX
+                           1467     ;;call  entityman_getNumEntities_A
+                           1468     ;;call  rendersys_update
+                           1469 
+   04A7 CD 00 00      [17] 1470     call enemigoIzq2Choque
+                           1471 
+                           1472 
+   04AA DD 21 50 40   [14] 1473     ld  ix, #enemyDerPos2  ;;(enemy)
+   04AE DD 36 06 00   [19] 1474      ld entity_color(ix), #0x00
+   04B2 CD 00 00      [17] 1475      call borrarEnemigo4
+                           1476    ;; call  entityman_getEntityArray_IX
+                           1477    ;; call  entityman_getNumEntities_A
+                           1478    ;; call  rendersys_update
+   04B5 DD 21 50 40   [14] 1479     ld  ix, #enemyDerPos2  ;;(enemy)
+   04B9 DD 36 06 0F   [19] 1480      ld entity_color(ix), #0x0F
+   04BD DD 7E 00      [19] 1481      ld a, entity_x(ix)
+   04C0 3D            [ 4] 1482      dec  a
+   04C1 DD 77 00      [19] 1483      ld entity_x(ix), a
+   04C4 CD 00 00      [17] 1484      call pintarEnemigo4
+                           1485     ;AQUI
+                           1486    ;;  call cpct_waitVSYNC_asm
+                           1487    ;; halt 
+                           1488    ;; halt
+                           1489    ;; halt
+                           1490    ;; call cpct_waitVSYNC_asm
+                           1491    ;; halt 
+                           1492    ;; halt
+                           1493    ;; halt
+                           1494    ;;  call  entityman_getEntityArray_IX
+                           1495    ;; call  entityman_getNumEntities_A
+                           1496    ;; call  rendersys_update
+                           1497    ;;BAJAR VELOCIDAD
+                           1498  ;;   ld  ix, #enemyDerPos2  ;;(enemy)
+                           1499  ;;    ld entity_color(ix), #0x00
+                           1500  ;;    call borrarEnemigo4
+                           1501  ;;   ;;call  entityman_getEntityArray_IX
+                           1502  ;;   ;;call  entityman_getNumEntities_A
+                           1503  ;;   ;;call  rendersys_update
+                           1504  ;;   ld  ix, #enemyDerPos2  ;;(enemy)
+                           1505  ;;    ld entity_color(ix), #0x0F
+                           1506  ;;    ld a, entity_x(ix)
+                           1507  ;;    dec  a
+                           1508  ;;    ld entity_x(ix), a
+                           1509  ;;    call pintarEnemigo4
+                           1510     ;; call  entityman_getEntityArray_IX
+                           1511     ;;call  entityman_getNumEntities_A
+                           1512     ;;call  rendersys_update
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 41.
+Hexadecimal [16-Bits]
+
+
+
+                           1513 
+   04C7 CD 00 00      [17] 1514      call enemigoDer2Choque
+                           1515 
+   04CA DD 21 26 40   [14] 1516      ld  ix, #crocodile  ;;(enemy)
+   04CE DD 7E 04      [19] 1517     ld a, entity_estado(ix)
+   04D1 3D            [ 4] 1518     dec a
+   04D2 CA 73 05      [10] 1519     jp z, crocoPos1N7
+   04D5 3D            [ 4] 1520     dec a 
+   04D6 28 1E         [12] 1521     jr z, crocoPos2N7
+   04D8 3D            [ 4] 1522     dec a 
+   04D9 28 28         [12] 1523     jr z, crocoPos3N7
+   04DB 3D            [ 4] 1524     dec a 
+   04DC 28 42         [12] 1525     jr z, crocoPos4N7
+   04DE 3D            [ 4] 1526     dec a 
+   04DF 28 5F         [12] 1527     jr z, crocoPos5N7
+   04E1 3D            [ 4] 1528     dec a 
+   04E2 28 69         [12] 1529     jr z, crocoPos6N7
+   04E4 3D            [ 4] 1530     dec a 
+   04E5 28 73         [12] 1531     jr z, crocoPos7N7
+                           1532     ;;Estado 8, estado de cooldown
+   04E7 DD 35 05      [23] 1533     dec entity_vy(ix)
+   04EA 28 03         [12] 1534    jr z, finCDCrocoN7
+   04EC C3 9A 05      [10] 1535    jp seguirActualizacion7
+   04EF                    1536    finCDCrocoN7:
+   04EF DD 36 04 01   [19] 1537    ld entity_estado(ix), #1
+   04F3 C3 9A 05      [10] 1538    jp seguirActualizacion7
+   04F6                    1539     crocoPos2N7:
+   04F6 DD 36 04 03   [19] 1540     ld entity_estado(ix), #3
+   04FA CD 00 00      [17] 1541     call borrarCrocoPos2
+   04FD CD 00 00      [17] 1542     call pintarCrocoPos3
+   0500 C3 9A 05      [10] 1543     jp seguirActualizacion7
+   0503                    1544     crocoPos3N7:
+   0503 DD 36 04 04   [19] 1545     ld entity_estado(ix), #4
+   0507 CD 00 00      [17] 1546     call borrarCrocoPos3
+   050A CD 00 00      [17] 1547     call pintarCrocoPos4
+   050D DD 46 00      [19] 1548     ld b,  entity_x(ix)
+   0510 DD 21 03 40   [14] 1549     ld ix, #playerPos
+   0514 DD 7E 00      [19] 1550     ld a, entity_x(ix)
+   0517 90            [ 4] 1551     sub b
+   0518 28 03         [12] 1552     jr z, colisionCrocoN7
+   051A C3 9A 05      [10] 1553     jp seguirActualizacion7
+   051D                    1554     colisionCrocoN7:
+   051D CD 00 00      [17] 1555    call colision
+   0520                    1556     crocoPos4N7:
+   0520 DD 36 04 05   [19] 1557     ld entity_estado(ix), #5
+   0524 CD 00 00      [17] 1558     call borrarCrocoPos4
+   0527 CD 00 00      [17] 1559     call pintarCrocoPos5
+   052A DD 46 00      [19] 1560     ld b,  entity_x(ix)
+   052D DD 21 03 40   [14] 1561     ld ix, #playerPos
+   0531 DD 7E 00      [19] 1562     ld a, entity_x(ix)
+   0534 90            [ 4] 1563     sub b
+   0535 28 06         [12] 1564     jr z, colisionCroco2N7
+   0537 3D            [ 4] 1565     dec a
+   0538 28 03         [12] 1566     jr z, colisionCroco2N7
+   053A C3 9A 05      [10] 1567     jp seguirActualizacion7
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 42.
+Hexadecimal [16-Bits]
+
+
+
+   053D                    1568     colisionCroco2N7:
+   053D CD 00 00      [17] 1569    call colision
+                           1570 
+   0540                    1571     crocoPos5N7:
+   0540 DD 36 04 06   [19] 1572     ld entity_estado(ix), #6
+   0544 CD 00 00      [17] 1573     call borrarCrocoPos5
+   0547 CD 00 00      [17] 1574     call pintarCrocoPos3
+   054A C3 9A 05      [10] 1575     jp seguirActualizacion7
+   054D                    1576     crocoPos6N7:
+   054D DD 36 04 07   [19] 1577     ld entity_estado(ix), #7
+   0551 CD 00 00      [17] 1578     call borrarCrocoPos6
+   0554 CD 00 00      [17] 1579     call pintarCrocoPos2
+   0557 C3 9A 05      [10] 1580     jp seguirActualizacion7
+   055A                    1581     crocoPos7N7:
+   055A DD 36 04 08   [19] 1582     ld entity_estado(ix), #8
+   055E CD 00 00      [17] 1583     call borrarCrocoPos7
+   0561 CD 00 00      [17] 1584     call pintarCrocoPos1
+   0564 DD 21 26 40   [14] 1585     ld  ix, #crocodile
+   0568 DD 36 00 00   [19] 1586     ld entity_x(ix), #0
+   056C DD 36 05 05   [19] 1587     ld entity_vy(ix), #5
+   0570 C3 9A 05      [10] 1588     jp seguirActualizacion7
+   0573                    1589     crocoPos1N7:
+   0573 CD 00 00      [17] 1590     call borrarCrocoPos1
+   0576 DD 21 03 40   [14] 1591     ld  ix, #playerPos
+   057A DD 7E 00      [19] 1592     ld a, entity_x(ix)
+   057D DD 21 26 40   [14] 1593     ld  ix, #crocodile
+   0581 DD 46 00      [19] 1594     ld b, entity_x(ix)
+   0584 90            [ 4] 1595     sub b
+   0585 20 09         [12] 1596     jr nz, saltaCrocoN7
+                           1597     
+   0587                    1598     encuentraEnemigoN7:
+   0587 DD 34 04      [23] 1599     inc entity_estado(ix)
+   058A CD 00 00      [17] 1600     call pintarCrocoPos2 
+   058D C3 9A 05      [10] 1601     jp seguirActualizacion7
+   0590                    1602     saltaCrocoN7:
+   0590 3D            [ 4] 1603     dec a
+   0591 28 F4         [12] 1604     jr z, encuentraEnemigoN7
+                           1605     ;;dec a
+                           1606     ;;jr z, encuentraEnemigoN7
+   0593 04            [ 4] 1607      inc b
+   0594 DD 70 00      [19] 1608      ld entity_x(ix), b
+   0597 CD 00 00      [17] 1609      call pintarCrocoPos1
+                           1610    ;;ld entity_color(ix), #0x00
+   059A                    1611    seguirActualizacion7:
+                           1612 
+   059A DD 21 3B 40   [14] 1613    ld ix, #enemyUp1Pos
+   059E CD 00 00      [17] 1614   call actualizarEnemigoAereo
+                           1615   ;; call borrarEnemigo5
+   05A1 DD 21 42 40   [14] 1616    ld ix, #enemyUp2Pos
+                           1617   ;; call borrarEnemigo5
+   05A5 CD 00 00      [17] 1618   call actualizarEnemigoAereo2
+   05A8 DD 21 49 40   [14] 1619    ld ix, #enemyUp3Pos
+   05AC CD 00 00      [17] 1620    call actualizarEnemigoAereo3
+                           1621  ;; ld ix, #enemyUp1Pos
+                           1622  ;;  call actualizarEnemigoAereo
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 43.
+Hexadecimal [16-Bits]
+
+
+
+                           1623  ;;  ld ix, #enemyUp2Pos
+                           1624  ;;  call actualizarEnemigoAereo2
+                           1625  ;;  ld ix, #enemyUp3Pos
+                           1626  ;;  call actualizarEnemigoAereo3
+   05AF C9            [10] 1627     ret

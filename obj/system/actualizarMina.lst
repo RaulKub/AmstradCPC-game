@@ -1,0 +1,1352 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+
+
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+
+
+                             15 .include "cpcfunciones.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl cpct_disableFirmware_asm
+                             16 .globl cpct_getScreenPtr_asm
+                             17 .globl cpct_setDrawCharM1_asm
+                             18 .globl cpct_drawStringM1_asm
+                             19 .globl cpct_waitVSYNC_asm
+                             20 .globl cpct_isAnyKeyPressed_f_asm
+                             21 .globl cpct_scanKeyboard_f_asm
+                             22 .globl cpct_drawSolidBox_asm
+                             23 .globl cpct_isKeyPressed_asm
+                             24 .globl cpct_waitVSYNC_asm
+                             25 .globl cpct_setVideoMode_asm
+                             26 .globl cpct_setPalette_asm
+                             27 .globl cpct_getHWColour_asm
+                             28 .globl cpct_drawSprite_asm
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+
+
+                             16 .include "manager/entity_manager.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl entityman_init
+                             16 .globl entityman_create
+                             17 .globl _num_entities
+                             18 .globl _entity_array
+                             19 .globl entity_size
+                             20 .globl entityman_getNumEntities_A
+                             21 .globl entityman_getEntityArray_IX
+                             22 .globl reset
+                             23 
+                             24 .macro  DefineEntity _name, _x, _y, _w, _h, _vx, _vy, _color
+                             25 _name::
+                             26    .db  _x
+                             27    .db  _y
+                             28    .db  _w
+                             29    .db  _h
+                             30    .db  _vx
+                             31    .db  _vy
+                             32    .db  _color
+                             33 .endm
+                             34 
+                     0000    35 entity_x = 0
+                     0001    36 entity_y = 1
+                     0002    37 entity_w = 2
+                     0003    38 entity_h = 3
+                     0004    39 entity_estado = 4
+                     0005    40 entity_vy = 5
+                     0006    41 entity_color = 6
+                     0007    42 sizeof_entity = 7
+                             43 
+                             44 
+                             45 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
+Hexadecimal [16-Bits]
+
+
+
+                             17 .include "mainJuego.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl GameStart
+                             16 .globl colision
+                             17 .globl Mina
+                             18 .globl Inicio
+                             19 .globl letrasborradas
+                             20 .globl cooldownEnemigo1
+                             21 .globl cooldownEnemigo2
+                             22 .globl cooldownMisil
+                             23 .globl letrasborradas
+                             24 .globl nivelactual
+                             25 .globl cargaNivel
+                             26 .globl vidas
+                             27 
+                             28 
+                             29 
+                     4003    30 playerPos = #0x4003
+                     400A    31 espadaPos = #0x400A
+                     4011    32 wallIPos = #0x4011
+                     4018    33 wallDPos = #0x4018
+                     401F    34 enemyPos = #0x401F
+                     4026    35 crocodile = #0x4026
+                     402D    36 enemyIzqPos = #0x402D
+                     4034    37 enemyIzqPos2 = #0x4034
+                     403B    38 enemyUp1Pos = #0x403B
+                     4042    39 enemyUp2Pos = #0x4042
+                     4049    40 enemyUp3Pos = #0x4049
+                     4050    41 enemyDerPos2 = #0x4050
+                     4057    42 enemyUp4Pos = #0x4057
+                     405E    43 enemyIzqPos3 = #0x405E
+                     4065    44 enemyUp5Pos = #0x4065
+                             45 ;;crocodile = #0x4178
+                     406C    46 enemyDerPos3 = #0x406C
+                             47 ;;croco = #0x417F
+                             48 
+                             49 
+                             50 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
+Hexadecimal [16-Bits]
+
+
+
+                             18 .include "system/render_system.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl rendersys_update
+                             16 .globl rendersys_init
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
+Hexadecimal [16-Bits]
+
+
+
+                             19 .include "system/renderEspada.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl pintarEspadaDerecha
+                             16 .globl borrarEspadaDerecha
+                             17 .globl pintarEspadaIzquierda
+                             18 .globl borrarEspadaIzquierda
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
+Hexadecimal [16-Bits]
+
+
+
+                             20 .include "system/renderEnemigo1.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl pintarEnemigo1
+                             16 .globl borrarEnemigo1
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
+Hexadecimal [16-Bits]
+
+
+
+                             21 .include "system/renderEnemigo2.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl pintarEnemigo2
+                             16 .globl borrarEnemigo2
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 9.
+Hexadecimal [16-Bits]
+
+
+
+                             22 .include "system/renderEnemigo3.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl pintarEnemigo3
+                             16 .globl borrarEnemigo3
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 10.
+Hexadecimal [16-Bits]
+
+
+
+                             23 .include "system/renderEnemigo4.h.s"
+                              1 ;;This file is part of Kubso.
+                              2 ;;
+                              3 ;;Kubso is free software: you can redistribute it and/or modify
+                              4 ;;it under the terms of the GNU General Public License as published by
+                              5 ;;the Free Software Foundation, either version 3 of the License, or
+                              6 ;;(at your option) any later version.
+                              7 ;;
+                              8 ;;Kubso is distributed in the hope that it will be useful,
+                              9 ;;but WITHOUT ANY WARRANTY; without even the implied warranty of
+                             10 ;;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                             11 ;;GNU General Public License for more details.
+                             12 ;;
+                             13 ;;You should have received a copy of the GNU General Public License
+                             14 ;;along with Kubso.  If not, see <https://www.gnu.org/licenses/>.
+                             15 .globl pintarEnemigo4
+                             16 .globl borrarEnemigo4
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 11.
+Hexadecimal [16-Bits]
+
+
+
+                             24 
+   0000 00                   25 muerteporMina:: .db #0
+                             26 
+                             27 
+   0001                      28 actualizarMina::
+   0001 DD 21 00 00   [14]   29     ld ix, #Mina
+   0005 DD 7E 00      [19]   30     ld a, 0(ix)
+   0008 3D            [ 4]   31     dec a
+   0009 28 01         [12]   32     jr z, colocada
+   000B C9            [10]   33     ret
+                             34 
+   000C                      35     colocada:
+   000C DD 7E 02      [19]   36     ld a, 2(ix)
+   000F 3D            [ 4]   37     dec a 
+   0010 28 36         [12]   38     jr z, Encendida
+   0012 3D            [ 4]   39     dec a 
+   0013 CA 56 05      [10]   40     jp z, Explotando
+                             41     ;;APAGADA:
+   0016 DD 35 03      [23]   42     dec 3(ix)
+   0019 28 0E         [12]   43     jr z, Encender
+                             44     ;;REDIBUJAR APAGADA
+   001B 11 00 C0      [10]   45     ld      de, #0xC000   
+   001E DD 4E 01      [19]   46     ld      c,  1(ix)          
+   0021 06 8F         [ 7]   47     ld      b,  #0x8F
+   0023 CD 00 00      [17]   48     call cpct_getScreenPtr_asm 
+   0026 36 F0         [10]   49     ld (hl), #0xF0  
+   0028 C9            [10]   50     ret
+   0029                      51     Encender:
+   0029 DD 36 02 01   [19]   52     ld 2(ix), #1
+                             53     ;;REDIBUJAR ENCENDIDA
+   002D 11 00 C0      [10]   54     ld      de, #0xC000   
+   0030 DD 4E 01      [19]   55     ld      c,  1(ix)          
+   0033 06 8F         [ 7]   56     ld      b,  #0x8F
+   0035 CD 00 00      [17]   57     call cpct_getScreenPtr_asm 
+   0038 36 F0         [10]   58     ld (hl), #0xF0 
+   003A 11 00 C0      [10]   59     ld      de, #0xC000   
+   003D DD 4E 01      [19]   60     ld      c,  1(ix)          
+   0040 06 8E         [ 7]   61     ld      b,  #0x8E
+   0042 CD 00 00      [17]   62     call cpct_getScreenPtr_asm 
+   0045 36 66         [10]   63     ld (hl), #0x66 
+   0047 C9            [10]   64     ret
+                             65 
+   0048                      66     Encendida:
+   0048 DD 46 01      [19]   67     ld b, 1(ix)
+   004B DD 21 03 40   [14]   68     ld ix, #playerPos
+   004F DD 7E 00      [19]   69     ld a, entity_x(ix)
+   0052 90            [ 4]   70     sub b
+   0053 CA A9 00      [10]   71     jp z, colisionMina
+   0056 DD 21 1F 40   [14]   72     ld ix, #enemyPos
+   005A DD 7E 00      [19]   73     ld a, entity_x(ix)
+   005D 90            [ 4]   74     sub b
+   005E CA 7E 01      [10]   75     jp z, colisionEnemigoDerecha1
+   0061 DD 21 2D 40   [14]   76     ld ix, #enemyIzqPos
+   0065 DD 7E 00      [19]   77     ld a, entity_x(ix)
+   0068 90            [ 4]   78     sub b
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 12.
+Hexadecimal [16-Bits]
+
+
+
+   0069 CA 79 02      [10]   79     jp z, colisionEnemigoIzquierda1
+   006C DD 21 34 40   [14]   80     ld ix, #enemyIzqPos2
+   0070 DD 7E 00      [19]   81     ld a, entity_x(ix)
+   0073 90            [ 4]   82     sub b
+   0074 CA 74 03      [10]   83     jp z, colisionEnemigoIzquierda2
+   0077 3D            [ 4]   84     dec a 
+   0078 CA 74 03      [10]   85     jp z, colisionEnemigoIzquierda2  ;;Añadimos dos bytes para el enemigo rapido
+   007B DD 21 50 40   [14]   86     ld ix, #enemyDerPos2
+   007F DD 7E 00      [19]   87     ld a, entity_x(ix)
+   0082 90            [ 4]   88     sub b
+   0083 CA 65 04      [10]   89     jp z, colisionEnemigoDerecha2
+   0086 3D            [ 4]   90     dec a 
+   0087 CA 65 04      [10]   91     jp z, colisionEnemigoDerecha2  ;;Añadimos dos bytes para el enemigo rapido
+                             92     ;;REDIBUJAR ENCENDIDA
+   008A DD 21 00 00   [14]   93     ld ix, #Mina
+   008E 11 00 C0      [10]   94     ld      de, #0xC000   
+   0091 DD 4E 01      [19]   95     ld      c,  1(ix)          
+   0094 06 8F         [ 7]   96     ld      b,  #0x8F
+   0096 CD 00 00      [17]   97     call cpct_getScreenPtr_asm 
+   0099 36 F0         [10]   98     ld (hl), #0xF0 
+   009B 11 00 C0      [10]   99     ld      de, #0xC000   
+   009E DD 4E 01      [19]  100     ld      c,  1(ix)          
+   00A1 06 8E         [ 7]  101     ld      b,  #0x8E
+   00A3 CD 00 00      [17]  102     call cpct_getScreenPtr_asm 
+   00A6 36 66         [10]  103     ld (hl), #0x66
+   00A8 C9            [10]  104     ret
+                            105 
+   00A9                     106     colisionMina:
+                            107     ;;PINTAR EXPLOSION PARTE 1
+   00A9 DD 21 00 00   [14]  108     ld ix, #Mina
+   00AD 11 00 C0      [10]  109     ld      de, #0xC000   
+   00B0 DD 4E 01      [19]  110     ld      c,  1(ix)
+   00B3 06 8F         [ 7]  111     ld      b,  #0x8F
+   00B5 CD 00 00      [17]  112     call cpct_getScreenPtr_asm 
+   00B8 36 E2         [10]  113     ld (hl), #0xE2
+   00BA 2D            [ 4]  114     dec l
+   00BB 36 74         [10]  115     ld (hl), #0x74
+   00BD 11 00 C0      [10]  116     ld      de, #0xC000   
+   00C0 DD 4E 01      [19]  117     ld      c,  1(ix)          
+   00C3 06 8E         [ 7]  118     ld      b,  #0x8E
+   00C5 CD 00 00      [17]  119     call cpct_getScreenPtr_asm 
+   00C8 36 C4         [10]  120     ld (hl), #0xC4 
+   00CA 2D            [ 4]  121     dec l
+   00CB 36 32         [10]  122     ld (hl), #0x32
+   00CD 11 00 C0      [10]  123     ld      de, #0xC000   
+   00D0 DD 4E 01      [19]  124     ld      c,  1(ix)
+   00D3 06 8D         [ 7]  125     ld      b,  #0x8D
+   00D5 CD 00 00      [17]  126     call cpct_getScreenPtr_asm 
+   00D8 36 C4         [10]  127     ld (hl), #0xC4
+   00DA 2D            [ 4]  128     dec l
+   00DB 36 32         [10]  129     ld (hl), #0x32
+   00DD 11 00 C0      [10]  130     ld      de, #0xC000   
+   00E0 DD 4E 01      [19]  131     ld      c,  1(ix)          
+   00E3 06 8C         [ 7]  132     ld      b,  #0x8C
+   00E5 CD 00 00      [17]  133     call cpct_getScreenPtr_asm 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 13.
+Hexadecimal [16-Bits]
+
+
+
+   00E8 36 88         [10]  134     ld (hl), #0x88 
+   00EA 2D            [ 4]  135     dec l
+   00EB 36 11         [10]  136     ld (hl), #0x11
+   00ED 3E 14         [ 7]  137     ld a, #20
+   00EF                     138     esperaExp8:
+   00EF 76            [ 4]  139     halt
+   00F0 3D            [ 4]  140     dec a 
+   00F1 20 FC         [12]  141     jr nz, esperaExp8
+                            142     ;;EXPLOSION GRANDE
+   00F3 11 00 C0      [10]  143     ld      de, #0xC000   
+   00F6 DD 4E 01      [19]  144     ld      c,  1(ix)
+   00F9 06 8F         [ 7]  145     ld      b,  #0x8F
+   00FB CD 00 00      [17]  146     call cpct_getScreenPtr_asm 
+   00FE 36 F1         [10]  147     ld (hl), #0xF1
+   0100 2D            [ 4]  148     dec l
+   0101 36 F8         [10]  149     ld (hl), #0xF8
+   0103 11 00 C0      [10]  150     ld      de, #0xC000   
+   0106 DD 4E 01      [19]  151     ld      c,  1(ix)          
+   0109 06 8E         [ 7]  152     ld      b,  #0x8E
+   010B CD 00 00      [17]  153     call cpct_getScreenPtr_asm 
+   010E 36 F1         [10]  154     ld (hl), #0xF1 
+   0110 2D            [ 4]  155     dec l
+   0111 36 F8         [10]  156     ld (hl), #0xF8
+   0113 11 00 C0      [10]  157     ld      de, #0xC000   
+   0116 DD 4E 01      [19]  158     ld      c,  1(ix)
+   0119 06 8D         [ 7]  159     ld      b,  #0x8D
+   011B CD 00 00      [17]  160     call cpct_getScreenPtr_asm 
+   011E 36 F3         [10]  161     ld (hl), #0xF3
+   0120 2D            [ 4]  162     dec l
+   0121 36 FC         [10]  163     ld (hl), #0xFC
+   0123 11 00 C0      [10]  164     ld      de, #0xC000   
+   0126 DD 4E 01      [19]  165     ld      c,  1(ix)          
+   0129 06 8C         [ 7]  166     ld      b,  #0x8C
+   012B CD 00 00      [17]  167     call cpct_getScreenPtr_asm 
+   012E 36 E2         [10]  168     ld (hl), #0xE2 
+   0130 2D            [ 4]  169     dec l
+   0131 36 74         [10]  170     ld (hl), #0x74
+   0133 11 00 C0      [10]  171     ld      de, #0xC000   
+   0136 DD 4E 01      [19]  172     ld      c,  1(ix)
+   0139 06 8B         [ 7]  173     ld      b,  #0x8B
+   013B CD 00 00      [17]  174     call cpct_getScreenPtr_asm 
+   013E 36 E2         [10]  175     ld (hl), #0xE2
+   0140 2D            [ 4]  176     dec l
+   0141 36 74         [10]  177     ld (hl), #0x74
+   0143 11 00 C0      [10]  178     ld      de, #0xC000   
+   0146 DD 4E 01      [19]  179     ld      c,  1(ix)          
+   0149 06 8A         [ 7]  180     ld      b,  #0x8A
+   014B CD 00 00      [17]  181     call cpct_getScreenPtr_asm 
+   014E 36 C4         [10]  182     ld (hl), #0xC4 
+   0150 2D            [ 4]  183     dec l
+   0151 36 32         [10]  184     ld (hl), #0x32
+   0153 11 00 C0      [10]  185     ld      de, #0xC000   
+   0156 DD 4E 01      [19]  186     ld      c,  1(ix)
+   0159 06 89         [ 7]  187     ld      b,  #0x89
+   015B CD 00 00      [17]  188     call cpct_getScreenPtr_asm 
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 14.
+Hexadecimal [16-Bits]
+
+
+
+   015E 36 C4         [10]  189     ld (hl), #0xC4
+   0160 2D            [ 4]  190     dec l
+   0161 36 32         [10]  191     ld (hl), #0x32
+   0163 11 00 C0      [10]  192     ld      de, #0xC000   
+   0166 DD 4E 01      [19]  193     ld      c,  1(ix)          
+   0169 06 88         [ 7]  194     ld      b,  #0x88
+   016B CD 00 00      [17]  195     call cpct_getScreenPtr_asm 
+   016E 36 88         [10]  196     ld (hl), #0x88 
+   0170 2D            [ 4]  197     dec l
+   0171 36 11         [10]  198     ld (hl), #0x11
+   0173 DD 21 00 00   [14]  199     ld ix, #muerteporMina
+   0177 DD 36 00 01   [19]  200     ld 0(ix), #1
+   017B C3 00 00      [10]  201     jp colision
+                            202 
+   017E                     203     colisionEnemigoDerecha1:
+                            204     ;;Eliminar el enemigo derecha
+   017E CD 00 00      [17]  205     call borrarEnemigo1
+   0181 DD 21 00 00   [14]  206     ld ix, #Mina 
+   0185 DD 36 02 02   [19]  207     ld 2(ix), #2
+   0189 DD 21 1F 40   [14]  208     ld  ix, #enemyPos
+   018D DD 36 00 48   [19]  209     ld  entity_x(ix), #72
+   0191 DD 36 04 00   [19]  210     ld  entity_estado(ix), #0
+   0195 CD 00 00      [17]  211     call pintarEnemigo1
+   0198 DD 21 18 40   [14]  212     ld  ix, #wallDPos
+   019C DD 7E 05      [19]  213     ld  a, entity_vy(ix)
+   019F 3D            [ 4]  214     dec a
+   01A0 DD 77 05      [19]  215     ld  entity_vy(ix), a
+   01A3 DD 21 11 40   [14]  216     ld  ix, #wallIPos
+   01A7 DD 7E 04      [19]  217     ld  a, entity_estado(ix)
+   01AA 3C            [ 4]  218     inc a
+   01AB DD 77 04      [19]  219     ld  entity_estado(ix), a
+                            220     ;;PINTAR EXPLOSION PARTE 1
+   01AE DD 21 00 00   [14]  221     ld ix, #Mina
+   01B2 11 00 C0      [10]  222     ld      de, #0xC000   
+   01B5 DD 4E 01      [19]  223     ld      c,  1(ix)
+   01B8 06 8F         [ 7]  224     ld      b,  #0x8F
+   01BA CD 00 00      [17]  225     call cpct_getScreenPtr_asm 
+   01BD 36 E2         [10]  226     ld (hl), #0xE2
+   01BF 2D            [ 4]  227     dec l
+   01C0 36 74         [10]  228     ld (hl), #0x74
+   01C2 11 00 C0      [10]  229     ld      de, #0xC000   
+   01C5 DD 4E 01      [19]  230     ld      c,  1(ix)          
+   01C8 06 8E         [ 7]  231     ld      b,  #0x8E
+   01CA CD 00 00      [17]  232     call cpct_getScreenPtr_asm 
+   01CD 36 C4         [10]  233     ld (hl), #0xC4 
+   01CF 2D            [ 4]  234     dec l
+   01D0 36 32         [10]  235     ld (hl), #0x32
+   01D2 11 00 C0      [10]  236     ld      de, #0xC000   
+   01D5 DD 4E 01      [19]  237     ld      c,  1(ix)
+   01D8 06 8D         [ 7]  238     ld      b,  #0x8D
+   01DA CD 00 00      [17]  239     call cpct_getScreenPtr_asm 
+   01DD 36 C4         [10]  240     ld (hl), #0xC4
+   01DF 2D            [ 4]  241     dec l
+   01E0 36 32         [10]  242     ld (hl), #0x32
+   01E2 11 00 C0      [10]  243     ld      de, #0xC000   
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 15.
+Hexadecimal [16-Bits]
+
+
+
+   01E5 DD 4E 01      [19]  244     ld      c,  1(ix)          
+   01E8 06 8C         [ 7]  245     ld      b,  #0x8C
+   01EA CD 00 00      [17]  246     call cpct_getScreenPtr_asm 
+   01ED 36 88         [10]  247     ld (hl), #0x88 
+   01EF 2D            [ 4]  248     dec l
+   01F0 36 11         [10]  249     ld (hl), #0x11
+   01F2 3E 14         [ 7]  250     ld a, #20
+   01F4                     251     esperaExp:
+   01F4 76            [ 4]  252     halt
+   01F5 3D            [ 4]  253     dec a 
+   01F6 20 FC         [12]  254     jr nz, esperaExp
+                            255     ;;EXPLOSION GRANDE
+   01F8 11 00 C0      [10]  256     ld      de, #0xC000   
+   01FB DD 4E 01      [19]  257     ld      c,  1(ix)
+   01FE 06 8F         [ 7]  258     ld      b,  #0x8F
+   0200 CD 00 00      [17]  259     call cpct_getScreenPtr_asm 
+   0203 36 F1         [10]  260     ld (hl), #0xF1
+   0205 2D            [ 4]  261     dec l
+   0206 36 F8         [10]  262     ld (hl), #0xF8
+   0208 11 00 C0      [10]  263     ld      de, #0xC000   
+   020B DD 4E 01      [19]  264     ld      c,  1(ix)          
+   020E 06 8E         [ 7]  265     ld      b,  #0x8E
+   0210 CD 00 00      [17]  266     call cpct_getScreenPtr_asm 
+   0213 36 F1         [10]  267     ld (hl), #0xF1 
+   0215 2D            [ 4]  268     dec l
+   0216 36 F8         [10]  269     ld (hl), #0xF8
+   0218 11 00 C0      [10]  270     ld      de, #0xC000   
+   021B DD 4E 01      [19]  271     ld      c,  1(ix)
+   021E 06 8D         [ 7]  272     ld      b,  #0x8D
+   0220 CD 00 00      [17]  273     call cpct_getScreenPtr_asm 
+   0223 36 F3         [10]  274     ld (hl), #0xF3
+   0225 2D            [ 4]  275     dec l
+   0226 36 FC         [10]  276     ld (hl), #0xFC
+   0228 11 00 C0      [10]  277     ld      de, #0xC000   
+   022B DD 4E 01      [19]  278     ld      c,  1(ix)          
+   022E 06 8C         [ 7]  279     ld      b,  #0x8C
+   0230 CD 00 00      [17]  280     call cpct_getScreenPtr_asm 
+   0233 36 E2         [10]  281     ld (hl), #0xE2 
+   0235 2D            [ 4]  282     dec l
+   0236 36 74         [10]  283     ld (hl), #0x74
+   0238 11 00 C0      [10]  284     ld      de, #0xC000   
+   023B DD 4E 01      [19]  285     ld      c,  1(ix)
+   023E 06 8B         [ 7]  286     ld      b,  #0x8B
+   0240 CD 00 00      [17]  287     call cpct_getScreenPtr_asm 
+   0243 36 E2         [10]  288     ld (hl), #0xE2
+   0245 2D            [ 4]  289     dec l
+   0246 36 74         [10]  290     ld (hl), #0x74
+   0248 11 00 C0      [10]  291     ld      de, #0xC000   
+   024B DD 4E 01      [19]  292     ld      c,  1(ix)          
+   024E 06 8A         [ 7]  293     ld      b,  #0x8A
+   0250 CD 00 00      [17]  294     call cpct_getScreenPtr_asm 
+   0253 36 C4         [10]  295     ld (hl), #0xC4 
+   0255 2D            [ 4]  296     dec l
+   0256 36 32         [10]  297     ld (hl), #0x32
+   0258 11 00 C0      [10]  298     ld      de, #0xC000   
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 16.
+Hexadecimal [16-Bits]
+
+
+
+   025B DD 4E 01      [19]  299     ld      c,  1(ix)
+   025E 06 89         [ 7]  300     ld      b,  #0x89
+   0260 CD 00 00      [17]  301     call cpct_getScreenPtr_asm 
+   0263 36 C4         [10]  302     ld (hl), #0xC4
+   0265 2D            [ 4]  303     dec l
+   0266 36 32         [10]  304     ld (hl), #0x32
+   0268 11 00 C0      [10]  305     ld      de, #0xC000   
+   026B DD 4E 01      [19]  306     ld      c,  1(ix)          
+   026E 06 88         [ 7]  307     ld      b,  #0x88
+   0270 CD 00 00      [17]  308     call cpct_getScreenPtr_asm 
+   0273 36 88         [10]  309     ld (hl), #0x88 
+   0275 2D            [ 4]  310     dec l
+   0276 36 11         [10]  311     ld (hl), #0x11
+   0278 C9            [10]  312     ret
+   0279                     313     colisionEnemigoIzquierda1:
+   0279 CD 00 00      [17]  314     call borrarEnemigo2
+   027C DD 21 00 00   [14]  315     ld ix, #Mina 
+   0280 DD 36 02 02   [19]  316     ld 2(ix), #2
+                            317     ;;Eliminar el enemigo izquierda
+                            318     
+   0284 DD 21 2D 40   [14]  319     ld  ix, #enemyIzqPos
+   0288 DD 36 00 05   [19]  320     ld  entity_x(ix), #5
+   028C DD 36 04 00   [19]  321     ld  entity_estado(ix), #0
+   0290 CD 00 00      [17]  322     call pintarEnemigo2
+                            323 
+   0293 DD 21 18 40   [14]  324     ld  ix, #wallDPos
+   0297 DD 7E 05      [19]  325     ld  a, entity_vy(ix)
+   029A 3D            [ 4]  326     dec a
+   029B DD 77 05      [19]  327     ld  entity_vy(ix), a
+   029E DD 21 11 40   [14]  328     ld  ix, #wallIPos
+   02A2 DD 7E 04      [19]  329     ld  a, entity_estado(ix)
+   02A5 3C            [ 4]  330     inc a
+   02A6 DD 77 04      [19]  331     ld  entity_estado(ix), a
+                            332     ;;PINTAR EXPLOSION PARTE 1
+   02A9 DD 21 00 00   [14]  333     ld ix, #Mina
+   02AD 11 00 C0      [10]  334     ld      de, #0xC000   
+   02B0 DD 4E 01      [19]  335     ld      c,  1(ix)
+   02B3 06 8F         [ 7]  336     ld      b,  #0x8F
+   02B5 CD 00 00      [17]  337     call cpct_getScreenPtr_asm 
+   02B8 36 E2         [10]  338     ld (hl), #0xE2
+   02BA 2D            [ 4]  339     dec l
+   02BB 36 74         [10]  340     ld (hl), #0x74
+   02BD 11 00 C0      [10]  341     ld      de, #0xC000   
+   02C0 DD 4E 01      [19]  342     ld      c,  1(ix)          
+   02C3 06 8E         [ 7]  343     ld      b,  #0x8E
+   02C5 CD 00 00      [17]  344     call cpct_getScreenPtr_asm 
+   02C8 36 C4         [10]  345     ld (hl), #0xC4 
+   02CA 2D            [ 4]  346     dec l
+   02CB 36 32         [10]  347     ld (hl), #0x32
+   02CD 11 00 C0      [10]  348     ld      de, #0xC000   
+   02D0 DD 4E 01      [19]  349     ld      c,  1(ix)
+   02D3 06 8D         [ 7]  350     ld      b,  #0x8D
+   02D5 CD 00 00      [17]  351     call cpct_getScreenPtr_asm 
+   02D8 36 C4         [10]  352     ld (hl), #0xC4
+   02DA 2D            [ 4]  353     dec l
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 17.
+Hexadecimal [16-Bits]
+
+
+
+   02DB 36 32         [10]  354     ld (hl), #0x32
+   02DD 11 00 C0      [10]  355     ld      de, #0xC000   
+   02E0 DD 4E 01      [19]  356     ld      c,  1(ix)          
+   02E3 06 8C         [ 7]  357     ld      b,  #0x8C
+   02E5 CD 00 00      [17]  358     call cpct_getScreenPtr_asm 
+   02E8 36 88         [10]  359     ld (hl), #0x88 
+   02EA 2D            [ 4]  360     dec l
+   02EB 36 11         [10]  361     ld (hl), #0x11
+   02ED 3E 14         [ 7]  362     ld a, #20
+   02EF                     363     esperaExp2:
+   02EF 76            [ 4]  364     halt
+   02F0 3D            [ 4]  365     dec a 
+   02F1 20 FC         [12]  366     jr nz, esperaExp2
+                            367     ;;EXPLOSION GRANDE
+   02F3 11 00 C0      [10]  368     ld      de, #0xC000   
+   02F6 DD 4E 01      [19]  369     ld      c,  1(ix)
+   02F9 06 8F         [ 7]  370     ld      b,  #0x8F
+   02FB CD 00 00      [17]  371     call cpct_getScreenPtr_asm 
+   02FE 36 F1         [10]  372     ld (hl), #0xF1
+   0300 2D            [ 4]  373     dec l
+   0301 36 F8         [10]  374     ld (hl), #0xF8
+   0303 11 00 C0      [10]  375     ld      de, #0xC000   
+   0306 DD 4E 01      [19]  376     ld      c,  1(ix)          
+   0309 06 8E         [ 7]  377     ld      b,  #0x8E
+   030B CD 00 00      [17]  378     call cpct_getScreenPtr_asm 
+   030E 36 F1         [10]  379     ld (hl), #0xF1 
+   0310 2D            [ 4]  380     dec l
+   0311 36 F8         [10]  381     ld (hl), #0xF8
+   0313 11 00 C0      [10]  382     ld      de, #0xC000   
+   0316 DD 4E 01      [19]  383     ld      c,  1(ix)
+   0319 06 8D         [ 7]  384     ld      b,  #0x8D
+   031B CD 00 00      [17]  385     call cpct_getScreenPtr_asm 
+   031E 36 F3         [10]  386     ld (hl), #0xF3
+   0320 2D            [ 4]  387     dec l
+   0321 36 FC         [10]  388     ld (hl), #0xFC
+   0323 11 00 C0      [10]  389     ld      de, #0xC000   
+   0326 DD 4E 01      [19]  390     ld      c,  1(ix)          
+   0329 06 8C         [ 7]  391     ld      b,  #0x8C
+   032B CD 00 00      [17]  392     call cpct_getScreenPtr_asm 
+   032E 36 E2         [10]  393     ld (hl), #0xE2 
+   0330 2D            [ 4]  394     dec l
+   0331 36 74         [10]  395     ld (hl), #0x74
+   0333 11 00 C0      [10]  396     ld      de, #0xC000   
+   0336 DD 4E 01      [19]  397     ld      c,  1(ix)
+   0339 06 8B         [ 7]  398     ld      b,  #0x8B
+   033B CD 00 00      [17]  399     call cpct_getScreenPtr_asm 
+   033E 36 E2         [10]  400     ld (hl), #0xE2
+   0340 2D            [ 4]  401     dec l
+   0341 36 74         [10]  402     ld (hl), #0x74
+   0343 11 00 C0      [10]  403     ld      de, #0xC000   
+   0346 DD 4E 01      [19]  404     ld      c,  1(ix)          
+   0349 06 8A         [ 7]  405     ld      b,  #0x8A
+   034B CD 00 00      [17]  406     call cpct_getScreenPtr_asm 
+   034E 36 C4         [10]  407     ld (hl), #0xC4 
+   0350 2D            [ 4]  408     dec l
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 18.
+Hexadecimal [16-Bits]
+
+
+
+   0351 36 32         [10]  409     ld (hl), #0x32
+   0353 11 00 C0      [10]  410     ld      de, #0xC000   
+   0356 DD 4E 01      [19]  411     ld      c,  1(ix)
+   0359 06 89         [ 7]  412     ld      b,  #0x89
+   035B CD 00 00      [17]  413     call cpct_getScreenPtr_asm 
+   035E 36 C4         [10]  414     ld (hl), #0xC4
+   0360 2D            [ 4]  415     dec l
+   0361 36 32         [10]  416     ld (hl), #0x32
+   0363 11 00 C0      [10]  417     ld      de, #0xC000   
+   0366 DD 4E 01      [19]  418     ld      c,  1(ix)          
+   0369 06 88         [ 7]  419     ld      b,  #0x88
+   036B CD 00 00      [17]  420     call cpct_getScreenPtr_asm 
+   036E 36 88         [10]  421     ld (hl), #0x88 
+   0370 2D            [ 4]  422     dec l
+   0371 36 11         [10]  423     ld (hl), #0x11
+   0373 C9            [10]  424     ret
+   0374                     425     colisionEnemigoIzquierda2:
+   0374 CD 00 00      [17]  426     call borrarEnemigo3
+   0377 DD 21 00 00   [14]  427     ld ix, #Mina 
+   037B DD 36 02 02   [19]  428     ld 2(ix), #2
+                            429     ;;Eliminar el enemigo rapido
+                            430     
+   037F DD 21 34 40   [14]  431     ld  ix, #enemyIzqPos2
+   0383 DD 36 00 05   [19]  432     ld  entity_x(ix), #5
+   0387 DD 36 04 00   [19]  433     ld  entity_estado(ix), #0
+   038B CD 00 00      [17]  434     call pintarEnemigo3
+   038E DD 21 11 40   [14]  435     ld  ix, #wallIPos
+   0392 DD 7E 04      [19]  436     ld  a, entity_estado(ix)
+   0395 3C            [ 4]  437     inc a
+   0396 3C            [ 4]  438     inc a
+   0397 DD 77 04      [19]  439     ld  entity_estado(ix), a
+                            440     ;;PINTAR EXPLOSION PARTE 1
+   039A DD 21 00 00   [14]  441     ld ix, #Mina
+   039E 11 00 C0      [10]  442     ld      de, #0xC000   
+   03A1 DD 4E 01      [19]  443     ld      c,  1(ix)
+   03A4 06 8F         [ 7]  444     ld      b,  #0x8F
+   03A6 CD 00 00      [17]  445     call cpct_getScreenPtr_asm 
+   03A9 36 E2         [10]  446     ld (hl), #0xE2
+   03AB 2D            [ 4]  447     dec l
+   03AC 36 74         [10]  448     ld (hl), #0x74
+   03AE 11 00 C0      [10]  449     ld      de, #0xC000   
+   03B1 DD 4E 01      [19]  450     ld      c,  1(ix)          
+   03B4 06 8E         [ 7]  451     ld      b,  #0x8E
+   03B6 CD 00 00      [17]  452     call cpct_getScreenPtr_asm 
+   03B9 36 C4         [10]  453     ld (hl), #0xC4 
+   03BB 2D            [ 4]  454     dec l
+   03BC 36 32         [10]  455     ld (hl), #0x32
+   03BE 11 00 C0      [10]  456     ld      de, #0xC000   
+   03C1 DD 4E 01      [19]  457     ld      c,  1(ix)
+   03C4 06 8D         [ 7]  458     ld      b,  #0x8D
+   03C6 CD 00 00      [17]  459     call cpct_getScreenPtr_asm 
+   03C9 36 C4         [10]  460     ld (hl), #0xC4
+   03CB 2D            [ 4]  461     dec l
+   03CC 36 32         [10]  462     ld (hl), #0x32
+   03CE 11 00 C0      [10]  463     ld      de, #0xC000   
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 19.
+Hexadecimal [16-Bits]
+
+
+
+   03D1 DD 4E 01      [19]  464     ld      c,  1(ix)          
+   03D4 06 8C         [ 7]  465     ld      b,  #0x8C
+   03D6 CD 00 00      [17]  466     call cpct_getScreenPtr_asm 
+   03D9 36 88         [10]  467     ld (hl), #0x88 
+   03DB 2D            [ 4]  468     dec l
+   03DC 36 11         [10]  469     ld (hl), #0x11
+   03DE 3E 14         [ 7]  470     ld a, #20
+   03E0                     471     esperaExp3:
+   03E0 76            [ 4]  472     halt
+   03E1 3D            [ 4]  473     dec a 
+   03E2 20 FC         [12]  474     jr nz, esperaExp3
+                            475     ;;EXPLOSION GRANDE
+   03E4 11 00 C0      [10]  476     ld      de, #0xC000   
+   03E7 DD 4E 01      [19]  477     ld      c,  1(ix)
+   03EA 06 8F         [ 7]  478     ld      b,  #0x8F
+   03EC CD 00 00      [17]  479     call cpct_getScreenPtr_asm 
+   03EF 36 F1         [10]  480     ld (hl), #0xF1
+   03F1 2D            [ 4]  481     dec l
+   03F2 36 F8         [10]  482     ld (hl), #0xF8
+   03F4 11 00 C0      [10]  483     ld      de, #0xC000   
+   03F7 DD 4E 01      [19]  484     ld      c,  1(ix)          
+   03FA 06 8E         [ 7]  485     ld      b,  #0x8E
+   03FC CD 00 00      [17]  486     call cpct_getScreenPtr_asm 
+   03FF 36 F1         [10]  487     ld (hl), #0xF1 
+   0401 2D            [ 4]  488     dec l
+   0402 36 F8         [10]  489     ld (hl), #0xF8
+   0404 11 00 C0      [10]  490     ld      de, #0xC000   
+   0407 DD 4E 01      [19]  491     ld      c,  1(ix)
+   040A 06 8D         [ 7]  492     ld      b,  #0x8D
+   040C CD 00 00      [17]  493     call cpct_getScreenPtr_asm 
+   040F 36 F3         [10]  494     ld (hl), #0xF3
+   0411 2D            [ 4]  495     dec l
+   0412 36 FC         [10]  496     ld (hl), #0xFC
+   0414 11 00 C0      [10]  497     ld      de, #0xC000   
+   0417 DD 4E 01      [19]  498     ld      c,  1(ix)          
+   041A 06 8C         [ 7]  499     ld      b,  #0x8C
+   041C CD 00 00      [17]  500     call cpct_getScreenPtr_asm 
+   041F 36 E2         [10]  501     ld (hl), #0xE2 
+   0421 2D            [ 4]  502     dec l
+   0422 36 74         [10]  503     ld (hl), #0x74
+   0424 11 00 C0      [10]  504     ld      de, #0xC000   
+   0427 DD 4E 01      [19]  505     ld      c,  1(ix)
+   042A 06 8B         [ 7]  506     ld      b,  #0x8B
+   042C CD 00 00      [17]  507     call cpct_getScreenPtr_asm 
+   042F 36 E2         [10]  508     ld (hl), #0xE2
+   0431 2D            [ 4]  509     dec l
+   0432 36 74         [10]  510     ld (hl), #0x74
+   0434 11 00 C0      [10]  511     ld      de, #0xC000   
+   0437 DD 4E 01      [19]  512     ld      c,  1(ix)          
+   043A 06 8A         [ 7]  513     ld      b,  #0x8A
+   043C CD 00 00      [17]  514     call cpct_getScreenPtr_asm 
+   043F 36 C4         [10]  515     ld (hl), #0xC4 
+   0441 2D            [ 4]  516     dec l
+   0442 36 32         [10]  517     ld (hl), #0x32
+   0444 11 00 C0      [10]  518     ld      de, #0xC000   
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 20.
+Hexadecimal [16-Bits]
+
+
+
+   0447 DD 4E 01      [19]  519     ld      c,  1(ix)
+   044A 06 89         [ 7]  520     ld      b,  #0x89
+   044C CD 00 00      [17]  521     call cpct_getScreenPtr_asm 
+   044F 36 C4         [10]  522     ld (hl), #0xC4
+   0451 2D            [ 4]  523     dec l
+   0452 36 32         [10]  524     ld (hl), #0x32
+   0454 11 00 C0      [10]  525     ld      de, #0xC000   
+   0457 DD 4E 01      [19]  526     ld      c,  1(ix)          
+   045A 06 88         [ 7]  527     ld      b,  #0x88
+   045C CD 00 00      [17]  528     call cpct_getScreenPtr_asm 
+   045F 36 88         [10]  529     ld (hl), #0x88 
+   0461 2D            [ 4]  530     dec l
+   0462 36 11         [10]  531     ld (hl), #0x11
+                            532 
+                            533 
+   0464 C9            [10]  534     ret
+                            535 
+   0465                     536     colisionEnemigoDerecha2:
+   0465 CD 00 00      [17]  537     call borrarEnemigo4
+   0468 DD 21 00 00   [14]  538     ld ix, #Mina 
+   046C DD 36 02 02   [19]  539     ld 2(ix), #2
+                            540     ;;Eliminar el enemigo rapido
+                            541     
+   0470 DD 21 50 40   [14]  542     ld  ix, #enemyDerPos2
+   0474 DD 36 00 48   [19]  543     ld  entity_x(ix), #72
+   0478 DD 36 04 00   [19]  544     ld  entity_estado(ix), #0
+   047C CD 00 00      [17]  545     call pintarEnemigo4
+   047F DD 21 11 40   [14]  546     ld  ix, #wallIPos
+   0483 DD 7E 04      [19]  547     ld  a, entity_estado(ix)
+   0486 3C            [ 4]  548     inc a
+   0487 3C            [ 4]  549     inc a
+   0488 DD 77 04      [19]  550     ld  entity_estado(ix), a
+                            551     ;;PINTAR EXPLOSION PARTE 1
+   048B DD 21 00 00   [14]  552     ld ix, #Mina
+   048F 11 00 C0      [10]  553     ld      de, #0xC000   
+   0492 DD 4E 01      [19]  554     ld      c,  1(ix)
+   0495 06 8F         [ 7]  555     ld      b,  #0x8F
+   0497 CD 00 00      [17]  556     call cpct_getScreenPtr_asm 
+   049A 36 E2         [10]  557     ld (hl), #0xE2
+   049C 2D            [ 4]  558     dec l
+   049D 36 74         [10]  559     ld (hl), #0x74
+   049F 11 00 C0      [10]  560     ld      de, #0xC000   
+   04A2 DD 4E 01      [19]  561     ld      c,  1(ix)          
+   04A5 06 8E         [ 7]  562     ld      b,  #0x8E
+   04A7 CD 00 00      [17]  563     call cpct_getScreenPtr_asm 
+   04AA 36 C4         [10]  564     ld (hl), #0xC4 
+   04AC 2D            [ 4]  565     dec l
+   04AD 36 32         [10]  566     ld (hl), #0x32
+   04AF 11 00 C0      [10]  567     ld      de, #0xC000   
+   04B2 DD 4E 01      [19]  568     ld      c,  1(ix)
+   04B5 06 8D         [ 7]  569     ld      b,  #0x8D
+   04B7 CD 00 00      [17]  570     call cpct_getScreenPtr_asm 
+   04BA 36 C4         [10]  571     ld (hl), #0xC4
+   04BC 2D            [ 4]  572     dec l
+   04BD 36 32         [10]  573     ld (hl), #0x32
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 21.
+Hexadecimal [16-Bits]
+
+
+
+   04BF 11 00 C0      [10]  574     ld      de, #0xC000   
+   04C2 DD 4E 01      [19]  575     ld      c,  1(ix)          
+   04C5 06 8C         [ 7]  576     ld      b,  #0x8C
+   04C7 CD 00 00      [17]  577     call cpct_getScreenPtr_asm 
+   04CA 36 88         [10]  578     ld (hl), #0x88 
+   04CC 2D            [ 4]  579     dec l
+   04CD 36 11         [10]  580     ld (hl), #0x11
+   04CF 3E 14         [ 7]  581     ld a, #20
+   04D1                     582     esperaExpDerecha:
+   04D1 76            [ 4]  583     halt
+   04D2 3D            [ 4]  584     dec a 
+   04D3 20 FC         [12]  585     jr nz, esperaExpDerecha
+                            586     ;;EXPLOSION GRANDE
+   04D5 11 00 C0      [10]  587     ld      de, #0xC000   
+   04D8 DD 4E 01      [19]  588     ld      c,  1(ix)
+   04DB 06 8F         [ 7]  589     ld      b,  #0x8F
+   04DD CD 00 00      [17]  590     call cpct_getScreenPtr_asm 
+   04E0 36 F1         [10]  591     ld (hl), #0xF1
+   04E2 2D            [ 4]  592     dec l
+   04E3 36 F8         [10]  593     ld (hl), #0xF8
+   04E5 11 00 C0      [10]  594     ld      de, #0xC000   
+   04E8 DD 4E 01      [19]  595     ld      c,  1(ix)          
+   04EB 06 8E         [ 7]  596     ld      b,  #0x8E
+   04ED CD 00 00      [17]  597     call cpct_getScreenPtr_asm 
+   04F0 36 F1         [10]  598     ld (hl), #0xF1 
+   04F2 2D            [ 4]  599     dec l
+   04F3 36 F8         [10]  600     ld (hl), #0xF8
+   04F5 11 00 C0      [10]  601     ld      de, #0xC000   
+   04F8 DD 4E 01      [19]  602     ld      c,  1(ix)
+   04FB 06 8D         [ 7]  603     ld      b,  #0x8D
+   04FD CD 00 00      [17]  604     call cpct_getScreenPtr_asm 
+   0500 36 F3         [10]  605     ld (hl), #0xF3
+   0502 2D            [ 4]  606     dec l
+   0503 36 FC         [10]  607     ld (hl), #0xFC
+   0505 11 00 C0      [10]  608     ld      de, #0xC000   
+   0508 DD 4E 01      [19]  609     ld      c,  1(ix)          
+   050B 06 8C         [ 7]  610     ld      b,  #0x8C
+   050D CD 00 00      [17]  611     call cpct_getScreenPtr_asm 
+   0510 36 E2         [10]  612     ld (hl), #0xE2 
+   0512 2D            [ 4]  613     dec l
+   0513 36 74         [10]  614     ld (hl), #0x74
+   0515 11 00 C0      [10]  615     ld      de, #0xC000   
+   0518 DD 4E 01      [19]  616     ld      c,  1(ix)
+   051B 06 8B         [ 7]  617     ld      b,  #0x8B
+   051D CD 00 00      [17]  618     call cpct_getScreenPtr_asm 
+   0520 36 E2         [10]  619     ld (hl), #0xE2
+   0522 2D            [ 4]  620     dec l
+   0523 36 74         [10]  621     ld (hl), #0x74
+   0525 11 00 C0      [10]  622     ld      de, #0xC000   
+   0528 DD 4E 01      [19]  623     ld      c,  1(ix)          
+   052B 06 8A         [ 7]  624     ld      b,  #0x8A
+   052D CD 00 00      [17]  625     call cpct_getScreenPtr_asm 
+   0530 36 C4         [10]  626     ld (hl), #0xC4 
+   0532 2D            [ 4]  627     dec l
+   0533 36 32         [10]  628     ld (hl), #0x32
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 22.
+Hexadecimal [16-Bits]
+
+
+
+   0535 11 00 C0      [10]  629     ld      de, #0xC000   
+   0538 DD 4E 01      [19]  630     ld      c,  1(ix)
+   053B 06 89         [ 7]  631     ld      b,  #0x89
+   053D CD 00 00      [17]  632     call cpct_getScreenPtr_asm 
+   0540 36 C4         [10]  633     ld (hl), #0xC4
+   0542 2D            [ 4]  634     dec l
+   0543 36 32         [10]  635     ld (hl), #0x32
+   0545 11 00 C0      [10]  636     ld      de, #0xC000   
+   0548 DD 4E 01      [19]  637     ld      c,  1(ix)          
+   054B 06 88         [ 7]  638     ld      b,  #0x88
+   054D CD 00 00      [17]  639     call cpct_getScreenPtr_asm 
+   0550 36 88         [10]  640     ld (hl), #0x88 
+   0552 2D            [ 4]  641     dec l
+   0553 36 11         [10]  642     ld (hl), #0x11
+                            643 
+                            644 
+   0555 C9            [10]  645     ret
+                            646 
+                            647 
+   0556                     648     Explotando:
+                            649     ;;EXPLOSION GRANDE INVERTIDA
+   0556 11 00 C0      [10]  650     ld      de, #0xC000   
+   0559 DD 4E 01      [19]  651     ld      c,  1(ix)
+   055C 06 8F         [ 7]  652     ld      b,  #0x8F
+   055E CD 00 00      [17]  653     call cpct_getScreenPtr_asm 
+   0561 36 FE         [10]  654     ld (hl), #0xFE
+   0563 2D            [ 4]  655     dec l
+   0564 36 F7         [10]  656     ld (hl), #0xF7
+   0566 11 00 C0      [10]  657     ld      de, #0xC000   
+   0569 DD 4E 01      [19]  658     ld      c,  1(ix)          
+   056C 06 8E         [ 7]  659     ld      b,  #0x8E
+   056E CD 00 00      [17]  660     call cpct_getScreenPtr_asm 
+   0571 36 FE         [10]  661     ld (hl), #0xFE
+   0573 2D            [ 4]  662     dec l
+   0574 36 F7         [10]  663     ld (hl), #0xF7
+   0576 11 00 C0      [10]  664     ld      de, #0xC000   
+   0579 DD 4E 01      [19]  665     ld      c,  1(ix)
+   057C 06 8D         [ 7]  666     ld      b,  #0x8D
+   057E CD 00 00      [17]  667     call cpct_getScreenPtr_asm 
+   0581 36 FC         [10]  668     ld (hl), #0xFC
+   0583 2D            [ 4]  669     dec l
+   0584 36 F3         [10]  670     ld (hl), #0xF3
+   0586 11 00 C0      [10]  671     ld      de, #0xC000   
+   0589 DD 4E 01      [19]  672     ld      c,  1(ix)          
+   058C 06 8C         [ 7]  673     ld      b,  #0x8C
+   058E CD 00 00      [17]  674     call cpct_getScreenPtr_asm 
+   0591 36 EC         [10]  675     ld (hl), #0xEC 
+   0593 2D            [ 4]  676     dec l
+   0594 36 73         [10]  677     ld (hl), #0x73
+   0596 11 00 C0      [10]  678     ld      de, #0xC000   
+   0599 DD 4E 01      [19]  679     ld      c,  1(ix)
+   059C 06 8B         [ 7]  680     ld      b,  #0x8B
+   059E CD 00 00      [17]  681     call cpct_getScreenPtr_asm 
+   05A1 36 EC         [10]  682     ld (hl), #0xEC
+   05A3 2D            [ 4]  683     dec l
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 23.
+Hexadecimal [16-Bits]
+
+
+
+   05A4 36 73         [10]  684     ld (hl), #0x73
+   05A6 11 00 C0      [10]  685     ld      de, #0xC000   
+   05A9 DD 4E 01      [19]  686     ld      c,  1(ix)          
+   05AC 06 8A         [ 7]  687     ld      b,  #0x8A
+   05AE CD 00 00      [17]  688     call cpct_getScreenPtr_asm 
+   05B1 36 C8         [10]  689     ld (hl), #0xC8 
+   05B3 2D            [ 4]  690     dec l
+   05B4 36 31         [10]  691     ld (hl), #0x31
+   05B6 11 00 C0      [10]  692     ld      de, #0xC000   
+   05B9 DD 4E 01      [19]  693     ld      c,  1(ix)
+   05BC 06 89         [ 7]  694     ld      b,  #0x89
+   05BE CD 00 00      [17]  695     call cpct_getScreenPtr_asm 
+   05C1 36 C8         [10]  696     ld (hl), #0xC8
+   05C3 2D            [ 4]  697     dec l
+   05C4 36 31         [10]  698     ld (hl), #0x31
+   05C6 11 00 C0      [10]  699     ld      de, #0xC000   
+   05C9 DD 4E 01      [19]  700     ld      c,  1(ix)          
+   05CC 06 88         [ 7]  701     ld      b,  #0x88
+   05CE CD 00 00      [17]  702     call cpct_getScreenPtr_asm 
+   05D1 36 80         [10]  703     ld (hl), #0x80 
+   05D3 2D            [ 4]  704     dec l
+   05D4 36 10         [10]  705     ld (hl), #0x10
+   05D6 3E 05         [ 7]  706     ld a, #5
+   05D8                     707     esperaExp4:
+   05D8 76            [ 4]  708     halt
+   05D9 3D            [ 4]  709     dec a 
+   05DA 20 FC         [12]  710     jr nz, esperaExp4
+                            711     ;;EXPLOSION GRANDE
+   05DC 11 00 C0      [10]  712     ld      de, #0xC000   
+   05DF DD 4E 01      [19]  713     ld      c,  1(ix)
+   05E2 06 8F         [ 7]  714     ld      b,  #0x8F
+   05E4 CD 00 00      [17]  715     call cpct_getScreenPtr_asm 
+   05E7 36 F1         [10]  716     ld (hl), #0xF1
+   05E9 2D            [ 4]  717     dec l
+   05EA 36 F8         [10]  718     ld (hl), #0xF8
+   05EC 11 00 C0      [10]  719     ld      de, #0xC000   
+   05EF DD 4E 01      [19]  720     ld      c,  1(ix)          
+   05F2 06 8E         [ 7]  721     ld      b,  #0x8E
+   05F4 CD 00 00      [17]  722     call cpct_getScreenPtr_asm 
+   05F7 36 F1         [10]  723     ld (hl), #0xF1 
+   05F9 2D            [ 4]  724     dec l
+   05FA 36 F8         [10]  725     ld (hl), #0xF8
+   05FC 11 00 C0      [10]  726     ld      de, #0xC000   
+   05FF DD 4E 01      [19]  727     ld      c,  1(ix)
+   0602 06 8D         [ 7]  728     ld      b,  #0x8D
+   0604 CD 00 00      [17]  729     call cpct_getScreenPtr_asm 
+   0607 36 F3         [10]  730     ld (hl), #0xF3
+   0609 2D            [ 4]  731     dec l
+   060A 36 FC         [10]  732     ld (hl), #0xFC
+   060C 11 00 C0      [10]  733     ld      de, #0xC000   
+   060F DD 4E 01      [19]  734     ld      c,  1(ix)          
+   0612 06 8C         [ 7]  735     ld      b,  #0x8C
+   0614 CD 00 00      [17]  736     call cpct_getScreenPtr_asm 
+   0617 36 E2         [10]  737     ld (hl), #0xE2 
+   0619 2D            [ 4]  738     dec l
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 24.
+Hexadecimal [16-Bits]
+
+
+
+   061A 36 74         [10]  739     ld (hl), #0x74
+   061C 11 00 C0      [10]  740     ld      de, #0xC000   
+   061F DD 4E 01      [19]  741     ld      c,  1(ix)
+   0622 06 8B         [ 7]  742     ld      b,  #0x8B
+   0624 CD 00 00      [17]  743     call cpct_getScreenPtr_asm 
+   0627 36 E2         [10]  744     ld (hl), #0xE2
+   0629 2D            [ 4]  745     dec l
+   062A 36 74         [10]  746     ld (hl), #0x74
+   062C 11 00 C0      [10]  747     ld      de, #0xC000   
+   062F DD 4E 01      [19]  748     ld      c,  1(ix)          
+   0632 06 8A         [ 7]  749     ld      b,  #0x8A
+   0634 CD 00 00      [17]  750     call cpct_getScreenPtr_asm 
+   0637 36 C4         [10]  751     ld (hl), #0xC4 
+   0639 2D            [ 4]  752     dec l
+   063A 36 32         [10]  753     ld (hl), #0x32
+   063C 11 00 C0      [10]  754     ld      de, #0xC000   
+   063F DD 4E 01      [19]  755     ld      c,  1(ix)
+   0642 06 89         [ 7]  756     ld      b,  #0x89
+   0644 CD 00 00      [17]  757     call cpct_getScreenPtr_asm 
+   0647 36 C4         [10]  758     ld (hl), #0xC4
+   0649 2D            [ 4]  759     dec l
+   064A 36 32         [10]  760     ld (hl), #0x32
+   064C 11 00 C0      [10]  761     ld      de, #0xC000   
+   064F DD 4E 01      [19]  762     ld      c,  1(ix)          
+   0652 06 88         [ 7]  763     ld      b,  #0x88
+   0654 CD 00 00      [17]  764     call cpct_getScreenPtr_asm 
+   0657 36 88         [10]  765     ld (hl), #0x88 
+   0659 2D            [ 4]  766     dec l
+   065A 36 11         [10]  767     ld (hl), #0x11
+   065C 3E 05         [ 7]  768     ld a, #5
+   065E                     769     esperaExp5:
+   065E 76            [ 4]  770     halt
+   065F 3D            [ 4]  771     dec a 
+   0660 20 FC         [12]  772     jr nz, esperaExp5
+                            773     ;;EXPLOSION GRANDE INVERTIDA
+   0662 11 00 C0      [10]  774     ld      de, #0xC000   
+   0665 DD 4E 01      [19]  775     ld      c,  1(ix)
+   0668 06 8F         [ 7]  776     ld      b,  #0x8F
+   066A CD 00 00      [17]  777     call cpct_getScreenPtr_asm 
+   066D 36 FE         [10]  778     ld (hl), #0xFE
+   066F 2D            [ 4]  779     dec l
+   0670 36 F7         [10]  780     ld (hl), #0xF7
+   0672 11 00 C0      [10]  781     ld      de, #0xC000   
+   0675 DD 4E 01      [19]  782     ld      c,  1(ix)          
+   0678 06 8E         [ 7]  783     ld      b,  #0x8E
+   067A CD 00 00      [17]  784     call cpct_getScreenPtr_asm 
+   067D 36 FE         [10]  785     ld (hl), #0xFE
+   067F 2D            [ 4]  786     dec l
+   0680 36 F7         [10]  787     ld (hl), #0xF7
+   0682 11 00 C0      [10]  788     ld      de, #0xC000   
+   0685 DD 4E 01      [19]  789     ld      c,  1(ix)
+   0688 06 8D         [ 7]  790     ld      b,  #0x8D
+   068A CD 00 00      [17]  791     call cpct_getScreenPtr_asm 
+   068D 36 FC         [10]  792     ld (hl), #0xFC
+   068F 2D            [ 4]  793     dec l
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 25.
+Hexadecimal [16-Bits]
+
+
+
+   0690 36 F3         [10]  794     ld (hl), #0xF3
+   0692 11 00 C0      [10]  795     ld      de, #0xC000   
+   0695 DD 4E 01      [19]  796     ld      c,  1(ix)          
+   0698 06 8C         [ 7]  797     ld      b,  #0x8C
+   069A CD 00 00      [17]  798     call cpct_getScreenPtr_asm 
+   069D 36 EC         [10]  799     ld (hl), #0xEC 
+   069F 2D            [ 4]  800     dec l
+   06A0 36 73         [10]  801     ld (hl), #0x73
+   06A2 11 00 C0      [10]  802     ld      de, #0xC000   
+   06A5 DD 4E 01      [19]  803     ld      c,  1(ix)
+   06A8 06 8B         [ 7]  804     ld      b,  #0x8B
+   06AA CD 00 00      [17]  805     call cpct_getScreenPtr_asm 
+   06AD 36 EC         [10]  806     ld (hl), #0xEC
+   06AF 2D            [ 4]  807     dec l
+   06B0 36 73         [10]  808     ld (hl), #0x73
+   06B2 11 00 C0      [10]  809     ld      de, #0xC000   
+   06B5 DD 4E 01      [19]  810     ld      c,  1(ix)          
+   06B8 06 8A         [ 7]  811     ld      b,  #0x8A
+   06BA CD 00 00      [17]  812     call cpct_getScreenPtr_asm 
+   06BD 36 C8         [10]  813     ld (hl), #0xC8 
+   06BF 2D            [ 4]  814     dec l
+   06C0 36 31         [10]  815     ld (hl), #0x31
+   06C2 11 00 C0      [10]  816     ld      de, #0xC000   
+   06C5 DD 4E 01      [19]  817     ld      c,  1(ix)
+   06C8 06 89         [ 7]  818     ld      b,  #0x89
+   06CA CD 00 00      [17]  819     call cpct_getScreenPtr_asm 
+   06CD 36 C8         [10]  820     ld (hl), #0xC8
+   06CF 2D            [ 4]  821     dec l
+   06D0 36 31         [10]  822     ld (hl), #0x31
+   06D2 11 00 C0      [10]  823     ld      de, #0xC000   
+   06D5 DD 4E 01      [19]  824     ld      c,  1(ix)          
+   06D8 06 88         [ 7]  825     ld      b,  #0x88
+   06DA CD 00 00      [17]  826     call cpct_getScreenPtr_asm 
+   06DD 36 80         [10]  827     ld (hl), #0x80 
+   06DF 2D            [ 4]  828     dec l
+   06E0 36 10         [10]  829     ld (hl), #0x10
+   06E2 3E 05         [ 7]  830     ld a, #5
+   06E4                     831     esperaExp6:
+   06E4 76            [ 4]  832     halt
+   06E5 3D            [ 4]  833     dec a 
+   06E6 20 FC         [12]  834     jr nz, esperaExp6
+   06E8 11 00 C0      [10]  835     ld      de, #0xC000   
+   06EB DD 4E 01      [19]  836     ld      c,  1(ix)
+   06EE 06 8F         [ 7]  837     ld      b,  #0x8F
+   06F0 CD 00 00      [17]  838     call cpct_getScreenPtr_asm 
+   06F3 36 E2         [10]  839     ld (hl), #0xE2
+   06F5 2D            [ 4]  840     dec l
+   06F6 36 74         [10]  841     ld (hl), #0x74
+   06F8 11 00 C0      [10]  842     ld      de, #0xC000   
+   06FB DD 4E 01      [19]  843     ld      c,  1(ix)          
+   06FE 06 8E         [ 7]  844     ld      b,  #0x8E
+   0700 CD 00 00      [17]  845     call cpct_getScreenPtr_asm 
+   0703 36 C4         [10]  846     ld (hl), #0xC4 
+   0705 2D            [ 4]  847     dec l
+   0706 36 32         [10]  848     ld (hl), #0x32
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 26.
+Hexadecimal [16-Bits]
+
+
+
+   0708 11 00 C0      [10]  849     ld      de, #0xC000   
+   070B DD 4E 01      [19]  850     ld      c,  1(ix)
+   070E 06 8D         [ 7]  851     ld      b,  #0x8D
+   0710 CD 00 00      [17]  852     call cpct_getScreenPtr_asm 
+   0713 36 C4         [10]  853     ld (hl), #0xC4
+   0715 2D            [ 4]  854     dec l
+   0716 36 32         [10]  855     ld (hl), #0x32
+   0718 11 00 C0      [10]  856     ld      de, #0xC000   
+   071B DD 4E 01      [19]  857     ld      c,  1(ix)          
+   071E 06 8C         [ 7]  858     ld      b,  #0x8C
+   0720 CD 00 00      [17]  859     call cpct_getScreenPtr_asm 
+   0723 36 88         [10]  860     ld (hl), #0x88 
+   0725 2D            [ 4]  861     dec l
+   0726 36 11         [10]  862     ld (hl), #0x11
+   0728 11 00 C0      [10]  863     ld      de, #0xC000   
+   072B DD 4E 01      [19]  864     ld      c,  1(ix)
+   072E 06 8B         [ 7]  865     ld      b,  #0x8B
+   0730 CD 00 00      [17]  866     call cpct_getScreenPtr_asm 
+   0733 36 00         [10]  867     ld (hl), #0x00
+   0735 2D            [ 4]  868     dec l
+   0736 36 00         [10]  869     ld (hl), #0x00
+   0738 11 00 C0      [10]  870     ld      de, #0xC000   
+   073B DD 4E 01      [19]  871     ld      c,  1(ix)          
+   073E 06 8A         [ 7]  872     ld      b,  #0x8A
+   0740 CD 00 00      [17]  873     call cpct_getScreenPtr_asm 
+   0743 36 00         [10]  874     ld (hl), #0x00 
+   0745 2D            [ 4]  875     dec l
+   0746 36 00         [10]  876     ld (hl), #0x00
+   0748 11 00 C0      [10]  877     ld      de, #0xC000   
+   074B DD 4E 01      [19]  878     ld      c,  1(ix)
+   074E 06 89         [ 7]  879     ld      b,  #0x89
+   0750 CD 00 00      [17]  880     call cpct_getScreenPtr_asm 
+   0753 36 00         [10]  881     ld (hl), #0x00
+   0755 2D            [ 4]  882     dec l
+   0756 36 00         [10]  883     ld (hl), #0x00
+   0758 11 00 C0      [10]  884     ld      de, #0xC000   
+   075B DD 4E 01      [19]  885     ld      c,  1(ix)          
+   075E 06 88         [ 7]  886     ld      b,  #0x88
+   0760 CD 00 00      [17]  887     call cpct_getScreenPtr_asm 
+   0763 36 00         [10]  888     ld (hl), #0x00 
+   0765 2D            [ 4]  889     dec l
+   0766 36 00         [10]  890     ld (hl), #0x00
+                            891 
+                            892 
+   0768 3E 05         [ 7]  893     ld a, #5
+   076A                     894     esperaExp7:
+   076A 76            [ 4]  895     halt
+   076B 3D            [ 4]  896     dec a 
+   076C 20 FC         [12]  897     jr nz, esperaExp7
+   076E 11 00 C0      [10]  898     ld      de, #0xC000   
+   0771 DD 4E 01      [19]  899     ld      c,  1(ix)
+   0774 06 8F         [ 7]  900     ld      b,  #0x8F
+   0776 CD 00 00      [17]  901     call cpct_getScreenPtr_asm 
+   0779 36 00         [10]  902     ld (hl), #0x00
+   077B 2D            [ 4]  903     dec l
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 27.
+Hexadecimal [16-Bits]
+
+
+
+   077C 36 00         [10]  904     ld (hl), #0x00
+   077E 11 00 C0      [10]  905     ld      de, #0xC000   
+   0781 DD 4E 01      [19]  906     ld      c,  1(ix)          
+   0784 06 8E         [ 7]  907     ld      b,  #0x8E
+   0786 CD 00 00      [17]  908     call cpct_getScreenPtr_asm 
+   0789 36 00         [10]  909     ld (hl), #0x00 
+   078B 2D            [ 4]  910     dec l
+   078C 36 00         [10]  911     ld (hl), #0x00
+   078E 11 00 C0      [10]  912     ld      de, #0xC000   
+   0791 DD 4E 01      [19]  913     ld      c,  1(ix)
+   0794 06 8D         [ 7]  914     ld      b,  #0x8D
+   0796 CD 00 00      [17]  915     call cpct_getScreenPtr_asm 
+   0799 36 00         [10]  916     ld (hl), #0x00
+   079B 2D            [ 4]  917     dec l
+   079C 36 00         [10]  918     ld (hl), #0x00
+   079E 11 00 C0      [10]  919     ld      de, #0xC000   
+   07A1 DD 4E 01      [19]  920     ld      c,  1(ix)          
+   07A4 06 8C         [ 7]  921     ld      b,  #0x8C
+   07A6 CD 00 00      [17]  922     call cpct_getScreenPtr_asm 
+   07A9 36 00         [10]  923     ld (hl), #0x00 
+   07AB 2D            [ 4]  924     dec l
+   07AC 36 00         [10]  925     ld (hl), #0x00
+   07AE DD 21 00 00   [14]  926     ld ix, #Mina 
+   07B2 DD 36 02 00   [19]  927     ld 2(ix), #0
+   07B6 DD 36 00 00   [19]  928     ld 0(ix), #0
+   07BA C9            [10]  929     ret
+                            930 
+   07BB                     931     borrarExplosion::
+   07BB DD 21 00 00   [14]  932     ld ix, #Mina 
+   07BF 11 00 C0      [10]  933     ld      de, #0xC000   
+   07C2 DD 4E 01      [19]  934     ld      c,  1(ix)
+   07C5 06 8F         [ 7]  935     ld      b,  #0x8F
+   07C7 CD 00 00      [17]  936     call cpct_getScreenPtr_asm 
+   07CA 36 00         [10]  937     ld (hl), #0x00
+   07CC 2D            [ 4]  938     dec l
+   07CD 36 00         [10]  939     ld (hl), #0x00
+   07CF 11 00 C0      [10]  940     ld      de, #0xC000   
+   07D2 DD 4E 01      [19]  941     ld      c,  1(ix)          
+   07D5 06 8E         [ 7]  942     ld      b,  #0x8E
+   07D7 CD 00 00      [17]  943     call cpct_getScreenPtr_asm 
+   07DA 36 00         [10]  944     ld (hl), #0x00
+   07DC 2D            [ 4]  945     dec l
+   07DD 36 00         [10]  946     ld (hl), #0x00
+   07DF 11 00 C0      [10]  947     ld      de, #0xC000   
+   07E2 DD 4E 01      [19]  948     ld      c,  1(ix)
+   07E5 06 8D         [ 7]  949     ld      b,  #0x8D
+   07E7 CD 00 00      [17]  950     call cpct_getScreenPtr_asm 
+   07EA 36 00         [10]  951     ld (hl), #0x00
+   07EC 2D            [ 4]  952     dec l
+   07ED 36 00         [10]  953     ld (hl), #0x00
+   07EF 11 00 C0      [10]  954     ld      de, #0xC000   
+   07F2 DD 4E 01      [19]  955     ld      c,  1(ix)          
+   07F5 06 8C         [ 7]  956     ld      b,  #0x8C
+   07F7 CD 00 00      [17]  957     call cpct_getScreenPtr_asm 
+   07FA 36 00         [10]  958     ld (hl), #0x00
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 28.
+Hexadecimal [16-Bits]
+
+
+
+   07FC 2D            [ 4]  959     dec l
+   07FD 36 00         [10]  960     ld (hl), #0x00
+   07FF 11 00 C0      [10]  961     ld      de, #0xC000   
+   0802 DD 4E 01      [19]  962     ld      c,  1(ix)
+   0805 06 8B         [ 7]  963     ld      b,  #0x8B
+   0807 CD 00 00      [17]  964     call cpct_getScreenPtr_asm 
+   080A 36 00         [10]  965     ld (hl), #0x00
+   080C 2D            [ 4]  966     dec l
+   080D 36 00         [10]  967     ld (hl), #0x00
+   080F 11 00 C0      [10]  968     ld      de, #0xC000   
+   0812 DD 4E 01      [19]  969     ld      c,  1(ix)          
+   0815 06 8A         [ 7]  970     ld      b,  #0x8A
+   0817 CD 00 00      [17]  971     call cpct_getScreenPtr_asm 
+   081A 36 00         [10]  972     ld (hl), #0x00 
+   081C 2D            [ 4]  973     dec l
+   081D 36 00         [10]  974     ld (hl), #0x00
+   081F 11 00 C0      [10]  975     ld      de, #0xC000   
+   0822 DD 4E 01      [19]  976     ld      c,  1(ix)
+   0825 06 89         [ 7]  977     ld      b,  #0x89
+   0827 CD 00 00      [17]  978     call cpct_getScreenPtr_asm 
+   082A 36 00         [10]  979     ld (hl), #0x00
+   082C 2D            [ 4]  980     dec l
+   082D 36 00         [10]  981     ld (hl), #0x00
+   082F 11 00 C0      [10]  982     ld      de, #0xC000   
+   0832 DD 4E 01      [19]  983     ld      c,  1(ix)          
+   0835 06 88         [ 7]  984     ld      b,  #0x88
+   0837 CD 00 00      [17]  985     call cpct_getScreenPtr_asm 
+   083A 36 00         [10]  986     ld (hl), #0x00 
+   083C 2D            [ 4]  987     dec l
+   083D 36 00         [10]  988     ld (hl), #0x00
+                            989     
+                            990  
+   083F C9            [10]  991 ret

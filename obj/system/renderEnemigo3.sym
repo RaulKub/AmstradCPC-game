@@ -1,0 +1,35 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
+    .__.H$L.=  0000 L   |     GameStar   **** GX  |     Inicio     **** GX
+    Mina       **** GX  |     _entity_   **** GX  |     _num_ent   **** GX
+  0 borrarEn   03C6 GR  |     cargaNiv   **** GX  |     colision   **** GX
+    cooldown   **** GX  |     cooldown   **** GX  |     cooldown   **** GX
+    cpct_dis   **** GX  |     cpct_dra   **** GX  |     cpct_dra   **** GX
+    cpct_dra   **** GX  |     cpct_get   **** GX  |     cpct_get   **** GX
+    cpct_isA   **** GX  |     cpct_isK   **** GX  |     cpct_sca   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_set   **** GX
+    cpct_wai   **** GX  |     crocodil=  4026     |     enemyDer=  4050 
+    enemyDer=  406C     |     enemyIzq=  402D     |     enemyIzq=  4034 
+    enemyIzq=  405E     |     enemyPos=  401F     |     enemyUp1=  403B 
+    enemyUp2=  4042     |     enemyUp3=  4049     |     enemyUp4=  4057 
+    enemyUp5=  4065     |     entity_c=  0006     |     entity_e=  0004 
+    entity_h=  0003     |     entity_s   **** GX  |     entity_v=  0005 
+    entity_w=  0002     |     entity_x=  0000     |     entity_y=  0001 
+    entityma   **** GX  |     entityma   **** GX  |     entityma   **** GX
+    entityma   **** GX  |     espadaPo=  400A     |     letrasbo   **** GX
+    nivelact   **** GX  |   0 pintarEn   0000 GR  |     playerPo=  4003 
+  0 renderPo   000F R   |   0 renderPo   014E R   |   0 renderPo   028A R
+    reset      **** GX  |     sizeof_e=  0007     |     vidas      **** GX
+    wallDPos=  4018     |     wallIPos=  4011 
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE      size  4FE   flags    0
+

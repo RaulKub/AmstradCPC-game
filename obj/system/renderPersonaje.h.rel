@@ -1,0 +1,11 @@
+XL2
+H 1 areas 8 global symbols
+S ataqueAereoDerecha2 Ref0000
+S ataqueAereoIzquierda2 Ref0000
+S pintarPersonajePos0 Ref0000
+S pintarPersonajePos1 Ref0000
+S ataqueAereoDerecha Ref0000
+S ataqueAereoIzquierda Ref0000
+S .__.ABS. Def0000
+S borraPersonajePos0 Ref0000
+A _CODE size 0 flags 0 addr 0

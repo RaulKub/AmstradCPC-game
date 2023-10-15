@@ -1,0 +1,50 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
+    .__.H$L.=  0000 L   |     GameStar   **** GX  |     Inicio     **** GX
+    Mina       **** GX  |     _entity_   **** GX  |     _num_ent   **** GX
+  0 ataqueAe   0000 GR  |   0 ataqueAe   005D R   |     ataqueAe   **** GX
+    ataqueAe   **** GX  |   0 ataqueAe   0020 R   |     ataqueAe   **** GX
+    ataqueAe   **** GX  |     borraPer   **** GX  |     borrarEn   **** GX
+  0 bucleder   0062 R   |   0 bucleder   006B R   |   0 bucleder   0074 R
+  0 bucleder   007D R   |   0 bucleizq   0025 R   |   0 bucleizq   002E R
+  0 bucleizq   0034 R   |   0 bucleizq   003D R   |     cargaNiv   **** GX
+    colision   **** GX  |   0 comprueb   00A6 R   |   0 comprueb   016A R
+  0 comprueb   0231 R   |   0 comprueb   00CB R   |   0 comprueb   018F R
+  0 comprueb   0256 R   |   0 continua   0098 R   |     cooldown   **** GX
+    cooldown   **** GX  |     cooldown   **** GX  |     cpct_dis   **** GX
+    cpct_dra   **** GX  |     cpct_dra   **** GX  |     cpct_dra   **** GX
+    cpct_get   **** GX  |     cpct_get   **** GX  |     cpct_isA   **** GX
+    cpct_isK   **** GX  |     cpct_sca   **** GX  |     cpct_set   **** GX
+    cpct_set   **** GX  |     cpct_set   **** GX  |     cpct_wai   **** GX
+    crocodil=  4026     |   0 deteccio   0098 R   |   0 deteccio   015C R
+  0 deteccio   0223 R   |     enemyDer=  4050     |     enemyDer=  406C 
+    enemyIzq=  402D     |     enemyIzq=  4034     |     enemyIzq=  405E 
+    enemyPos=  401F     |   0 enemyUp1   00B7 R   |     enemyUp1=  403B 
+  0 enemyUp1   00D4 R   |   0 enemyUp2   017B R   |     enemyUp2=  4042 
+  0 enemyUp2   0198 R   |   0 enemyUp3   0242 R   |     enemyUp3=  4049 
+  0 enemyUp3   025F R   |     enemyUp4=  4057     |     enemyUp5=  4065 
+    entity_c=  0006     |     entity_e=  0004     |     entity_h=  0003 
+    entity_s   **** GX  |     entity_v=  0005     |     entity_w=  0002 
+    entity_x=  0000     |     entity_y=  0001     |     entityma   **** GX
+    entityma   **** GX  |     entityma   **** GX  |     entityma   **** GX
+    espadaPo=  400A     |     letrasbo   **** GX  |   0 mataUp1    0118 R
+  0 mataUp2    01DC R   |   0 mataUp3    02A3 R   |   0 mismaX1    00BD R
+  0 mismaX2    0181 R   |   0 mismaX3    0248 R   |   0 muere1bu   0125 R
+  0 muere2bu   01E9 R   |   0 muere3bu   02B0 R   |     nivelact   **** GX
+  0 nomata     02EA R   |     pintarEn   **** GX  |     pintarPe   **** GX
+    pintarPe   **** GX  |     playerPo=  4003     |   0 playerXC   00AE R
+  0 playerXC   0172 R   |   0 playerXC   0239 R   |     rendersy   **** GX
+    rendersy   **** GX  |     reset      **** GX  |     sizeof_e=  0007 
+    vidas      **** GX  |     wallDPos=  4018     |     wallIPos=  4011 
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE      size  2EB   flags    0
+
